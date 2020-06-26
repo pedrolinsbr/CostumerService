@@ -1,0 +1,33 @@
+<app-datagrid
+	[id]="'gridAtendimentosCriados'"
+	[url]="'mo/cidade/listarDemoNotasCarga'"
+	[tela]="42"
+	[nivel]="0"
+	[thisParent]="this"
+	[telaGlobal]="[ {'id' : 'excel'},
+		{'id' : 'colvis'} ]"
+	>
+	<th data-id="CODE" data-type-column="checkbox">
+		<label class="custom-control custom-checkbox">
+			<input id="oxi-select-all" name="select_all" type="checkbox" class="custom-control-input" value="1" />
+			<span class="custom-control-indicator"></span>
+		</label>
+	</th>
+	<th data-id="CODE">Número</th>
+	<th data-id="CTE" data-align-left="true">CTe</th>
+	<th data-id="EMISSOR" data-align-left="true">Emissor</th>
+	<th data-id="DESTINATARIO" data-align-left="true">Destinatário</th>
+	<th data-id="TOMADOR" data-align-left="true">Tomador</th>
+	<th data-id="VLNOTA" data-align-left="true">Valor</th>
+	<th data-id="DTEMISSAO" data-align-left="true">Dt. Emissão</th>
+</app-datagrid>
+
+<!--
+            "CODE": 123,
+            "CTE": 123,
+            "EMISSOR": "Syngenta",
+            "DESTINATARIO": "Syngenta",
+            "TOMADOR": "Syngenta",
+            "VLNOTA": "1.000,00 R$",
+            "DTEMISSAO": "01/01/2018 10:40:32"
+	-->

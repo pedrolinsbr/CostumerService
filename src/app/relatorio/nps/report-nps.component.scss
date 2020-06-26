@@ -1,0 +1,160 @@
+.marginMy{
+  margin-bottom: -36px !important;
+}
+
+/* fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:inherit;
+    padding:0 10px;
+    border-bottom:none;
+} */
+
+.dangerSpan {
+	font-size: 0.8rem;
+	color: rgb(244, 67, 54);
+	position: relative;
+}
+
+.auxRow {
+    margin-top: 15px;
+}
+
+.text-xs-left { text-align: left; }
+.text-xs-right { text-align: right; }
+.text-xs-center { text-align: center; }
+.text-xs-justify { text-align: justify; }
+
+
+.my-bg{
+	background-color: #eff0f9;
+}
+
+.marg{
+	padding-bottom: 17px !important;
+}
+
+.bg-g{
+	background-color: #ababab;
+}
+
+.ts > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: #98989842;
+}
+
+
+.text-color{
+	color: #464444 !important;
+}
+
+.optionsView{
+    color: #122f3b;
+    height: 45px;
+    padding-top: 12px;
+    cursor: pointer;
+}
+  
+.optionsView:hover{
+    border: 1px solid #122f3b;
+    height: 45px;
+    padding-top: 12px;
+}
+  
+.optionsView-activate{
+    background-color: #122f3b;
+    color: #fff;
+    height: 45px;
+    padding-top: 12px;
+}
+
+.donut-chart {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 2rem;
+    border-radius: 100%
+}
+
+.donut-chart-block {
+    overflow: hidden;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.chart-container {
+    height: 250px;
+    width: 100%;
+    //display: block;
+}
+
+.os-percentages3 li {
+    width: 50%;
+    text-align: center;
+}
+
+.horizontal-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.horizontal-list li {
+    float: left;
+}
+
+.os.android {
+    border-top: 4px solid #11AB3C;
+}
+.os.linux {
+    border-top: 4px solid #FCB150;
+}
+.os.mac {
+    border-top: 4px solid #E64C65;
+}
+.os {
+    margin: 0;
+    padding: 10px 0 5px;
+    font-size: 15px;
+}
+.os-percentage {
+    margin: 0;
+    padding: 0 0 15px 10px;
+    font-size: 19px;
+}
+
+.container-chart{
+    padding: 0px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+}
+.container-bord{
+    border-right: 1px solid #d5d0d0;
+}
+
+.container-bord2{
+    border-bottom: 1px solid #d5d0d0;
+}
+
+.chart-container-detail-transp2{
+    height: 343px;
+    width: 100%;
+    display: block;
+}
+
+.container-table-center{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}

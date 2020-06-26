@@ -1,0 +1,162 @@
+<div style="padding-top: 20px;">
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrarHome"
+		nameClearFunction="limparHome"
+		idGrid="gridHomeNFe"
+		[dropdown]="true"
+		[isCollapsed]="true"
+		[context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilter" >
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data da Alteração (inicial)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[dataSelecionada]='dtInicioDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTINICIO'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data da Alteração (final)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[dataSelecionada]='dtTerminoDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTFIM'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Combinada</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'G051_DTCOMBIN'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Agendada</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'G051_DTAGENDA'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label>Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Número da NF-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6 col-md-6 col-lg-6">
+					<label >Protocolo de Atendimento</label>
+					<app-combobox-multi
+						[url]="url+'filtro/atendimentos'"
+						[formMultiSelect] = "objFormFilterH"
+						[disabledViewMultiSelect] = 'false'
+						[formControlNameMultiSelect] = "'A001_IDA001'">
+					</app-combobox-multi>
+				</div>
+				<div class="form-group col-sm-6 col-md-6 col-lg-6">
+					<label >Usuário</label>
+					<app-combobox-multi
+						[url]="url+'filtro/usuarios'"
+						[formMultiSelect] = "objFormFilterH"
+						[disabledViewMultiSelect] = 'false'
+						[formControlNameMultiSelect] = "'A001_IDSOLIDO'">
+					</app-combobox-multi>
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards
+		titleDrop="Registros"
+		idGrid="gridHomeDados"
+		[isCollapsed]="false"
+		[dropdown]="true">
+
+		<app-datagrid
+			[id]="'relatorioDatas'"
+			[url]="url+'mo/atendimentos/listarRelatorioAlteracaoDatas'"
+			[tela]="42"
+			[telaGlobal]="[
+				{'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[nivel]="0"
+			[stateSave]="true"
+			[thisParent]="this"
+			[allList]="true"
+			[scroll]="500"
+			[notOnLoad]="true">
+			<th data-id="IDG043" data-type-column="details" data-exec="detailAtendimento" >Detalhes</th>
+			<th data-id="G043_NRNOTA" data-function="linhaCompletaRelatorioDatas" data-function-full="true" data-align-right="true">Nº NF</th>
+			<th data-id="A001_IDA001" data-align-right="true">Protocolo de Atendimento</th>
+			<th data-id="G051_CDCTRC" data-align-right="true">Nº CTE</th>
+			<th data-id="S001_NMUSUARI" data-align-left="true">Usuário</th>
+			<th data-id="A001_STDATAS" data-align-left="true">Alterou a Data</th>
+			<th data-id="A001_DTREGIST" data-align-center="true">Data Alteração</th>
+			<th data-id="G051_DTAGENDA" data-align-center="true">Data Agendada</th>
+			<th data-id="G051_DTCOMBIN" data-align-center="true">Data Combinada</th>
+			<th data-id="G051_DTROTERI" data-align-center="true">Data Roterizada</th>
+			<th data-id="G043_DTENTCON" data-align-center="true">Data de SLA</th>
+			<th data-id="G005RE_RSCLIENTRE" data-align-left="true" data-visible="false">Razão Social - Emissor</th>
+			<th data-id="G005DE_RSCLIENTDE" data-visible="false" data-align-left="true">Razão Social - Destino</th>
+			<th data-id="DTEMINOT" data-align-center="true" data-visible="false">Data Emissão NF</th>
+			<th data-id="G051_DTEMICTR" data-visible="false">Data Emissão CTe</th>
+			<th data-id="G051_DTPREENT" data-visible="false">Data Pre. Entrega</th>
+			<th data-id="DTENTREG" data-visible="false">Data Ent. Realizada</th>
+			<th data-id="DTBLOQUE" data-visible="false">Data de Bloqueio</th>
+			<th data-id="DTDESBLO" data-visible="false">Data de Desbloqueio</th>
+			<th data-id="G005RE_NMCLIENTRE" data-visible="false" data-align-left="true">Nome - Emissor</th>
+			<th data-id="G005DE_NMCLIENTDE" data-visible="false" data-align-left="true">Nome - Destino</th>
+			<th data-id="G003RE_NMCIDADERE" data-visible="false" data-align-left="true">Cidade do Emissor</th>
+			<th data-id="G002RE_NMESTADORE" data-visible="false" data-align-left="true">Estado do Emissor</th>
+			<th data-id="G003DE_NMCIDADEDE" data-visible="false" data-align-left="true">Cidade do Destino</th>
+			<th data-id="G002DE_NMESTADODE" data-visible="false" data-align-left="true">Estado do Destino</th>
+			<th data-id="G005CO_NMCLIENTCO" data-visible="false" data-align-left="true">Tomador</th>
+			<th data-id="G051_TPTRANSP" data-visible="false" data-align-left="true">Tipo de Operação</th>	
+			<th data-id="G024_NMTRANSP" data-visible="false" data-align-left="true">Transportadora</th>
+			<th data-id="G046_CDVIAOTI" data-visible="false" data-align-right="true">Carga</th>
+		</app-datagrid>
+	</app-cards>
+</div>

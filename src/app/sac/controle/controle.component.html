@@ -1,0 +1,434 @@
+<app-breadcrumbs
+	#breadcrumbs
+	home="Cust. Service - Cockpit"
+	[arBreadcrumbs]="arBreadcrumbsLocal"
+	(goHome)="goHome($event)"
+	(clearNext)="clearNext($event)"
+	[context]="this">
+</app-breadcrumbs>
+
+
+<div *ngIf="exibir == 1" style="padding-top: 20px;">
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrar"
+		nameClearFunction="limpar"
+		idGrid="gridHomeNFe"
+		[dropdown]="true"
+		advancedOptions="advancedFilter"
+		[isCollapsed]="false"
+		[context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilter" >
+			<!-- Filtros Comuns -->
+			<div class="row">
+				<div class="col-sm-4">
+					<label>Data Abertura - Inicial:</label>
+					<app-datapicker-popup
+						navegacao="none"
+						[outsideDays]='visible'
+						[dataSelecionada]='DTinici'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTI'"
+						>
+					</app-datapicker-popup>
+				</div>
+
+				<div class="col-sm-4">
+					<label>Data Abertura - Final:</label>
+					<app-datapicker-popup
+						navegacao="none"
+						[outsideDays]='visible'
+						[dataSelecionada]='DTfinal'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTF'"
+					>						
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-4">
+					<label>Ação</label>
+					<form  [formGroup]="objFormFilterH">
+						<select class="form-control" id="A008_IDA008" name="A008_IDA008" formControlName="A008_IDA008" placeholder="Status">
+							<option value="0" [selected]="selected">Todos</option>
+							<option value="1" >  Atendimento     </option>
+							<option value="2" >  Ocorrência  </option>
+						</select>
+					</form>
+				</div>
+				
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label >Número da NF-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+
+				<div class="form-group col-sm-6">
+					<label >Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+
+			<div *ngIf="advancedFilter">
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente:</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005RE'"
+							[auxGoBack] = "auxGoCockpit"
+							[valSelected] = "objAux.G043_IDG005RE">
+						</app-combobox-multi>
+					</div>
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Destinatário:</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005DE'"
+							[auxGoBack] = "auxGoCockpit"
+							[valSelected] = "objAux.G043_IDG005DE">
+						</app-combobox-multi>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/tomadores'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'"
+							[auxGoBack] = "auxGoCockpit"
+							[valSelected] = "objAux.G051_IDG005CO">
+						</app-combobox-multi>
+					</div>
+					<div class="form-group col-sm-3">
+						<app-single-numeroViagem
+							[objForm] = "objFormFilter"
+							[formName] = "'G046_IDG046'">
+						</app-single-numeroViagem>
+					</div>
+	
+					<div class="form-group col-sm-3">
+						<app-single-transportadora
+							[objForm] = "objFormFilter"
+							[formName] = "'G043_IDG024TR'">
+						</app-single-transportadora>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-3" [formGroup]="objFormFilterH">
+						<label for="">Operação AG</label>
+						<select class="form-control"
+								formControlName="G043_SNAG"
+								id="G043_SNAG"
+								name="G043_SNAG" >
+							<option value="2" [selected]="selected3">Todos</option>
+							<option value="{{item.value}}" *ngFor="let item of global.arSnAgNf">{{item.text}}</option>
+						</select>
+					</div>
+					<div class="form-group col-sm-3"> 
+						<label for="">Tipo de Operação</label>
+							<app-combobox-multi
+								[formMultiSelect] = "objFormFilterH"
+								[disabledViewMultiSelect] ="false"
+								[formControlNameMultiSelect] = "'G051_TPTRANSP'"
+								[comboFix]="'tipoDeOperacaoHomeMonitoria'"
+								[auxGoBack] = "auxGoHome"
+								[valSelected] = "objAux.G051_TPTRANSP">
+							</app-combobox-multi>
+					</div>
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="G051_IDG005RE">Filial</label>
+							<app-combobox-multi
+								[url]="url+'filtro/clientes'"
+								[formMultiSelect] = "objFormFilterH"
+								[disabledViewMultiSelect] = 'false'
+								[formControlNameMultiSelect] = "'G051_IDG005RE'"
+								[showInfo] = "true">
+							</app-combobox-multi>
+					</div>
+					
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards
+		titleDrop="Indicadores"
+		idGrid="gridAt"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+		<div class="mb-5">
+			<ngb-tabset [destroyOnHide]="false" #tab>
+				<ngb-tab id="atendentes">
+					<ng-template ngbTabTitle>
+						<div class="row">
+							<div>Atendentes</div>
+						</div>
+					</ng-template>
+					<ng-template ngbTabContent>
+						<app-atendentes-list
+							#componentAtendentes
+							(data)="getAtendentesSelecionados($event)"
+							(getStFiltrando)="getStFiltrandoAtendentes($event)"
+							[dataSelect]="arAtendentesSelecionados" >
+						</app-atendentes-list>
+					</ng-template>
+				</ngb-tab>
+
+				<ngb-tab id="clientes" >
+					<ng-template ngbTabTitle >
+						<div class="row">
+							<div>Clientes</div>
+							<div (click)="qualClick2()" style="padding-left: 5px;" *ngIf="stFiltrandoClientes">
+								<i class="far fa-trash-alt" ></i>
+							</div>
+						</div>
+					</ng-template>
+					<ng-template ngbTabContent>
+						<app-clientes-list
+							#componentClientes
+							(data)="getClientesSelecionados($event)"
+							(getStFiltrando)="getStFiltrandoClientes($event)"
+							[dataSelect]="arClientesSelecionados">
+						</app-clientes-list>
+					</ng-template>
+				</ngb-tab>
+			</ngb-tabset>
+		</div>
+		<div class="row">
+			<div class="col-md-10"></div>
+			<div class="col-md-2">
+				<button 
+					type="button"
+					class="btn btn-primary btn-block"
+					(click)="configAtendentes();"
+					>
+					<i _ngcontent-c25="" class="fas fa-cog"></i> Configurar Atendentes
+				</button>
+			</div>
+		</div>
+	</app-cards>
+
+	<app-cards
+		titleDrop="Registros"
+		idGrid="gridClientesDados"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+		<app-datagrid
+			[id]="'gridAt'"
+			[url]="url+'mo/atendimentos/listarByNfe'"
+			[tela]="42"
+			[telaGlobal]="[
+				{'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[telaAcoes]=" [{'id' : 6,'metodo' : 'movimentarAtendimento', 'icone': 'fa fa-comment'}]"
+			[nivel]="0"
+			[thisParent]="this"
+			[scroll]="500"
+			[notOnLoad]="true"
+			[allList]="true"
+			[stateSave]="true"
+		>
+			<th data-id="IDA001" data-type-column="actions">Ações</th>
+			<th data-id="IDA001" data-align-right="true">ID</th>
+			<th data-id="A008_DSACAO" data-align-left="true">Ação</th>
+			<th data-id="S001_NMUSUARI" data-align-left="true">Usuário</th>
+			<th data-id="A002_DSTPMOTI" data-align-left="true">Título</th>
+			<th data-id="A006_DSSITUAC" data-align-left="true">Situação</th>
+			<th data-id="G014_DSOPERAC" data-visible="false" data-align-left="true">Cliente</th>			
+			<th data-id="DTREGIST" data-align-center="true">Abertura</th>
+			<th data-id="DTFIM"data-align-center="true"    >Fechamento</th>
+			<th data-id="TEMPO" data-align-center="true"   >Tempo</th>
+		</app-datagrid>
+	</app-cards>
+</div>
+
+<!--
+Exibir = 2
+Cadastro de Atendimento
+ -->
+<div *ngIf="exibir == 2">
+	<app-cards
+	titleDrop="Detalhes do Atendimento"
+	[isCollapsed]="collapsed"
+	[dropdown]="true">
+		<app-novo-atendimento
+			[IDA001]="IDA001_selected"
+			(callListAtendimentos)="backToAtendimento()">
+		</app-novo-atendimento>
+
+	</app-cards>
+
+	<br />
+
+	<app-cards
+		titleDrop="Movimentações do Atendimento"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+		<app-atendimento-movs
+			[IDA001]="IDA001_selected"
+			(callListAtendimentos)="backToAtendimento()"
+		>
+		</app-atendimento-movs>
+	</app-cards>
+
+	<app-cards
+		titleDrop="Buscar Nota Fiscal"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		 <div class="row">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<fieldset class="scheduler-border">
+					<legend class="scheduler-border">Pesquisar Nota Fiscal</legend>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<app-single-numeroNfe
+								[objForm] = "objFormSearchNfe"
+								[formName] = "'IDG043'">
+							</app-single-numeroNfe>
+						</div>
+						<div class="col-md-2 col-lg-2">
+							<label for="">&nbsp;</label>
+							<button
+								type="button"
+								class="btn btn-primary btn-block"
+								(click)="buscarNotaFiscal()">
+								Buscar
+							</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+
+
+		<div [hidden]="!buscouNotaFiscal">
+
+			<ngx-loading [show]="loadingNfe" ></ngx-loading>
+
+			<app-info-rastreio [objRastreio]="rastreioObj" resumido="true"></app-info-rastreio>
+
+			<app-info-nfe [objNotaFiscal]="nfeObj"></app-info-nfe>
+
+			<app-info-cte [objCTE]="cteObj"></app-info-cte>
+
+			<app-info-carga [objCarga]="cargaObj"></app-info-carga>
+
+			<app-info-rastreio-detalhado [objTracking]="trackingObj"></app-info-rastreio-detalhado>
+
+		</div> 
+	</app-cards>
+</div>
+
+<div *ngIf="exibir == 3">
+	<app-cards
+		titleDrop="Registros"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+		<app-datagrid
+			[id]="'gridVinculoAtend'"
+			[url]="url+'mo/atendimentos/listarVinculoAtendentes'"
+			[tela]="42"
+			[telaGlobal]="[
+				{'id' : 4, 'metodo' : 'openVincularAtendente', 'icone':'fa fa-plus'},
+				{'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[telaAcoes]=" [{'id' : 3, 'metodo' : 'openDeleteVinculoAtend', 'icone': 'fa fa-trash-alt'}]"
+			[nivel]="0"
+			[thisParent]="this"
+			[scroll]="500"
+		>
+			<th data-id="IDA018" data-type-column="actions">Ações</th>
+			<th data-id="IDA018" data-align-right="true">ID</th>
+			<th data-id="NMUSUARI" data-align-left="true">Atendente</th>
+			<th data-id="DSOPERAC" data-align-left="true">Operação</th>
+		</app-datagrid>
+	</app-cards>
+
+	<div class="row">
+		<div class="col-md-11"></div>
+		<div class="col-md-1">
+			<button type="button" class="btn btn-danger" (click)="goHome()">Voltar</button>
+		</div>
+	</div>
+
+	<ng-template #modalVinculoAtendente let-c="close" let-d="dismiss">
+		<div class="modal-header">
+			<h6 class="modal-title text-uppercase">Vincular Atendente em Operação</h6>
+			<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" >
+			<form class="form-horizontal ng-valid" [formGroup]="objFormVinculoAtendimento">
+			 <div class="row">
+				 <div class="col-sm-6 col-md-6 col-lg-6">
+					<app-single-usuario
+						[objForm] = "objFormVinculoAtendimento" 
+						[formName] = "'S001_IDS001'"
+						[disabled] = "false"
+						[displayName]= "'Atendente'">
+					</app-single-usuario>
+				 </div>
+				 <div class="col-sm-6 col-md-6 col-lg-6">
+					<app-single-operacao
+						[objForm] = "objFormVinculoAtendimento"
+						[formName] = "'G014_IDG014'"
+						[displayName]= "'Operação'"
+						[disabled] = "false">
+					</app-single-operacao>
+				 </div>
+			 </div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" (click)="c('Close click')">Fechar</button>
+			<button type="button" class="btn btn-success" (click)="vincularAtendOperac()">Salvar</button>
+	
+		</div>
+		<ngx-loading [show]="loadingModal" ></ngx-loading>
+	</ng-template>
+
+	<ng-template #modalDeleteVinculoAtend>
+		<app-modal [thisParent]="this" title="Deletar Vinculo?" dsconteu="Deseja realmente excluir o vínculo selecionado?">
+	
+			<button type="button" class="btn btn-danger" (click)="modal.closeModal()">Cancelar</button>
+			<button type="button" class="btn btn-success" (click)="removerVinculoAtend()">Excluir</button>
+	
+		</app-modal>
+		<ngx-loading [show]="loadingModal" ></ngx-loading>
+	</ng-template>
+
+
+</div>

@@ -1,0 +1,113 @@
+<!-- <div class="card">
+	<div class="card-header" style="background-color: #e6e6e6; border: 1px solid black;">
+		Atendimento {{ objMovimentacao.IDA001 }} - #{{ objMovimentacao.ROWNUM }} - {{ objMovimentacao.DTMOVIME }}
+	</div>
+	<div class="card-body" id="atendimento_mov_123_1" style="border: 1px solid black;border-top: none;">
+		<div class="row">
+			<div class="col-md-2 col-lg-2 col-xl-2" style="border-right: 1px solid #444;">
+				<div class="card">
+					<i class="fa fa-3x fa-user-circle text-center"></i>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="font-size: 14px;font-weight: bold;">
+						{{ objMovimentacao.NMUSUARIRE }}<br />
+					</span>
+				</div>
+			</div>
+			<div class="col-md-8 col-lg-8 col-xl-8">
+
+				<h6 class="card-title" *ngIf="objMovimentacao.IDS001DE"><b>Para: </b>{{ objMovimentacao.IDS001DE }} - {{ objMovimentacao.NMUSUARIDE }}</h6>
+
+				<p class="card-text">
+					{{ objMovimentacao.DSOBSERV }}
+				</p>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+
+<ng-template #modalEditaMov>
+	<div class="modal-header">
+		<h4 class="modal-title">Editar Descrição da Movimentação</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeModalEditaMov()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="input-group"  [formGroup]="objFormEditMov">
+			<textarea formControlName="DSOBSERVMOD" class="form-control" rows="8"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click) = "salvarEditaMovimentacao(false)">Salvar</button>
+		<button type="button" class="btn btn-info" (click)="closeModalEditaMov()">Cancelar</button>
+	</div>
+</ng-template>
+
+<ng-template #modalConfirmaDel>
+	<div class="modal-header">
+		<h4 class="modal-title">Tem certeza que quer apagar a descrição da movimentação?</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeModalEditaMov()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<button type="button" class="btn btn-success" (click) = "salvarEditaMovimentacao(true)">Sim</button>
+		<button type="button" class="btn btn-info" (click)="closeModalEditaMov()" style="margin-left: 10px;">Não</button>
+	</div>
+</ng-template>
+
+<div class="card">
+	<div class="card-header">
+		<img class="card-avatar" src="assets/images/userAvatar.png">
+		<div class="card-header-text">
+			<h6>
+				{{ objMovimentacao.NMUSUARIRE }}
+			</h6>
+
+			<h6>
+				Atendimento {{ objMovimentacao.IDA001 }} - #{{ objMovimentacao.ROWNUM }} - {{ objMovimentacao.DTMOVIME }}
+			</h6>
+		</div>
+		<!-- Botões Editar e Apagar -->
+		<button 
+			[hidden] ="desabilitaBotaoEditar"
+			type="button"
+			style="float: right; margin-left: 250px;"
+			class="btn btn-primary w-1 h-1"
+			(click) = "editarMovimentacao(false)">
+			<i class="fas fa-pencil-alt " style="padding: 0%;"></i>
+		</button>
+		<button
+			[hidden] ="desabilitaBotaoApagar"
+			type="button"
+			style="float: right; margin-left: 10px;"
+			class="btn btn-danger w-1 h-1"
+			(click) = "editarMovimentacao(true)">
+			<i class="fas fa-eraser" style="padding: 0%;"></i>
+		</button>
+	</div>
+
+	
+
+	<div class="card-body">
+		<div class="card-title" *ngIf="objMovimentacao.IDA006 == 1" style="font-size: 14px;color: #000;">
+			<b> Situação: </b>Aberto
+		</div>
+
+		<div class="card-title" *ngIf="objMovimentacao.IDA006 == 4" style="font-size: 14px;color: #000;">
+			<b> Situação: </b>Finalizado
+		</div>
+
+		<div class="card-title" *ngIf="objMovimentacao.IDS001DE" style="font-size: 14px;color: #000;">
+			Para: {{ objMovimentacao.IDS001DE }} - {{ objMovimentacao.NMUSUARIDE }}
+		</div>
+
+		<p class="card-text">
+			{{ objMovimentacao.DSOBSERV }}
+		</p>
+
+		<p class="card-text" *ngIf="objMovimentacao.TXTINFO != '' && objMovimentacao.TXTINFO != null">
+			{{ objMovimentacao.TXTINFO }}
+		</p>
+	</div>
+</div>

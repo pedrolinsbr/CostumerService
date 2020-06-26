@@ -1,0 +1,59 @@
+.bg-my {
+	background-color: #c8c8c8;
+	color: #656565;
+	cursor: pointer;
+	word-wrap: break-word;
+}
+
+@media (min-width: @screen-sm-min) {
+	.bg-my {
+		height: 120px;
+	}
+}
+
+@media (min-width: @screen-md-min) {
+	.bg-my {
+		height: 120px;
+	}
+}
+
+@media (min-width: @screen-lg-min) {
+	.bg-my {
+		height: 140px;
+	}
+}
+
+@media (min-width: @screen-xl-min) {
+	.bg-my {
+		height: 100px;
+	}
+}
+
+.fontSm{
+	font-size: 13px;
+}
+
+.bg-my:hover{
+	color: #f6f6f6;
+	background-color: #858585;
+	opacity: 9;
+}
+
+.circleTopGreen{
+	font-size: 10px;
+	color: #279e19;
+}
+
+.circleTopRed{
+	font-size: 10px;
+	color: #c32828;
+}
+
+.disabled{
+	opacity: 0.4;
+}
+
+.bg-myB{
+	color: #b1b1b1;
+	background-color: #f9f9f9;
+}

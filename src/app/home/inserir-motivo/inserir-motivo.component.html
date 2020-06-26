@@ -1,0 +1,226 @@
+<ng-template #modalCargaNfe>
+	<div class="modal-header">
+		<h4 class="modal-title">Detalhes da Carga</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeCargaNfe()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border" *ngIf="controllerCargaPorNfe">
+				<legend class="scheduler-border">Filtrar por CTE</legend>
+				<div class="row">
+					<div class="col-md-3">
+						<app-single-numeroCte [IDG046]="objFormFiltrarCargaAux.controls['G046_IDG046'].value" [objForm]="objFormFiltrarCargaAux"
+						 [formName]="'G051_CDCTRC'">
+						</app-single-numeroCte>
+					</div>
+					<div class="col-md-3">
+						<label>&nbsp;</label><br />
+						<button type="submit" class="btn btn-info mb-2" (click)="filtrarCargaPorNfe()">Buscar</button>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Notas Atribuídas à esta carga</legend>
+				<app-datagrid [id]="'listarNotasFiscaisCarga'" [url]="url+'mo/deliverynf/listarCargaPorNfe'" [tela]="42"
+				 [telaGlobal]="[
+						{'id' : 25, 'metodo' : 'addNfesSelecionadas', 'icone':'fa fa-plus'}]" [nivel]="0"
+				 [stateSave]="false" [thisParent]="this" [notOnLoad]="true" [allList]="true" initComplete="filtrarCargaPorNfe">
+					<th data-id="IDG043" data-type-column="checkbox">
+						<label class="custom-control custom-checkbox">
+							<input id="listarNotasFiscaisCarga-select-all" name="select_all" type="checkbox" class="custom-control-input"
+							 value="1" />
+							<span class="custom-control-indicator"></span>
+						</label>
+					</th>
+					<th data-id="NRNOTA">Nº NF</th>
+					<th data-id="G051_CDCTRC">Nº CTe</th>
+					<th data-id="DTEMINOT">Data Emissão NF</th>
+					<th data-id="IDG043" data-function="homeMonitoria" data-function-full="true">Indicadores</th>
+					<th data-id="G051_DTEMICTR" data-align-left="true">Data Emissão CTe</th>
+					<th data-id="DTEMINOT" data-align-left="true">Data Pre. Entrega</th>
+					<th data-id="DTEMINOT" data-align-left="true">Data Ent. Prometida</th>
+					<th data-id="DTEMINOT" data-align-left="true">Data Ent. Realizada</th>
+					<th data-id="DTEMINOT" data-align-left="true">Data Criação</th>
+					<th data-id="G005RE_NMCLIENTRE" data-align-left="true">Emissor</th>
+					<th data-id="G005DE_NMCLIENTDE" data-align-left="true">Destino</th>
+					<th data-id="G003RE_NMCIDADERE" data-align-left="true">Cidade do Emissor</th>
+					<th data-id="G002RE_NMESTADORE" data-align-left="true">Estado do Emissor</th>
+					<th data-id="G003DE_NMCIDADEDE" data-align-left="true">Cidade do Destino</th>
+					<th data-id="G002DE_NMESTADODE" data-align-left="true">Estado do Destino</th>
+					<th data-id="G024_NMTRANSP" data-align-left="true">Transportadora</th>
+					<th data-id="G046_CDVIAOTI" data-align-left="true">Carga</th>
+				</app-datagrid>
+			</fieldset>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeCargaNfe()">Fechar</button>
+	</div>
+</ng-template>
+
+
+<form class="form-horizontal" [formGroup]="objFormNewAtendimento">
+	<ngx-loading [show]="loadingAtendimento"></ngx-loading>
+
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Datas</legend>
+				<div class="row auxRow">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Emissão NF-e:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTEMINOT ? (DTEMINOT ): ('n.i.') }}
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Emissão CT-e:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTEMICTR ? (DTEMICTR ): ('n.i.') }}
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Data SLA:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTENTCON ? (DTENTCON ): ('n.i.') }}
+					</div>
+				</div>
+				<div class="row separator"></div>
+				<div class="row auxRow">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Entrega Planejada:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTPREENT ? (DTPREENT ): ('n.i.') }}
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Entrega:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTENTREG ? (DTENTREG ): ('n.i.') }}
+					</div>
+				</div>
+			
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Conteúdo do Atendimento</legend>
+
+				<div class="row auxRow">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card card-body my-bg">
+									<div class="d-flex">
+										<div class="mr-auto">
+											<h5 class="mt-0 mb-0 text-uppercase">
+												<small class="fw-300">Notas Atribuídas ao Atendimento </small>
+											</h5>
+										</div>
+									</div>
+
+									<div style="margin-top: 15px">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th scope="col">Número</th>
+													<th scope="col">CTE</th>
+													<th scope="col">Dt Emissão</th>
+													<th scope="col">Modelo</th>
+													<th scope="col">Série</th>
+													<th scope="col">Remover</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let item of listNfeSelecionadas;let i = index">
+													<td>{{ item.NRNOTA }}</td>
+													<td>{{ item.CDCTRC }}</td>
+													<td>{{ item.DTEMINOT  }}</td>
+													<td>{{ item.DSMODENF }}</td>
+													<td>{{ item.NRSERINF }}</td>
+													<td>
+														<button *ngIf="listNfeSelecionadas.length > 1 && !IDA001" type="button" (click)="removeNfeSelecionada(i)"
+														 class="btn btn-info">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row auxRow">
+					<div class="form-group col-md-4 col-lg-4">
+						<label for="IDA002">Motivo</label>
+						<select formControlName="IDA002" id="IDA002" name="IDA002" class="form-control">
+							<option value="" selected>Selecione</option>
+							<option *ngFor="let item of motivosList4PL;" [ngValue]="item.IDA002">
+								{{ item.DSTPMOTI }}
+							</option>
+						</select>
+					</div>
+
+					<div class="form-group col-md-3 col-lg-3">
+						<label for="NMSOLITE">Solicitante</label>
+						<input id="NMSOLITE" type="text" name="NMSOLITE" formControlName="NMSOLITE" class="form-control" placeholder="Nome do Solicitante">
+					</div>
+
+					<div class="form-group col-md-2 col-lg-2">
+						<label for="TFSOLITE">Tel. Solic.</label>
+						<input id="TFSOLITE" type="text" name="TFSOLITE" formControlName="TFSOLITE" class="form-control" placeholder="Telefone do Solicitante">
+					</div>
+				</div>
+
+				<div class="row auxRow" *ngIf="!IDA001">
+					<div class="form-group col-sm-12 col-md-12 col-lg-12">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Descrição:</span>
+							</div>
+							<textarea class="form-control" formControlName="DSOBSERV" rows="6" aria-label="Descrição">
+
+							</textarea>
+						</div>
+					</div>
+				</div>
+				<br />
+
+				<br />
+
+				<div class="row auxRow">
+					<div class="col-md-5"></div>
+					<div class="col-md-3 col-lg-3">
+						<button type="button" class="btn btn-primary btn-block" (click)="checkarNotas();">
+							Ver Carga
+						</button>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-primary btn-block" (click)="salvarFinalizarAtendimentoMotivosQM();">
+							<i _ngcontent-c25="" class="fa fa-save"></i> Salvar
+						</button>
+					</div>
+					<div class="col-md-2">
+						<app-botoes class="danger btn-block" text="Cancelar" icon="fa fa-times" (click)="backToHome();">
+						</app-botoes>
+					</div>
+				</div>
+				<!-- Botões de salvar reason code -->
+			</fieldset>
+		</div>
+	</div>
+</form>

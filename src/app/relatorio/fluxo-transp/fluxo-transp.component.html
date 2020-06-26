@@ -1,0 +1,149 @@
+<div style="padding-top: 20px;">
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrar"
+		nameClearFunction="limpar"
+		idGrid="Transferencia"
+		[dropdown]="true"
+		[isCollapsed]="true"
+		[context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilter" >
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data Emissão CTe (inicial)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='false'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtInicioDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterAux"
+						[formControlNameDatePop]="'DTINICIO'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Emissão CTe (final)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='false'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtTerminoDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterAux"
+						[formControlNameDatePop]="'DTFIM'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-6 col-md-3 col-lg-6">
+					<app-single-operacao [objForm]="objFormFilter" [formName]="'G014_IDG014'" [displayName]="'Operação'" placeholder="Digite para pesquisar">
+					</app-single-operacao>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label >Número da NF-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+				<div class="form-group col-sm-6">
+					<label >Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+			<div class="row">
+
+				<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/tomadores'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'">
+						</app-combobox-multi>		
+					</div>
+
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards
+		titleDrop="Registros"
+		idGrid="gridFluxoTransportadora"
+		[isCollapsed]="false"
+		[dropdown]="true">
+
+		<app-datagrid
+			[id]="'fluxoTransportadora'"
+			[url]="url+'mo/atendimentos/fluxoTransportadora'"
+			[tela]="42"
+			[order]="[7, 'desc']"
+			[telaGlobal]="[
+				{'id' : 'colvis'} ]"
+			[nivel]="0"
+			[stateSave]="true"
+			[thisParent]="this"
+			[allList]="true"
+			[scroll]="500"
+			[notOnLoad]="true"
+			[excelServer]="true">
+			<th data-id="G024CTE_NMTRANSP" data-align-left="true">Transportadora</th>
+			<th data-id="G024CTE_CJTRANSP" data-align-right="true">CNPJ Filial Transportadora</th>
+			<th data-id="G051_TPTRANSP" data-align-left="true">Tipo de Serviço</th>
+			<th data-id="G051_DTEMIFAT" data-align-center="true">Data de Emissão Fatura</th>
+			<th data-id="G051_DTVENFAT" data-align-center="true">Data de Vencimento Fatura</th>
+			<th data-id="G051_NRFATURA" data-align-right="true">Nº Fatura</th>
+			<th data-id="G051_NRSERINF" data-align-right="true">Série</th>
+			<th data-id="G051_DTEMICTR" data-align-center="true">Data Emissão CT-e</th>
+			<th data-id="G051_CDCTRC" data-align-right="true">CT-e</th>
+			<th data-id="G051_NRCHADOC" data-align-right="true">Chave acesso CT-e</th>
+			<th data-id="G051_IDG059" data-align-right="true">CFOP</th>
+			<th data-id="G003RE_NMCIDADERE" data-align-left="true" data-function="validaNullMonitoria">Origem</th>
+			<th data-id="G003DE_NMCIDADEDE" data-align-left="true" data-function="validaNullMonitoria">Destino</th>
+			<th data-id="G005RE_CJCLIENT" data-align-right="true">Remetente</th>
+			<th data-id="G005DE_CJCLIENT" data-align-right="true">Destinatário</th>
+			<th data-id="G005CO_CJCLIENT" data-align-right="true">Tomador Serviço</th>
+			<th data-id="DSPRODUT" data-align-left="true" data-function="validaNullMonitoria">Produto Predominante</th>
+			<th data-id="G051_VRMERCAD" data-align-right="true" data-function="formataDinheiro">Valor Total Mercadoria</th>
+			<th data-id="G051_NRPESO" data-align-right="true" data-function="formataPeso">Peso</th>
+			<th data-id="QTD" data-align-right="true" data-function="validaNullMonitoria">Quantidade</th>
+			<th data-id="G051_VRFRETEP" data-align-right="true" data-function="formataDinheiro">R$ Frete Peso</th>
+			<th data-id="FRETE_VALOR" data-align-right="true" data-function="formataDinheiro">R$ Frete Valor</th>
+			<th data-id="G051_VRPEDAGI" data-align-right="true" data-function="formataDinheiro">Pedágio</th>
+			<th data-id="G051_VRFRETEV" data-align-right="true" data-function="formataDinheiro">Gris/Ad valorem</th>
+			<th data-id="G051_VRTOTPRE" data-align-right="true">Valor Total Serviço</th>
+			<!-- <th data-id="" data-align-left="true">Situação Tributária</th> -->
+			<th data-id="G051_VRBASECA" data-align-right="true" data-function="formataDinheiro">Base Cálculo ICMS/ISS</th>
+			<th data-id="G051_PCALIICM" data-align-right="true">Aliquota ICMS/ISS</th>
+			<th data-id="G051_VRICMS" data-align-right="true" data-function="formataDinheiro">Valor ICMS/ISS</th>
+			<th data-id="NRNOTA" data-align-right="true">Números Notas Fiscais</th>
+			<th data-id="G051_DSINFCPL" data-align-left="true" data-visible="false">Observação</th>
+
+		</app-datagrid>
+	</app-cards>
+</div>

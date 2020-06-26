@@ -1,0 +1,346 @@
+<ng-template #modalDelete>
+  <app-modal [thisParent]="this" title="Deletar Grupo?" dsconteu="Deseja realmente excluir o(s) registros(s) selecionado(s)?">
+
+      <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
+      <button type="button" class="btn btn-success" (click)="deleteAcao()">Excluir</button>
+
+  </app-modal>
+</ng-template>
+
+<ng-template #modalDeleteEmail>
+  <app-modal [thisParent]="this" title="Deletar Email?" dsconteu="Deseja realmente excluir o(s) registros(s) selecionado(s)?">
+
+      <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
+      <button type="button" class="btn btn-success" (click)="deleteMotivo()">Excluir</button>
+
+  </app-modal>
+</ng-template>
+
+<ng-template #modalConfirm>
+  <app-modal [thisParent]="this" title="Existem campos que foram modificados" dsconteu="Deseja realmente cancelar?">
+      <button type="button" class="btn btn-success" (click)="leaveCadastro()">Sair</button>
+      <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
+  </app-modal>
+</ng-template>
+
+<app-breadcrumbs
+  #breadcrumbs
+  home="Grupo de E-mail"
+  [arBreadcrumbs]="arBreadcrumbsLocal"
+  (goHome)="goHome($event)"
+  (clearNext)="clearNext($event)"
+  [context]="this">
+</app-breadcrumbs>
+
+
+<div *ngIf="exibir == 1" style="padding-top: 20px;">
+
+  <app-cards-filter
+  titleDrop="Filtros"
+  nameSubmitFunction="filtrar"
+  nameClearFunction="limparFiltro"
+  idGrid="gridMunicipiosDados"
+  [isCollapsed]="collapsed"
+  [dropdown]="true"
+  [context]="this">
+
+    <form class="form-horizontal" [formGroup]="objFormFilter" >
+      <div class="row">
+        <div class="form-group col-sm-3">
+          <app-input
+          id="IDA008"
+          type="number"
+          name="IDA008"
+          model="{{objFormFilter.controls['IDA008'].value}}"
+          placeholder="Id Ação"
+          [formInput] = "objFormFilter"
+          [formControlNameInput] = "'IDA008'">
+        </app-input>
+        </div>
+      <!--  <div class="form-group col-sm-4 col-md-4 col-lg-4">
+          <app-single-estado
+            [objForm] = "objFormFilter"
+            [formName] = "'IDG002'"
+          >
+          </app-single-estado>
+
+           <label for="IDG002">Estado</label>
+          <app-combobox
+              [url]="url+'estadoFiltro'"
+              [selectedPeople] = "objFormFilter.controls['IDG002'].value"
+              [formSelect] = "objFormFilter"
+              [formControlNameSelect] = "'IDG002'">
+          </app-combobox>
+        </div>
+         <div class="form-group col-sm-4 col-md-4 col-lg-4">
+          <label for="NMCIDADE">Nome da Cidade:</label>
+          <app-combobox
+              [url]="url+'filtro/cidades'"
+              [selectedPeople] = "objFormFilter.controls['IDG003'].value"
+              [formSelect] = "objFormFilter"
+              [formControlNameSelect] = "'IDG003'">
+          </app-combobox>
+        </div> -->
+      </div>
+
+      <br />
+
+      <div class="row auxRow">
+        <div class="col-sm-8"></div>
+        <div class="col-sm-4 text-right"></div>
+      </div>
+    </form>
+</app-cards-filter>
+
+<app-cards
+  titleDrop="Registros"
+  idGrid="gridAcoes"
+  [isCollapsed]="false"
+  [dropdown]="true">
+  <app-datagrid
+      [id]="'gridAcoes'"
+      [url]="url+'mo/acoes/listar'"
+      [tela]="151"
+      [telaGlobal]="[
+              {'id' : 3, 'metodo' : 'excluirSelecionadosEstado',  'icone':'fa fa-minus'},
+              {'id' : 4, 'metodo' : 'openAddAcao',                'icone':'fa fa-plus'},
+              {'id' : 'excel'},
+              {'id' : 'colvis'} ]"
+      [telaAcoes]="[
+              {'id' : 2,  'metodo' : 'openUpdateAcao',      'icone': 'fa fa-pencil'},
+              {'id' : 3,  'metodo' : 'openDelete',          'icone': 'fa fa-trash-o'},
+              {'id' : 1, 'metodo' : 'openNewMotivo', 'icone': 'fas fa-eye'}]"
+      [nivel]="0"
+      [thisParent]="this">
+
+      <th data-id="IDA008" data-type-column="checkbox">
+              <label class="custom-control custom-checkbox">
+              <input id="gridAcoes-select-all" name="select_all" type="checkbox" class="custom-control-input" value="1" />
+              <span class="custom-control-indicator"></span>
+              </label>
+      </th>
+      <th data-id="IDA008" data-type-column="actions">Ações</th>
+      <th data-id="DSACAO" data-align-left="true">Descrição</th>
+  </app-datagrid>
+</app-cards>
+
+<app-cards
+  titleDrop="Motivos"
+  idGrid="gridAcoes"
+  [isCollapsed]="false"
+  [dropdown]="true">
+  <app-datagrid
+      [id]="'gridMotivos'"
+      [url]="url+'mo/motivos/listar'"
+      [tela]="151"
+      [telaGlobal]="[
+              {'id' : 'excel'},
+              {'id' : 'colvis'} ]"
+      [nivel]="0"
+      [thisParent]="this">
+      <th data-id="IDA002">ID</th>
+      <th data-id="DSTPMOTI" data-align-left="true">Descrição</th>
+      <th data-id="DSDETA"   data-function="dsDetaDG" data-align-left="true">Descrição Detalhada</th>
+      <th data-id="SNVISCLI" data-function="visaoClienteDG">Visão do Cliente</th>
+
+  </app-datagrid>
+
+</app-cards>
+</div>
+
+
+<div *ngIf="exibir == 2" style="padding-top: 15px;">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          Nova Ação
+        </div>
+        <div class="card-body" style="padding-top: 45px;">
+          <form class="form-horizontal" [formGroup]="objForm" (ngSubmit) = "save()" >
+            <input type="text" id="IDA008" [(ngModel)]="objForm.controls['IDA008'].value" formControlName="IDA008" hidden>
+            <div class="row auxRow">
+              <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                  <label for="NMCIDADE">Descrição</label>
+                  <app-input
+                    id="DSACAO"
+                    type="text"
+                    name="DSACAO"
+                    isRequired ='true'
+                    valid="text"
+                    [disabled]="!checkViewMunicipio"
+                    model="{{objForm.controls['DSACAO'].value}}"
+                    placeholder="Descrição da Ação"
+                    [formInput] = "objForm"
+                    [formControlNameInput] = "'DSACAO'">
+                  </app-input>
+              </div>
+
+              <div  style="color: #8a8a8a; padding-top: 36px;" *ngIf="viewMsg" class="form-group col-sm-8 col-md-8 col-lg-8">
+
+                <i>* Esta é uma ação padrão e não pode ser alterada.</i>
+              </div>
+            </div>
+          </form>
+          <br>
+          <form class="form-horizontal" [formGroup]="objForm" (ngSubmit) = "save()" >
+            <div class="row auxRow">
+              <div class="col-sm-8"></div>
+              <div class="col-sm-4 col-md-4 col-lg-4 text-right">
+
+                <app-botoes *ngIf="checkViewMunicipio"
+                class="success"
+                text="&nbsp;Salvar&nbsp;"
+                icon="fa fa-check"
+                type="submit">
+                </app-botoes>
+
+                <app-botoes *ngIf="!checkViewMunicipio"
+                  class="secondary"
+                  text="Sair"
+                  icon="fa fa-times"
+                (click)="breadcrumbs.goBack(); exibir=1; objForm.reset()">
+                </app-botoes>
+
+                <app-botoes *ngIf="checkViewMunicipio"
+                class="danger"
+                text="Cancelar"
+                icon="fa fa-times"
+                (click)="checaValoresFormulario($event)">
+                </app-botoes>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div *ngIf="exibir == 3" style="padding-top: 15px;">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          {{strCardMotivo}}
+        </div>
+        <div class="card-body" style="padding-top: 45px;">
+          <form class="form-horizontal" [formGroup]="objFormMotivo" (ngSubmit) = "saveMotivo()" >
+            <input type="text" id="IDA008" [(ngModel)]="idAcao" formControlName="IDA008" hidden>
+            <input type="text" id="IDA002" [(ngModel)]="objFormMotivo.controls['IDA002'].value" formControlName="IDA002" hidden>
+            <div class="row auxRow">
+              <div class="form-group col-sm-9 col-md-9 col-lg-9">
+                  <label for="NMCIDADE">Descrição</label>
+                  <app-input
+                    id="DSTPMOTI"
+                    type="text"
+                    name="DSTPMOTI"
+                    isRequired ='true'
+                    valid="text"
+                    [disabled]="!checkViewMunicipio"
+                    model="{{objFormMotivo.controls['DSTPMOTI'].value}}"
+                    placeholder="Descrição do Motivo"
+                    [formInput] = "objFormMotivo"
+                    [formControlNameInput] = "'DSTPMOTI'">
+                  </app-input>
+              </div>
+
+              <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                  <label for="NMCIDADE">Mostrar para Cliente?</label>
+                  <select class="form-control" id="SNVISCLI" name="SNVISCLI" formControlName="SNVISCLI">
+                    <option value="1" >Sim</option>
+                    <option value="0" [selected]="true">Não</option>
+                  </select>
+              </div>
+              <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                  <label for="NMCIDADE">Descrição Detalhada</label>
+                  <app-input
+                    id="DSDETA"
+                    type="text"
+                    name="DSDETA"
+                    isRequired ='true'
+                    valid="text"
+                    [disabled]="!checkViewMunicipio"
+                    model="{{objFormMotivo.controls['DSDETA'].value}}"
+                    placeholder="Descrição detalhada do Motivo"
+                    [formInput] = "objFormMotivo"
+                    [formControlNameInput] = "'DSDETA'">
+                  </app-input>
+              </div>
+            </div>
+          </form>
+          <br>
+          <form class="form-horizontal" [formGroup]="objForm" (ngSubmit) = "saveMotivo()" >
+            <div class="row auxRow">
+              <div class="col-sm-8"></div>
+              <div class="col-sm-4 col-md-4 col-lg-4 text-right">
+
+                <app-botoes *ngIf="checkViewMunicipio"
+                class="success"
+                text="&nbsp;{{strButton}}&nbsp;"
+                icon="fas fa-plus"
+                type="submit">
+                </app-botoes>
+
+                <app-botoes *ngIf="!checkViewMunicipio"
+                  class="secondary"
+                  text="Sair"
+                  icon="fa fa-times"
+                  (click)="breadcrumbs.goBack(); exibir=1; objForm.reset(); objFormFilter.reset()">
+                </app-botoes>
+
+                <app-botoes *ngIf="checkViewMunicipio"
+                class="danger"
+                text="Cancelar"
+                icon="fa fa-times"
+                (click)="checaValoresFormulario($event)">
+                </app-botoes>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="exibir == 3" style="padding-top: 10px;">
+
+<app-cards
+  titleDrop="Motivos Ação {{this.objAcao.DSACAO}}"
+  idGrid="gridMotivos"
+  [isCollapsed]="false"
+  [dropdown]="true">
+  <app-datagrid
+      [id]="'gridMotivos'"
+      [url]="url+'mo/motivos/listar'"
+      [tela]="151"
+      [telaGlobal]="[
+              {'id' : 3, 'metodo' : 'excluirSelecionadosEstado',  'icone':'fa fa-minus'},
+              {'id' : 'excel'},
+              {'id' : 'colvis'} ]"
+      [telaAcoes]="[
+              {'id' : 2,  'metodo' : 'openUpdateMotivo',   'icone': 'fa fa-pencil'},
+              {'id' : 3,  'metodo' : 'openDeleteMotivo',   'icone': 'fa fa-trash-o'}]"
+      [nivel]="0"
+      [thisParent]="this">
+
+      <th data-id="IDA002" data-type-column="checkbox">
+              <label class="custom-control custom-checkbox">
+              <input id="gridMotivos-select-all" name="select_all" type="checkbox" class="custom-control-input" value="1" />
+              <span class="custom-control-indicator"></span>
+              </label>
+      </th>
+      <th data-id="IDA002" data-type-column="actions">Ações</th>
+      <th data-id="IDA002">ID</th>
+      <th data-id="DSTPMOTI" data-align-left="true">Descrição</th>
+      <th data-id="DSDETA"   data-function="dsDetaDG" data-align-left="true">Descrição Detalhada</th>
+      <th data-id="SNVISCLI" data-function="visaoClienteDG">Visão do Cliente</th>
+
+  </app-datagrid>
+</app-cards>
+</div>

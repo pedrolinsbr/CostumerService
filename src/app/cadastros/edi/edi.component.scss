@@ -1,0 +1,28 @@
+
+.success{
+  margin-right: 10px;
+}
+
+.classCheck {
+  margin: 32px 0px 0px 13px;
+}
+
+.classCheck2 {
+  margin: 32px 0px 0px 5px;
+}
+
+.fieldRequired{
+  border-color: red !important;
+}
+
+@media screen {
+	.modal-adaptive .modal-xl {
+		width: 90% !important;
+		max-width: calc(90%);
+	}
+}
+
+
+.bg-g{
+	background-color: #ababab;
+}

@@ -1,0 +1,859 @@
+<ng-template #modalCargaCompleta>
+		<div class="modal-header">
+			<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;">
+				<small class="fw-300">Detalhes da Carga</small>
+			</h3>
+			<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" style="color: #464444">
+			<info-new-carga-completa
+			[IDG046]="idCargaView"
+			[showParadas]="true"
+			[showCarga]="true"
+			[showCTE]="true"
+			[showNFE]="true"
+			[mostrarMapa]="true"
+			[showNFE_AUX]="true"
+			[showAtendimentos]="true"
+			>
+	
+			</info-new-carga-completa>
+			<!-- <info-carga-completa
+				[IDG046]="objCarga.IDG046"
+				[showParadas]="true"
+				[showCTE]="true"
+				[showNFE]="true"
+				[showNFE_AUX]="true"
+				[showAtendimentos]="true"
+			>
+			
+			</info-carga-completa> -->
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-info" (click)="closeModal()">
+				Fechar
+			</button>
+		</div>
+</ng-template>
+
+<ng-template #modalNfeCompleta>
+		<div class="modal-header">
+				<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;"><small class="fw-300">Detalhes da Nota Fiscal</small></h3>
+			<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" style="color: #464444">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card card-body my-bg">
+							<div class="d-flex">
+								<div class="mr-auto">
+									<h3 class="mt-0 mb-0 text-uppercase">
+										<small class="fw-300">Dados da </small> <strong>NF-e</strong>
+									</h3>
+								</div>
+							</div>
+	
+							<div style="margin-top: 15px">
+								<div class="row">
+									<div class="col-sm-12 col-md-12 col-lg-12">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Chave de Acesso</strong></a>
+												<div>{{ nfeObj.NRCHADOC }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12 col-md-12 col-lg-12" >
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Data de emissão</strong></a>
+												<div>{{ nfeObj.DTEMINOT? (nfeObj.DTEMINOT) : ('n.i') }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Modelo</strong></a>
+												<div>{{ nfeObj.DSMODENF }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Número</strong></a>
+												<div>{{ nfeObj.NRNOTA }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Tipo</strong></a>
+												<div>{{ nfeObj.TPDELIVE }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Série</strong></a>
+												<div>{{ nfeObj.NRSERINF }}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Peso Bruto (Kg)</strong></a>
+												<div>{{ nfeObj.PSBRUTO ? (nfeObj.PSBRUTO | number:'1.2-2'):('n.i.') }}</div>
+											</div>
+										</div>	
+									</div>
+									<div class="col-sm-4">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Peso Líquido (Kg)</strong></a>
+												<div>{{ nfeObj.PSLIQUID ? (nfeObj.PSLIQUID | number:'1.2-2'):('n.i.') }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Observação da Nota</strong></a>
+												<div>{{ nfeObj.DSINFCPL }}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card card-body my-bg">
+							<div class="d-flex">
+								<div class="mr-auto">
+									<h3 class="mt-0 mb-0 text-uppercase">
+										<small class="fw-300">Dados do </small><strong>Emitente</strong>
+									</h3>
+								</div>
+							</div>
+	
+							<div style="margin-top: 15px">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>CNPJ</strong></a>
+												<div>{{nfeObj.CJCLIENTRE | cnpj }}</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Razão Social</strong></a>
+												<div>{{ nfeObj.NMCLIENTRE }}</div>
+											</div>
+	
+										</div>
+	
+									</div>
+									<div class="col-sm-6">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Inscrição Estadual</strong></a>
+												<div>{{nfeObj.IECLIENTRE}}</div>
+											</div>
+	
+										</div>
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>UF</strong></a>
+												<div>{{ nfeObj.NMCIDADERE }} - {{ nfeObj.CDESTADORE}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card card-body my-bg">
+							<div class="d-flex">
+								<div class="mr-auto">
+									<h3 class="mt-0 mb-0 text-uppercase">
+										<small class="fw-300">Dados do </small><strong>Destinatário</strong>
+									</h3>
+								</div>
+							</div>
+							<div style="margin-top: 15px">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>CNPJ</strong></a>
+												<div>{{nfeObj.CJCLIENTDE | cnpj }}</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Razão Social</strong></a>
+												<div>{{ nfeObj.NMCLIENTDE }}</div>
+											</div>
+	
+										</div>
+	
+									</div>
+									<div class="col-sm-6">
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Inscrição Estadual</strong></a>
+												<div>{{nfeObj.IECLIENTDE}}</div>
+											</div>
+										</div>
+										<div class="d-flex align-items-center marg">
+											<div class="mr-auto">
+												<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>UF</strong></a>
+												<div>{{ nfeObj.NMCIDADEDE }} - {{nfeObj.CDESTADODE}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card card-body my-bg">
+							<div class="d-flex">
+								<div class="mr-auto">
+									<h3 class="mt-0 mb-0 text-uppercase">
+										<small class="fw-300">Itens da </small><strong>Nota Fiscal</strong>
+									</h3>
+								</div>
+							</div>
+	
+							<div style="margin-top: 15px">
+								<div class="table-responsive">
+									<table class="table table-striped ts">
+										<thead>
+											<tr>
+												<th>Descrição do Produto</th>
+												<th>Quantidade</th>
+												<th>Valor Unitário</th>
+												<th>Valor Total</th>
+												<th>Unidade</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let item of nfeObj.ITENS_NFE;">
+												<td>{{item.DSPRODUT}}</td>
+												<td>{{item.QTPRODUT}}</td>
+												<td>{{item.VRUNIPRO | currency:'BRL'}}</td>
+												<td>{{item.VLTOTAL | currency:'BRL'}}</td>
+												<td>{{item.CDUNIDAD}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-info" (click)="closeModal()">Fechar</button>
+		</div>
+</ng-template>
+
+<ng-template #modalConhecimento let-c="close" let-d="dismiss">
+	<div class="modal-header">
+	  <h6 class="modal-title text-uppercase">Informações</h6>
+	  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+  
+	<div class="modal-body" >
+	  <info-cte-detalhado
+	  [IDG051]="idConhecimentoView"></info-cte-detalhado>
+	</div>
+  
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-danger" (click)="c('Close click')">Fechar</button>
+	</div>
+</ng-template>
+	  
+
+<app-breadcrumbs
+  #breadcrumbs
+  home="Raio-X"
+  [arBreadcrumbs]="arBreadcrumbsLocal"
+  (goHome)="goHome($event)"
+  [context]="this"
+  backgroundColor="#d5e0e4">
+</app-breadcrumbs>
+
+<div *ngIf="exibir == 1" style="padding-top: 20px;">
+
+	<!-- filtro para visão por notas -->
+	<app-cards-filter
+		*ngIf="controlView == 1"
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrarNotas"
+		nameClearFunction="limparNotas"
+		idGrid="gridHomeNFe"
+		[dropdown]="true"
+		[isCollapsed]="true"
+		[context]="this"
+		advancedOptions="advancedFilter">
+
+		<form class="form-horizontal" [formGroup]="objFormFilterNotas" >
+			<!-- Filtros Comuns -->
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data Emissão NF (inicial)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='visible'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtInicioDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterAux"
+						[formControlNameDatePop]="'DTINICIO'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Emissão NF (final)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='visible'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtTerminoDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterAux"
+						[formControlNameDatePop]="'DTFIM'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-6">
+					<label >Carga Logos</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCargaLog'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+		
+				<div class="form-group col-sm-6">
+					<label >Número da NF-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+				<div class="form-group col-sm-6">
+					<label >Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+
+			<div *ngIf="!advancedFilter">
+				<div class="row">
+		
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Transportadora - Carga</label>
+						<app-combobox-multi
+						[url]="url+'filtro/transportadoras'"
+						[formMultiSelect] = "objFormFilterAux"
+						[disabledViewMultiSelect] = 'false'
+						[formControlNameMultiSelect] = "'G046_IDG024'"
+						>
+						</app-combobox-multi>
+					</div>
+
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Transportadora - CTe</label>
+						<app-combobox-multi
+							[url]="url+'filtro/transportadoras'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG024'"
+							>
+						</app-combobox-multi>
+					</div>
+				
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005RE'"
+							[showInfo] = "showCDUF">
+						</app-combobox-multi>
+					</div>
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente - CTe</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005RE'"
+							[showInfo] = "showCDUF">
+						</app-combobox-multi>
+					</div>
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Destinatário</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005DE'"
+						>
+						</app-combobox-multi>
+					</div>
+			
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/tomadores'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'"
+						>
+						</app-combobox-multi>			
+					</div>
+					<div class="form-group col-sm-2">
+						<app-single-numeroViagem
+							[objForm] = "objFormFilterAux"
+							[formName] = "'G051_IDG046'"
+							[haveCTE]="1">
+						</app-single-numeroViagem>
+					</div>
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterAux">
+						<label for="">Operação AG</label>
+						<select class="form-control"
+								formControlName="G043_SNAG"
+								id="G043_SNAG"
+								name="G043_SNAG" >
+							<option value="2" [selected]="true">Todos</option>
+							<option value="{{item.value}}" *ngFor="let item of global.arSnAgNf">{{item.text}}</option>
+						</select>
+					</div>
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterNotas">
+						<label for="">Situação CT-e</label>
+						<select class="form-control"
+								formControlName="G051_STCTRC"
+								id="G051_STCTRC"
+								name="G051_STCTRC" >
+							<option value="A" [selected]="true">Ativos</option>
+							<option value="">Todos</option>
+							<option value="C">Cancelados</option>
+						</select>
+					</div>
+					
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterAux">
+						<label for="">Notas Entregues</label>
+						<select class="form-control"
+							id="G043_DTENTREG"
+							name="G043_DTENTREG" formControlName="G043_DTENTREG" >
+							<option value="" [selected]="true">Todos</option>
+							<option value="{{item.value}}" *ngFor="let item of global.arDtEntreg">{{item.text}}</option>
+						</select>
+					</div>
+					<div class="form-group col-sm-2">
+						<label for="">Tipo de Operação</label>
+						<select [formControl]="" class="form-control" id="G051_TPTRANSP" name="G051_TPTRANSP" formControlName="G051_TPTRANSP" >
+							<option value="" [selected]="true">Todos</option>
+							<option value="{{item.value}}" *ngFor="let item of global.arTpOcorrenciasNF">{{item.text}}</option>
+						</select>
+					</div>
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterAux">
+						<label for="">Situação Notas</label>
+						<select class="form-control"
+							id="G043_DTBLOQUE"
+							name="G043_DTBLOQUE" formControlName="G043_DTBLOQUE">
+							<option value="2" [selected]="true">Todos</option>
+							<option value="1">Bloqueadas</option>
+							<option value="0">Desbloqueadas</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<!-- filtro para visão por carga e conhecimento -->
+	<app-cards-filter
+		*ngIf="controlView == 2 || controlView == 3"
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrarCarga"
+		nameClearFunction="limparCarga"
+		[dropdown]="true"
+		[isCollapsed]="true"
+		[context]="this"
+		advancedOptions="advancedFilter">
+
+		<form class="form-horizontal" [formGroup]="objFormFilterCarga" >
+			<!-- Filtros Comuns -->
+			<div class="row">
+
+				<div class="form-group col-sm-6">
+					<label >Carga Logos</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCargaLog'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+		
+				<div class="form-group col-sm-6">
+					<label >Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+
+
+				<div class="form-group col-sm-6 col-md-6 col-lg-6">
+					<label for="NMCIDADE">Transportadora - Carga</label>
+					<app-combobox-multi
+					[url]="url+'filtro/transportadoras'"
+					[formMultiSelect] = "objFormFilterAux"
+					[disabledViewMultiSelect] = 'false'
+					[formControlNameMultiSelect] = "'G046_IDG024'"
+					>
+					</app-combobox-multi>
+				</div>
+
+				<div class="form-group col-sm-6 col-md-6 col-lg-6">
+					<label for="NMCIDADE">Transportadora - CTe</label>
+					<app-combobox-multi
+						[url]="url+'filtro/transportadoras'"
+						[formMultiSelect] = "objFormFilterAux"
+						[disabledViewMultiSelect] = 'false'
+						[formControlNameMultiSelect] = "'G051_IDG024'"
+						>
+					</app-combobox-multi>
+				</div>
+			</div>
+
+			<div *ngIf="!advancedFilter">
+				<div class="row"> 
+			
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente - CTe</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005RE'"
+							[showInfo] = "showCDUF">
+						</app-combobox-multi>
+					</div>
+			
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/tomadores'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'"
+						>
+						</app-combobox-multi>		
+					</div>
+					<div class="form-group col-sm-2">
+						<app-single-numeroViagem
+							[objForm] = "objFormFilterAux"
+							[formName] = "'G051_IDG046'"
+							[haveCTE]="1">
+						</app-single-numeroViagem>
+					</div>
+			
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterCarga">
+						<label for="">Situação CT-e</label>
+						<select class="form-control"
+								formControlName="G051_STCTRC"
+								id="G051_STCTRC"
+								name="G051_STCTRC" >
+							<option value="A" [selected]="true">Ativos</option>
+							<option value="">Todos</option>
+							<option value="C">Cancelados</option>
+						</select>
+					</div>
+				
+					<div class="form-group col-sm-2">
+						<label for="">Tipo de Operação</label>
+						<select [formControl]="" class="form-control" id="G051_TPTRANSP" name="G051_TPTRANSP" formControlName="G051_TPTRANSP" >
+							<option value="" [selected]="true">Todos</option>
+							<option value="{{item.value}}" *ngFor="let item of global.arTpOcorrenciasNF">{{item.text}}</option>
+						</select>
+					</div>
+				</div>				
+			</div>
+		</form>
+
+	</app-cards-filter>
+
+	<!-- faz a seleção da visão -->
+	<div class="" style="padding-top: 15px;">
+		<div class="row" style="padding-bottom: 20px;">
+			<div class="col-sm-12" style="background: #ebebeb; height: 45px;">
+			<div class="row text-center" >
+				<div class="col-sm-4 optionsView" [ngClass]="{'optionsView-activate': controlView == '1'}" (click)="changeOptionView('1')">
+					<h5 class="mt-0 mb-0 text-uppercase">
+						<i class="fas fa-file-alt" style="font-size: 15px;"></i>
+						<small class="fw-300" st>Visão Por Nota</small>
+					</h5>
+				</div>
+				<div class="col-sm-4 optionsView" [ngClass]="{'optionsView-activate': controlView == '2'}" (click)="changeOptionView('2')">
+				<h5 class="mt-0 mb-0 text-uppercase">
+					<i class="fas fa-truck" style="font-size: 15px;"> </i>
+					<small class="fw-300" st>Visão Por Carga</small>
+				</h5>
+				</div>
+				<div class="col-sm-4 optionsView" [ngClass]="{'optionsView-activate': controlView == '3'}" (click)="changeOptionView('3')">
+				<h5 class="mt-0 mb-0 text-uppercase">
+					<i class="fas fa-map-marker-alt" style="font-size: 15px;"> </i>
+					<small class="fw-300">Visão por Conhecimento</small>
+				</h5>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- grid da visão por notas -->
+	<app-cards
+		*ngIf="controlView == 1"
+		titleDrop="Registros"
+		idGrid="gridHomeDados"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		<app-datagrid
+			#dgNotasFiscaisHome
+			[id]="'listarNotasFiscais'"
+			[url]="url+'mo/deliverynf/listar'"
+			[tela]="42"
+			[order]="[4, 'desc']"
+			[telaGlobal]="[ {'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[nivel]="0"
+			[thisParent]="this"
+			[allList]="true"
+			[notOnLoad]="true"
+			[stateSave]="true"
+			[scroll]="500">
+			
+			<th data-id="NRNOTA" data-align-right="true" data-exec="viewNota">Nº NF</th>
+			<th data-id="G051_CDCTRC" data-align-right="true">Nº CTe</th>
+			<th data-id="G005RE_RSCLIENTRE" data-align-left="true">Razão Social - Emissor</th>
+			<th data-id="G005DE_RSCLIENTDE" data-align-left="true">Razão Social - Destino</th>
+			<th data-id="DTEMINOT" data-align-center="true">Data Emissão NF</th>
+			<th data-id="IDG043" data-function="homeMonitoria" data-function-full="true">Indicadores</th>
+			<th data-id="G051_DTPREENT" data-align-center="true">Data Pre. Entrega</th>
+			<th data-id="G051_DTEMICTR" data-visible="false">Data Emissão CTe</th>
+			<th data-id="DTENTCON" data-align-center="true">Data Ent. SLA</th>
+			<th data-id="DTENTREG" data-align-center="true">Data Ent. Realizada</th>
+			<th data-id="DTBLOQUE" data-visible="false">Data de Bloqueio</th>
+			<th data-id="DTDESBLO" data-visible="false">Data de Desbloqueio</th>
+			<th data-id="G051_DTAGENDA" data-align-center="true">Data Agendada</th>
+			<th data-id="G051_DTCOMBIN" data-visible="false">Data Combinada</th>
+			<th data-id="G051_DTROTERI" data-visible="false">Data Roteirização</th>
+			<th data-id="G005RE_NMCLIENTRE" data-visible="false" data-align-left="true">Nome - Emissor</th>
+			<th data-id="G005DE_NMCLIENTDE" data-visible="false" data-align-left="true">Nome - Destino</th>
+			<th data-id="G003RE_NMCIDADERE" data-visible="false" data-align-left="true">Cidade do Emissor</th>
+			<th data-id="G002RE_NMESTADORE" data-visible="false" data-align-left="true">Estado do Emissor</th>
+			<th data-id="G003DE_NMCIDADEDE" data-visible="false" data-align-left="true">Cidade do Destino</th>
+			<th data-id="G002DE_NMESTADODE" data-visible="false" data-align-left="true">Estado do Destino</th>
+			<th data-id="G005CO_NMCLIENTCO" data-visible="false" data-align-left="true">Tomador</th>
+			<th data-id="G051_TPTRANSP" data-align-left="true">Tipo de Operação</th>
+			<!-- <th data-id="G024_NMTRANSP" data-align-left="true">Transportadora Carga</th> -->
+			<!-- <th data-id="G051_IDG046" data-visible="false" data-align-right="true" >Carga</th> -->
+
+		</app-datagrid>
+	</app-cards>
+
+	<!-- grid da visão por carga -->
+	<app-cards
+		*ngIf="controlView == 2"
+		titleDrop="Registros"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		<app-datagrid
+			[id]="'carga'"
+			[url]="url+'mo/deliverynf/listarPorCarga'"
+			[tela]="42"
+			[order]="[7, 'desc']"
+			[telaGlobal]="[ {'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			
+			[nivel]="0"
+			[thisParent]="this"
+			[scroll]="500"
+			[notOnLoad]="true"
+			[stateSave]="true" >
+			
+			<th data-id="IDG046" data-exec="viewCarga" data-exec-id="IDG046" data-align-right="true">Carga</th>
+			<th data-id="DSCARGA" data-align-left="true">Descrição carga</th>
+			<th data-id="TPMODCAR" data-align-left="true" data-function="tipoModeloCargaLayout">Mod.</th>
+			<th data-id="NMTRANSP" data-function="registroNullDG" data-align-left="true">Transportadora</th>
+			<th data-id="IDCARLOG" data-function="numberNullDG" data-align-right="true">N° LOGOS</th>
+			<th data-id="TPTRANSP" data-align-left="true" data-function="tipoTransporte">Tipo</th>
+			<!-- <th data-id="SNESCOLT"  data-function="funcSN" data-align-left="true">Escolta</th> -->
+			<th data-id="SNCRODOC" data-function="snVira" data-align-left="true">C.D.</th>
+			<th data-id="DTCARGA"   data-function="formataHora" data-align-left="true">Dt. da carga</th>
+			<th data-id="DTSAICAR"  data-function="formatDate" data-align-right="true">Dt. saída</th>
+			<th data-id="DTPSMANU"  data-function="formatDate" data-align-right="true">Prev. de saída</th>
+			<!-- <th data-id="PSCARGA" data-function="formataPeso" data-align-right="true">Peso</th> -->
+			<!-- <th data-id="VRCARGA" data-function="formataDinheiro" data-align-right="true">Valor</th> -->
+			<th data-id="NMUSUARI" data-align-left="true">Usuário do Cadastro</th>
+			<!-- <th data-id="QTVOLCAR" data-function="formataVolume" data-align-right="true">Volume m³</th> -->
+			<!-- <th data-id="QTDISPER" data-function="formataDistancia" data-align-right="true">Distância</th> -->
+			<!-- <th data-id="VRPOROCU" data-function="formataPorcentagem2" data-align-right="true">% Ocup.</th> -->
+			<th data-id="IDG030" data-function="numberNullDG" data-align-left="true">Cód. Tipo de veículo</th>
+			<th data-id="DSTIPVEI" data-function="registroNullDG" data-align-left="true">Tipo de veículo</th>
+			<th data-id="DTAGENDA"  data-function="formatDate" data-align-right="true">Dt. Agendamento</th>
+			<th data-id="SNCARPAR" data-function="ftlltl" data-align-left="true">Mod.</th>
+			<th data-id="NMARMAZE"  data-function="registroNullDG" data-align-left="true">Armazém</th>
+			<th data-id="NMMOTORI1" data-function="registroNullDG" data-align-left="true">Motorista</th>
+			<th data-id="DSVEICULV1" data-function="registroNullDG" data-align-left="true">Veículo</th>
+
+		</app-datagrid>
+	</app-cards>
+
+	<!-- grid visão por conhecimento -->
+	<app-cards
+		*ngIf="controlView == 3"
+		titleDrop="Registros"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		<app-datagrid
+			[id]="'carga'"
+			[url]="url+'mo/deliverynf/listarPorConhecimento'"
+			[tela]="42"
+			[order]="[2, 'desc']"
+			[telaGlobal]="[ {'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[nivel]="0"
+			[thisParent]="this"
+			[scroll]="500"
+			[notOnLoad]="true">
+			
+			<th data-id="IDG051" data-exec="viewConhecimento" data-exec-id="IDG051" data-align-right="true">ID</th>
+			<th data-id="NMTRANSP" data-align-left="true">Transportadora</th>
+			<th data-id="DTEMICTR"  data-align-left="true" data-function="formatDate">Data Emissão</th>
+			<th data-id="IDG046" data-align-right="true">Carga</th>
+			<th data-id="CDCTRC" data-align-right="true">Cód. CTRC</th>
+			<th data-id="NRSERINF" data-align-right="true" data-function="registroNullDG">N. Série</th>
+			<th data-id="DSMODENF" data-align-right="true" data-function="registroNullDG">Desc. Modelo NF</th>
+
+			<th data-id="TPTRANSP" data-align-left="true">Tipo de Transporte</th>
+
+			<!-- TRATAR A INFORMAÇÃO -->
+			<th data-id="SNPRIORI" data-align-left="true" data-function="registroNullDG">Prioridade</th>
+
+			<th data-id="DTCOLETA" data-align-left="true" data-function="formatDate">Dt. Coleta</th>
+
+			<th data-id="DTENTPLA" data-align-left="true" data-function="formatDate">Dt. Planejada</th>
+
+			<th data-id="STCTRC" data-align-left="true" data-function="stCadastDG">Status</th>
+			
+			<th data-id="NMCLIENTRE" data-align-left="true">Remetente</th>
+			<th data-id="NMCLIENTDE" data-align-left="true">Destinatário</th>
+			<th data-id="NMCLIENTRC" data-align-left="true">Recebedor</th>
+			<th data-id="NMCLIENTEX" data-align-left="true">Expedidor</th>
+			<th data-id="NMCLIENTCO" data-align-left="true">Tomador</th>
+			<th data-id="NRPESO" data-function="formataPeso"data-align-right="true">Peso</th>
+
+			<th data-id="NRCHADOC" data-align-right="true" data-function="registroNullDG">Chave Documento</th>
+			
+			<!-- VALORES -->
+			<th data-id="VRTOTFRE" data-align-right="true" data-function="formataDinheiro">Val. Total Frete</th>
+			<th data-id="VRMERCAD"  data-align-right="true"data-function="formataDinheiro">Val. Mercadoria</th>
+			<th data-id="VRFRETEP"  data-align-right="true"data-function="formataDinheiro">Val. Frete Peso</th>
+
+			<!-- DATAS -->
+			<th data-id="DTLANCTO" data-align-left="true" data-function="formatDate">Dt. Lançamento</th>
+			<th data-id="DTCALANT" data-align-left="true" data-function="formatDate">Dt. Calculada Ant.</th>
+			<th data-id="DTCALDEP" data-align-left="true" data-function="formatDate">Dt. Calculada Dep.</th>
+			<th data-id="DTAGENDA" data-align-left="true" data-function="formatDate">Dt. Agendada</th>
+			<th data-id="DTCOMBIN" data-align-left="true" data-function="formatDate">Dt. Combinada</th>
+			<th data-id="DTROTERI" data-align-left="true" data-function="formatDate">Dt. Roterização</th>
+
+			<th data-id="NMTRANSP" data-align-left="true" data-function="registroNullDG">Transportadora Atual</th>
+
+		</app-datagrid>
+
+	</app-cards>
+	<ngx-loading [show]="loading" ></ngx-loading>
+</div>
+
+
+
+

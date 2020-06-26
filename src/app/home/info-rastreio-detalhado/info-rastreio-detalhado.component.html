@@ -1,0 +1,105 @@
+<ng-template #modalTrackingCompleto>
+	<div class="modal-header">
+		<h3 class="mt-0 mb-0 text-uppercase"><small class="fw-300">Detalhes do Tracking</small></h3>
+		<button type="button" class="close" aria-label="Close" (click)="closeModalTrackingCompleto()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-body my-bg">
+					<div class="d-flex">
+						<div class="mr-auto">
+							<h3 class="mt-0 mb-0 text-uppercase">
+								<strong>Tracking</strong>
+							</h3>
+						</div>
+					</div>
+					<div style="margin-top: 15px">
+						<div class="table-responsive">
+							<table class="table table-striped ts">
+								<thead>
+									<tr>
+										<th style="width: 150px;">Data da Posição</th>
+										<th>Descrição da Localização</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="objTracking.length > 0">
+									<tr *ngFor="let item of objTracking">
+										<td>{{ item.DTPOSICA ? (item.DTPOSICA): ('n.i.') }}</td>
+										<td>{{ item.DSLOCALI ? item.DSLOCALI : 'n.i.' }}</td>
+									</tr>
+								</tbody>
+								<tbody *ngIf="objTracking.length == 0">
+									<tr>
+										<td colspan="2">Não há rastreio detalhado para esta nota.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeModalTrackingCompleto()">Fechar</button>
+	</div>
+</ng-template>
+
+<div class="row">
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border">Tracking
+				<div style="float: right">
+					<i
+						class="fas fa-eye fa-fw fa-lg btn-fieldset"
+						alt="Detalhes do Tracking"
+						title="Detalhes do Tracking"
+						*ngIf="nfbloqued == ''"
+						(click)="showModalTrackingCompleto()">
+					</i>
+				</div>
+
+			</legend>
+			<div class="table-responsive" *ngIf="nfbloqued == ''">
+				<table class="table table-striped ts" *ngIf="!entreg">
+					<thead>
+						<tr>
+							<th style="width: 150px;">Data da Posição</th>
+							<th>Descrição da Localização</th>
+						</tr>
+					</thead>
+					<tbody *ngIf="objTracking.length > 0">
+						<tr *ngFor="let item of objTracking.slice(0,10)">
+							<td>{{ item.DTPOSICA ? (item.DTPOSICA ): ('n.i.') }}</td>
+							<td>{{ item.DSLOCALI ? item.DSLOCALI : 'n.i.' }}</td>
+						</tr>
+					</tbody>
+					<tbody *ngIf="objTracking.length == 0">
+						<tr>
+							<td colspan="2">Não há rastreio detalhado para esta nota.</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-striped ts" *ngIf="entreg">
+						
+					<tbody>
+						<tr>
+							<td>Nota Fiscal Entregue</td>
+						</tr>
+					</tbody>
+						
+				</table>
+			</div>
+			<div class="row" *ngIf="nfbloqued != ''">
+				<div class="col-md-12">
+					<div class="alert alert-danger" role="alert">
+						A nota fiscal está bloqueada.
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>

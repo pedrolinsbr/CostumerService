@@ -1,0 +1,43 @@
+.datatable-body-cell.datatable-body-cell.sort-active{
+	text-align: left;
+}
+
+.auxRow { 
+	margin-top: -35px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+	-webkit-appearance: none;
+	
+}
+input[type=number] { 
+ -moz-appearance: textfield;
+ appearance: textfield;
+
+}
+
+.row-form-dinamico {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1rem 0.3rem 0rem 0.2rem;
+	margin-bottom: 1rem;
+}
+
+.grid-remover {
+	display: flex;
+	justify-content: flex-end;
+	padding-bottom: 0.5rem;
+
+	i {
+		color: #f40101;
+		font-size: 1.3vw;
+		cursor: pointer;
+	}
+}
+
+.row-botoes {
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 0.5rem;
+}

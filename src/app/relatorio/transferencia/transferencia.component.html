@@ -1,0 +1,144 @@
+<div style="padding-top: 20px;">
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrar"
+		nameClearFunction="limparHome"
+		idGrid="Transferencia"
+		[dropdown]="true"
+		[isCollapsed]="true"
+		[context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilter" >
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data Emissão NF (inicial)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='false'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtInicioDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterAux"
+						[formControlNameDatePop]="'DTINICIO'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Emissão NF (final)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='false'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtTerminoDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterAux"
+						[formControlNameDatePop]="'DTFIM'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<app-single-operacao [objForm]="objFormFilter" [formName]="'G014_IDG014'" [displayName]="'Operação'" placeholder="Digite para pesquisar">
+					</app-single-operacao>
+				</div>
+
+				<div class="form-group col-sm-3" [formGroup]="objFormFilter">
+					<label>Produto</label>
+					<input class="form-control" id="G045_DSPRODUT" name="G045_DSPRODUT" formControlName="G045_DSPRODUT" placeholder="Digite para pesquisar">
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label >Número da NF-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+				<div class="form-group col-sm-6">
+					<label >Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+			<div class="row">
+
+				<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/tomadores'"
+							[formMultiSelect] = "objFormFilterAux"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'">
+						</app-combobox-multi>		
+					</div>
+
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards
+		titleDrop="Registros"
+		idGrid="gridTransferencia"
+		[isCollapsed]="false"
+		[dropdown]="true">
+
+		<app-datagrid
+			[id]="'transferencia'"
+			[url]="url+'mo/atendimentos/listarTransferencia'"
+			[tela]="42"
+			[order]="[4, 'desc']"
+			[telaGlobal]="[
+				{'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[nivel]="0"
+			[stateSave]="true"
+			[thisParent]="this"
+			[allList]="true"
+			[scroll]="500"
+			[notOnLoad]="true">
+			<th data-id="NRNOTA" data-align-right="true">NF</th>
+			<th data-id="NMARMAZE" data-align-left="true" data-function="validaNullMonitoria">Empresa</th>
+			<th data-id="CDCTRC" data-align-right="true">CTe</th>
+			<th data-id="MOVIMENTO" data-align-left="true" data-function="registroNullDG">Movimento</th>
+			<th data-id="DTEMINOT" data-align-center="true">Data Emissão NF</th>
+			<th data-id="DTCOLETA" data-align-center="true">Data de Coleta</th>
+			<th data-id="G003RE_NMCIDADERE" data-align-left="true" data-function="validaNullMonitoria">Origem</th>
+			<th data-id="G003DE_NMCIDADEDE" data-align-left="true" data-function="validaNullMonitoria">Destino</th>
+			<th data-id="DSREFFAB" data-align-right="true" data-function="validaNullMonitoria">SKU</th>
+			<th data-id="DSPRODUT" data-align-left="true" data-function="validaNullMonitoria">Descrição</th>
+			<th data-id="QTPRODUT" data-align-right="true" data-function="validaNullMonitoria">QTD</th>
+			<th data-id="PSBRUTO" data-align-right="true" data-function="validaNullMonitoria">Peso</th>
+			<th data-id="G032_NRFROTA" data-align-right="true" data-function="validaNullMonitoria">Frota</th>
+			<th data-id="G046_IDG046" data-align-right="true" data-function="validaNullMonitoria">Carga</th>
+			<th data-id="DTENTCON" data-align-center="true">Prazo Contrato</th>
+			<th data-id="DTPREENT" data-align-center="true">Previsão Estimada de Chegada no CD</th>
+			<th data-id="DTENTREG" data-align-center="true" data-function="validaNullMonitoria">Data de Entrega</th>
+			<th data-id="PREVISÃO_DE_ENTRADA_SAP" data-align-center="true" data-function="registroNullDG">Previsão de entrada SAP</th>
+			<th data-id="ENTRADA_SAP" data-align-center="true" data-function="registroNullDG">Entrada SAP</th>
+			<th data-id="A001_IDA001" data-align-right="true" data-function="validaNullMonitoria">Ocorrência/Atendimento</th>
+			<th data-id="OBSERVACAO" data-align-left="true" data-function="registroNullDG">Observação</th>
+
+		</app-datagrid>
+	</app-cards>
+</div>

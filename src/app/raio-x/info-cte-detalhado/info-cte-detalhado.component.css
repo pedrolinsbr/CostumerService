@@ -1,0 +1,19 @@
+.tabela, th, td {
+	border: none !important;
+	width:39px;
+ }
+
+ .breadcrumbs-top{
+	 margin-top: 15px;
+	 margin-bottom: 15px;
+ }
+
+
+
+
+ @media screen {
+	.modal-adaptive .modal-xl {
+	  width: 75% !important;
+	  max-width: calc(90%);
+	}
+  }

@@ -1,0 +1,183 @@
+<ng-template #modalAnexoOcorrencia>
+	<div class="modal-header">
+		<h4 class="modal-title">Anexar arquivos na Ocorrência</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeAnexoOcorrencia()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" class="well my-drop-zone box-import">
+							<i class="fas fa-arrow-circle-up iconUpload"></i><br>
+							Arraste os arquivos aqui <br>
+
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="box">
+							<label for="file-5" style="height:100%; width: 100%; padding-top: 10px; cursor: pointer;">
+								<span class="textBIcon">ESCOLHER ARQUIVOS</span>
+							</label>
+							<input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4 custom-file-input" ng2FileSelect
+							 [uploader]="uploader" multiple />
+						</div>
+
+					</div>
+
+					<div class="col-md-12" style="margin-top: 25px;" *ngIf="uploader.queue.length != 0">
+
+
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th width="50%">Nome</th>
+									<th style="text-align: center">Tamanho</th>
+									<th style="text-align: center">Ações</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let item of uploader.queue">
+									<td>
+										<strong>
+											{{ item?.file?.name }}
+										</strong>
+									</td>
+									<td nowrap style="text-align: center">
+										{{ item?.file?.size/1024/1024 | number:'.2' }} MB
+									</td>
+									<td nowrap style="text-align: center">
+										<i class="far fa-trash-alt btTableR cursorIcon" (click)="item.remove()"></i>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="boxer">
+									<label style="height:100%; width: 100%; padding-top: 10px; cursor: pointer;">
+										<span class="textBIconQ"> {{ uploader?.queue?.length }} ARQUIVO(S)</span>
+									</label>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<!-- <div class="col-md-6 text-center">
+                  <button type="button" class="btn btn-succe btBottom" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <i class="fas fa-upload"></i> Enviar todos
+                  </button>
+                </div> -->
+							<div class="col-md-6">
+								<button type="button" class="btn btn-dang btBottom" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+									<i class="far fa-trash-alt"></i> Remover todos
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeAnexoOcorrencia()">Fechar</button>
+	</div>
+</ng-template>
+
+<div class="row" *ngIf="!finalizado">
+	<ngx-loading [show]="loading"></ngx-loading>
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border">Nova Movimentação</legend>
+			<form class="form-horizontal" [formGroup]="objFormNewMovimentacao">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-2 col-lg-2 col-xl-2">
+								Encaminhar para:
+							</div>
+							<div class="col-md-4 col-lg-4 col-xl-4">
+								<app-combobox
+									[url]="url+'filtro/usuarios'"
+									[formSelect] = "objFormNewMovimentacao"
+									[formControlNameSelect] = "'IDS001DE'">
+								</app-combobox>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2 col-lg-2 col-xl-2">
+								Enviar para:
+							</div>
+							<div class="col-md-4 col-lg-4 col-xl-4">
+								<app-combobox-multi
+									[url]="url+'filtro/buscarContatoAtendimento'"
+									[formMultiSelect] = "objFormNewMovimentacao"
+									[disabledViewMultiSelect] = 'false'
+									[formControlNameMultiSelect] = "'NMGRUPOC'">
+								</app-combobox-multi>
+							</div>
+						</div>
+						<div class="row auxRow">
+							<div class="col-md-2 col-lg-2 col-xl-2">
+								Descrição:
+							</div>
+							<div class="col-md-10 col-lg-10 col-xl-10">
+								<textarea class="form-control" formControlName="DSOBSERV" rows="8" aria-label="Descrição">
+
+								</textarea>
+							</div>
+						</div>
+						<div class="row auxRow">
+							<div class="col-md-2 col-lg-2 col-xl-2">
+							</div>
+							<div class="col-md-10 col-lg-10 col-xl-10 text-left">
+									
+								<button
+									type="button"
+									class="btn btn-primary"
+									(click)="openModalAnexoOcorrencia();">
+									Anexo
+								</button>
+										
+								<button type="button" class="btn btn-primary" (click)="salvarMovimentacao();">
+									Salvar
+								</button>
+
+								<button
+									type="button"
+									class="btn btn-success"
+									(click)="finalizarAtendimento();"
+									[disabled]="this.objFormNewMovimentacao.controls['IDS001DE'].value != '' &&
+												this.objFormNewMovimentacao.controls['IDS001DE'].value != null">
+									Salvar e Finalizar
+								</button>
+
+								<button type="button" class="btn btn-danger" (click)="voltarListagem();">
+									Cancelar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+</div>
+
+
+<div class="card card-body pb-0">
+  <div class="activity-stream">
+		<app-mov-atendimento-single
+			*ngFor="let item of movimentacaoList"
+			[objMovimentacao]="item">
+
+		</app-mov-atendimento-single>
+	</div>
+</div>

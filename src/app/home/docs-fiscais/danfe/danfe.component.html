@@ -1,0 +1,534 @@
+<div *ngIf="!objDanfe && carregando" class="alert" role="alert">
+		<div class="row vertical-align">
+			<div class="col-xs-10">
+				&nbsp;
+				<h6>Carregando...</h6>
+			</div>
+		</div>
+</div>
+<div *ngIf="!objDanfe && !carregando" class="alert" role="alert">
+		<div class="row vertical-align">
+			<div class="col-xs-10">
+				&nbsp;
+				<h6>XML não encontrado</h6>
+			</div>
+		</div>
+</div>
+<div *ngIf="objDanfe" class="modal-header" style="margin-bottom: -9px; justify-content: flex-end !important;
+margin-top: -23px;">
+		<button type="button" class="btn btn-link" (click)="download()" style="margin-right: 10px;">
+			<i class="fas fa-download"></i>
+			Baixar XML
+		</button>
+		<button type="button" class="btn btn-info" (click)="imprimir()">
+			<i class="fas fa-print"></i>
+			Imprimir
+		</button>
+</div>
+<div id="container-danfe">
+	<div [hidden]="!objDanfe" *ngFor="let pag of arItens; let x = index;"  class="container-page"  [id]="x">
+		<div class="container">
+			<div id="container-canhoto">
+				<div id="content-canhoto-1">
+					<div id="content-canhoto-2">
+							<span style="font-size: 6px; text-align: center;">RECEBEMOS DE {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.xNome',objDanfe)}} OS PRODUTOS CONSTATNTES DA NOTA FISCAL INDICADA AO LADO</span>
+					</div>   
+					<div id="content-canhoto-3">
+							<div id="content-canhoto-4">
+									<label for="data" style="font-size: 7px; font-weight: bold; padding: 2px;">DATA DE RECEBIMENTO</label>
+							</div>
+							<div id="content-canhoto-5">
+									<label for="ass" style="font-size: 7px; font-weight: bold; padding: 2px">IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR</label>
+							</div>
+					</div> 
+				</div>
+				<div id="content-canhoto-6">
+					<span style="font-size: 10px; font-weight: bold; text-align: center;">NF-e</span>
+					<span style="font-size: 10px; text-align: left; padding-left: 11px;">N. {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.nNF', objDanfe)}}</span>
+					<span style="font-size: 10px; text-align: left; padding-left: 11px;">SÉRIE {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.serie', objDanfe)}}</span>
+				</div>
+			</div>
+			<div id="container-header">
+				<div id="content-header-0">
+					<div id="content-header-1">
+						<h5></h5>
+					</div>
+					<div id="content-header-2">
+						<div style="display: flex; flex-direction: column;">
+							<span style="font-size: 11px; font-weight: bold; margin-bottom: 11px;">Identificação do emitente</span>
+							<span style="font-size: 11px; font-weight: bold;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.xNome',objDanfe)}}</span>
+						</div>
+						<div style="display: flex; flex-direction: column;">
+							<span style="font-size: 7px; font-weight: bold;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.enderEmit.xLgr',objDanfe)}}, {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.enderEmit.nro',objDanfe)}}</span>
+							<span style="font-size: 7px; font-weight: bold;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.enderEmit.xBairro',objDanfe)}} Cep:{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.enderEmit.CEP',objDanfe)}}</span>
+							<span style="font-size: 7px; font-weight: bold;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.enderEmit.xMun',objDanfe)}}/{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.enderEmit.UF',objDanfe)}}</span>
+							<span style="font-size: 7px; font-weight: bold;">Fone: {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.enderEmit.fone',objDanfe)}}</span>
+						</div>
+					</div>
+				</div>
+				<div id="content-header-3">
+					<span style="font-size: 16px; font-weight: bold; text-align: center;">DANFE</span>
+					<span style="font-size: 9px; text-align: center;">DOCUMENTO AUXILIAR DA</span>
+					<span style="font-size: 9px; text-align: center;">NOTA FISCAL ELETRÔNICA</span>
+					<span style="font-size: 9px; text-align: left; padding-left: 20px;">0-ENTRADA</span>
+					<span style="font-size: 9px; text-align: left; padding-left: 20px;">1-SAÍDA</span>
+					<div style="display: flex; flex-direction: column; margin-top: 10px;">
+						<span style="font-size: 9px; text-align: left; padding-left: 6px; font-weight: bold;">N. {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.nNF',objDanfe)}}</span>
+						<span style="font-size: 9px; text-align: left; padding-left: 6px; font-weight: bold;">SÉRIE {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.serie',objDanfe)}}</span>
+						<span style="font-size: 9px; text-align: left; padding-left: 6px; font-weight: bold;">FOLHA {{x+1}}/{{arItens.length}}</span>
+					</div>
+				</div>
+					<div id="content-header-4">
+						<div id="content-header-5">
+							<svg id="barcode" style="width: 100% !important;"></svg>
+						</div>
+						<div id="content-header-5">
+							<span style="font-size: 10px; font-weight: bold;">CHAVE DE ACESSO DA NF-E</span>
+							<span style="font-size: 9px; font-weight: bold;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.Id',objDanfe)}}</span>
+						</div>
+						<div id="content-header-5">
+							<span style="font-size: 9px;">Consulta de autenticidade no portal nacional da NF-e</span>
+							<span style="font-size: 9px;">wwww.nfe.fazenda.gov.br/portal ou no site da SEFAZ Autorizada</span>
+						</div>
+					</div>
+				</div>
+				<div id="container-body-1">
+					<div id="content-body-1">
+						<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">NATUREZA DA OPERAÇÃO</span>
+						<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.natOp',objDanfe)}}</span>
+					</div>
+					<div id="content-body-2">
+						<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">PROTOCOLO DE AUTORIZAÇÃO DE USO</span>
+						<span style="font-size: 8px;"> {{utilServices.validaCamposDocs('objDanfe.protNFe.infProt.nProt',objDanfe)}} {{utilServices.validaCamposDocs('objDanfe.protNFe.infProt.dhRecbto',objDanfe)}}</span>
+					</div>
+				</div>
+				<div id="container-body-2">
+					<div id="content-body-2-1">
+						<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">INCRIÇÃO ESTADUAL</span>
+						<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.IE',objDanfe)}}</span>
+					</div>
+					<div id="content-body-2-2">
+						<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">INSC.ESTADUAL DO SUBST.TRIB</span>
+						<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.IEST',objDanfe)}}</span>
+					</div>
+					<div id="content-body-2-3">
+						<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">CNPJ</span>
+						<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.CNPJ',objDanfe)}}</span>
+					</div>
+				</div>
+				<div>
+					<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">DESTINATARIO/REMETENTE</span>                    
+					<div id="container-body-3">
+						<div id="content-body-3-1">
+							<div id="content-body-3-1-1">
+								<div id="content-body-3-1-2">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">NOME/RAZÃO SOCIAL</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.xNome',objDanfe)}}</span>
+								</div>
+								<div id="content-body-3-1-3">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">CNPJ/CPF</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.CPF',objDanfe)}}</span>
+								</div>
+							</div>
+							<div id="content-body-3-2-1">
+								<div id="content-body-3-2-2">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">ENDEREÇO</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.enderDest.xLgr',objDanfe)}}, {{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.enderDest.nro',objDanfe)}}</span>
+								</div>
+								<div id="content-body-3-2-3">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">BAIRRO/DISTRITO</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.enderDest.xBairro',objDanfe)}}</span>
+								</div>
+								<div id="content-body-3-2-4">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">CEP</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.CEP',objDanfe)}}</span>
+								</div>
+							</div>
+							<div id="content-body-3-3-1">
+								<div id="content-body-3-3-2">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">MUNICIPIO</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.enderDest.xMun',objDanfe)}}</span>
+								</div>
+								<div id="content-body-3-3-3">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">FONE/FAX</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.enderDest.fone',objDanfe)}}</span>
+								</div>
+								<div id="content-body-3-3-4">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">UF</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.enderDest.UF',objDanfe)}}</span>
+								</div>
+								<div id="content-body-3-3-5">
+									<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">INSCRIÇÃO ESTADUAL</span>
+									<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.dest.IE',objDanfe)}}</span>
+								</div>
+							</div>
+						</div>
+						<div id="content-body-3-4-1">
+							<div id="content-body-3-4-2">
+								<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">DATA DE EMISSÃO</span>
+								<span style="font-size: 8px;">{{utilServices.dataDG(utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.dhEmi',objDanfe))}}</span>
+							</div>
+							<div id="content-body-3-4-3">
+								<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">DATA ENTRADA/SAÍDA</span>
+								<span style="font-size: 8px;">{{utilServices.dataDG(utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.dhSaiEnt',objDanfe))}}</span>
+							</div>
+							<div id="content-body-3-4-4">
+								<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">HORA ENTRADA/SAÍDA</span>
+								<span style="font-size: 8px;">{{utilServices.timeDG(utilServices.validaCamposDocs('objDanfe.NFe.infNFe.ide.dhSaiEnt',objDanfe))}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+				<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">FATURA</span>                    
+				<div id="container-body-4">
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+					<div id="content-body-4-1">
+					</div>
+				</div>
+			</div>
+			<div>
+				<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">CALCULO DO INPOSTO</span>                    
+				<div id="container-body-5">
+					<div id="content-body-5-1">
+						<div id="content-body-5-1-1">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">BASE DE CALCULO DO ICMS</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vBC',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-1-2">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">VALOR ICMS</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vICMS',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-1-3">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">BASE DE CALCULO DO ICMS SUBSTITUIÇÃO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vBCST',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-1-4">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">VALOR DO ICMS SUBSTITUIÇÃO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vST',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-1-5">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">VALOR TOTAL DOS PRODUTOS</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vProd',objDanfe)}}</span>
+						</div>
+					</div>
+					<div id="content-body-5-2">
+						<div id="content-body-5-2-1">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">VALOR DO FRETE</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vFrete',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-2-2">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">VALOR DO SEGURO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vSeg',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-2-3">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">DESCONTO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vDesc',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-2-4">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">OUTRAS DESPESAS ACESSÓRIAS</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vOutro',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-2-5">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">VALOR DO IPI</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vIPI',objDanfe)}}</span>
+						</div>
+						<div id="content-body-5-2-6">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">VALOR TOTAL DA NOTA</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ICMSTot.vNF',objDanfe)}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">TRANSPORTADOR/VOLUMES TRANSPORTADOS</span>                    
+				<div id="container-body-6">
+					<div id="content-body-6-1">
+						<div id="content-body-6-1-1">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">RAZÃO SOCIAL</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.transporta.xNome',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-1-2">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">FRETE POR CONTA</span>
+							<span style="font-size: 8px;">{{utilServices.validaFretePorContaDanfe(utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.modFrete',objDanfe))}}</span>
+						</div>
+						<div id="content-body-6-1-3">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">CÓDIGO ANTT</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.veicTransp.RNTC',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-1-4">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">PLACA DO VEÍCULO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.veicTransp.placa',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-1-5">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">UF</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.veicTransp.UF',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-1-6">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">CNPJ/CPF</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.transporta.CNPJ',objDanfe)}}</span>
+						</div>
+					</div>
+					<div id="content-body-6-2">
+						<div id="content-body-6-2-1">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">ENDEREÇO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.transporta.xEnder',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-2-2">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">MUNICIPIO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.transporta.xMun',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-2-3">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">UF</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.transporta.UF',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-2-4">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">INSCRIÇÃO ESTADUAL</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.transporta.IE',objDanfe)}}</span>
+						</div>
+					</div>
+					<div id="content-body-6-3">
+						<div id="content-body-6-3-1">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">QUANTIDADE</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.vol.qVol',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-3-2">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">ESPECIE</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.vol.esp',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-3-3">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">MARCA</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.vol.marca',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-3-4">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">NUMERAÇÃO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.vol.nVol',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-3-5">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">PESO BRUTO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.vol.pesoB',objDanfe)}}</span>
+						</div>
+						<div id="content-body-6-3-6">
+							<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">PESO LIQUIDO</span>
+							<span style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.transp.vol.pesoL',objDanfe)}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<div id="container-9">
+				<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">DADOS DO PRODUTO / SERVIÇO</span>
+				<div style="display: flex; flex-direction: column; height: 280px;">
+						
+					<!-- HEADER DA LISTA DE PRODUTO -->
+						<div id="container-9-1-0">
+							<div id="container-9-2">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">COD. PROD</span>
+								</div>
+							</div>
+							<div id="container-9-3">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">DESCRIÇÃO DO PROD./SERV.</span>
+								</div>
+							</div>
+							<div id="container-9-4">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">NCM/SH</span>
+								</div>
+							</div>
+							<div id="container-9-5">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">CST</span>
+								</div>
+							</div>
+							<div id="container-9-6">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">CFOP</span>
+								</div>
+							</div>
+							<div id="container-9-7">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">UN</span>
+								</div>
+							</div>
+							<div id="container-9-8">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">QUANT</span>
+								</div>
+							</div>
+							<div id="container-9-9">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">V.UNITARIO</span>
+								</div>
+							</div>
+							<div id="container-9-10">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">V.TOTAL</span>
+								</div>
+							</div>
+							<div id="container-9-11">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">BC.ICMS</span>
+								</div>
+							</div>
+							<div id="container-9-12">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">V.ICMS</span>
+								</div>
+							</div>
+							<div id="container-9-13">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">V.IPI</span>
+								</div>
+							</div>
+							<div id="container-9-14">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">A.ICMS</span>
+								</div>
+							</div>
+							<div id="container-9-15">
+								<div id="container-9-2-1-1">
+									<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">A.IPI</span>
+								</div>
+							</div>
+						</div>
+	
+	
+	
+	
+	
+						<!-- LISTA DE PRODUTOS -->
+						<div id="container-produtos">
+							<div *ngFor="let itens of arItens[x]" id="container-9-2-87">
+									<div id="container-9-2-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 2px;">{{utilServices.validaCamposDocs('itens.prod.cProd',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-3-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('itens.prod.xProd',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-4-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.prod.NCM',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-5-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaIcmsDanfe(utilServices.validaCamposDocs('itens.imposto.ICMS',itens),'CST')}}</span>
+										</div>
+									</div>
+									<div id="container-9-6-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.prod.CFOP',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-7-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.prod.uCom',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-8-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.prod.qCom',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-9-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.prod.vUnCom',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-10-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.prod.vProd',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-11-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaIcmsDanfe(utilServices.validaCamposDocs('itens.imposto.ICMS',itens),'vBC')}}</span>
+										</div>
+									</div>
+									<div id="container-9-12-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaIcmsDanfe(utilServices.validaCamposDocs('itens.imposto.ICMS',itens),'vICMS')}}</span>
+										</div>
+									</div>
+									<div id="container-9-13-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.imposto.IPI.IPITrib.vIPI',itens)}}</span>
+										</div>
+									</div>
+									<div id="container-9-14-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaIcmsDanfe(utilServices.validaCamposDocs('itens.imposto.ICMS',itens),'pICMS')}}</span>
+										</div>
+									</div>
+									<div id="container-9-15-88">
+										<div id="container-9-2-1-0">
+											<span style="font-size: 8px; padding-left: 4px;">{{utilServices.validaCamposDocs('itens.imposto.IPI.IPITrib.pIPI',itens)}}</span>
+										</div>
+									</div>
+							</div>						
+						</div>
+	
+				</div>
+			</div>
+			<div id="container-7">
+				<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">CALCULO DO ISSQN</span>
+				<div id="container-7-0">
+					<div id="container-7-1" style="border-right: 1px solid black;">
+						<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">INSCRIÇÃO MUNICIPAL</span>
+						<span style="font-size: 8px; padding: 2px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.emit.IM',objDanfe)}}</span>
+					</div>
+					<div id="container-7-1" style="border-right: 1px solid black;">
+						<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">VALOR TOTAL DOS SERVIÇOS</span>
+						<span style="font-size: 8px; padding: 2px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ISSQNtot.vServ',objDanfe)}}</span>
+					</div>
+					<div id="container-7-1" style="border-right: 1px solid black;">
+						<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">BASE DE CÁLCULO DO ISSQN</span>
+						<span style="font-size: 8px; padding: 2px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ISSQNtot.vBC',objDanfe)}}</span>
+					</div>
+					<div id="container-7-1">
+						<span style="font-size: 8px; font-weight: bold; padding-left: 2px;">VALOR DO ISSQN</span>
+						<span style="font-size: 8px; padding: 2px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.total.ISSQNtot.vISS',objDanfe)}}</span>
+					</div>			
+				</div>
+			</div>
+			<div id="container-8">
+				<span style="font-size: 8px; font-weight: bold; padding-top: 2px;">DADOS ADICIONAIS</span>
+				<div id="container-8-1">
+					<div id="container-8-2">
+						<span style="font-size: 8px; font-weight: bold; padding-top: 2px; padding-left: 2px;">INFORMAÇÕES COMPLEMENTARES</span>
+						<div id="container-8-2-1">
+							<span style="font-size: 7px;">Protocolo:</span>
+							<span style="font-size: 7px;">{{utilServices.validaCamposDocs('objDanfe.protNFe.infProt.nProt',objDanfe)}}</span>
+						</div>
+						<span  style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.infAdic.infCpl',objDanfe)}}</span>
+					</div>
+					<div id="container-8-3">
+						<span style="font-size: 8px; font-weight: bold; padding-top: 2px; padding-left: 2px;">RESERVADO AO FISCO</span>
+						<span  style="font-size: 8px;">{{utilServices.validaCamposDocs('objDanfe.NFe.infNFe.infAdic.infAdFisco',objDanfe)}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

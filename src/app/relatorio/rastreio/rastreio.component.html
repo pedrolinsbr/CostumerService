@@ -1,0 +1,195 @@
+<ng-template #modalStEmailRastre let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h6 class="modal-title text-uppercase">Situação Cadastro E-mail Rastreio</h6>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="table-responsive">
+			<table class="table table-inverse">
+				<thead>
+					<tr>
+						<th>CLIENTE</th>
+						<th>OPERAÇÃO</th>
+						<th>RASTREIO</th>
+						<th>MOTIVO</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of listaStEmail">
+						<td>{{ item.NMCLIENT }}</td>
+						<td>{{ item.DSOPERAC }}</td>
+						<td>{{ (item.SNRASTRE) ? 'Cadastrado' : 'Descadastrado' }}</td>
+						<td>{{ item.MOTIVO   }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="c('Close click')">Fechar</button>
+	</div>
+</ng-template>
+
+<div *ngIf="modalNotas" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; background: #F5F5F5; z-index: 1000; padding: 40px;">
+    <div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+            <h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 10px !important;"><small class="fw-300"><strong>Visualização Notas</strong></small></h3>
+            <button type="button" class="close" aria-label="Close" (click)="closeModalNotas()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div style="padding-top: 20px;">
+            <div *ngFor="let obj of nfeObj">
+                <app-info-nfe [objNotaFiscal]="obj"></app-info-nfe>
+            </div>
+        </div> 
+    </div>
+</div>
+
+<div class="main-content" [hidden]="modalNotas || controlExibir != 1" style="padding-top: 20px;">
+    <app-cards-filter titleDrop="Filtros" nameSubmitFunction="filtrar" nameClearFunction="limparHome" idGrid="EnvioRastreio" [dropdown]="true" [isCollapsed]="true" [context]="this">
+        <form class="form-horizontal" [formGroup]="objFormFilter">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label>Data de Envio (Início)</label>
+                    <app-datapicker-popup navegacao='select' [dataSelecionada]='dtInicioDefault' [mesesDisplay]='1' [desabilitar]='false' [formDatePop]="objFormFilterD" [formControlNameDatePop]="'DTINICIO'" (dataClicada)="dataClick($event)">
+                    </app-datapicker-popup>
+                </div>
+                <div class="col-sm-3">
+                    <label>Data de Envio (Término)</label>
+                    <app-datapicker-popup navegacao='select' [dataSelecionada]='dtTerminoDefault' [mesesDisplay]='1' [desabilitar]='false' [formDatePop]="objFormFilterD" [formControlNameDatePop]="'DTFIM'" (dataClicada)="dataClick($event)">
+                    </app-datapicker-popup>
+                </div>
+                <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                    <label>Número da NF-e</label>
+                    <app-chips-input [typeInput]="'numberText'" [chips]='arIdNfe' [removable]='true' [addOnBlur]='true' [duplicate]='false' [objStyle]="objStyle" [inputSpace]='true'>
+                    </app-chips-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                    <app-single-operacao [objForm]="objFormFilter" [formName]="'G014_IDG014'" [displayName]="'Operação'"
+                    placeholder="Digite para pesquisar">
+                    </app-single-operacao>
+                </div>
+                <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                    <label>Clientes</label>
+                    <app-combobox-multi [url]="url+'filtro/clientes'" [formMultiSelect]="objFormFilterD"
+                        [disabledViewMultiSelect]='false' [formControlNameMultiSelect]="'G005_IDG005'" [showInfo]="showInfo">
+                    </app-combobox-multi>
+                </div>
+                <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                    <label>Número do CTE</label>
+                    <app-chips-input [typeInput]="'numberText'" [chips]='arIdCte' [removable]='true' [addOnBlur]='true' [duplicate]='false' [objStyle]="objStyle" [inputSpace]='true'>
+                    </app-chips-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                    <app-multi-cidade
+                        [objForm]="objFormFilterD"
+                        [formName]="'G003_IDG003'"
+                    ></app-multi-cidade>
+                </div>
+                <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                    <app-multi-estado
+                        [objForm]="objFormFilterD"
+                        [formName]="'G002_IDG002'"
+                    ></app-multi-estado>
+                </div>
+                <div class="form-group col-sm-2 col-md-2 col-lg-2" [formGroup]="objFormFilterD">
+                    <label for="">Envio Manual</label>
+                    <select class="form-control" id="G078_SNENVMAN" name="G078_SNENVMAN" formControlName="G078_SNENVMAN">
+                    <option value="1">Sim</option>
+                    <option value="2" [selected]="true">Não</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </app-cards-filter>
+
+    <div class="row" style="padding-bottom: 20px;">
+        <div class="col-sm-12" style="background: #ebebeb; height: 45px;">
+            <div class="row text-center" >
+                <div class="col-sm-6 optionsView" [ngClass]="{'optionsView-activate': controlExibirTela == 1}" (click)="changeOption(1)">
+                    <h5 class="mt-0 mb-0 text-uppercase">
+                        <small class="fw-300" st>Envio</small>
+                    </h5>
+                </div>
+                <div class="col-sm-6 optionsView" [ngClass]="{'optionsView-activate': controlExibirTela == 2}" (click)="changeOption(2)">
+                    <h5 class="mt-0 mb-0 text-uppercase">
+                        <small class="fw-300" st>Clientes</small>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-cards titleDrop="Registros" idGrid="gridEnvioRastreio" [isCollapsed]="false" [dropdown]="true">
+
+        <app-datagrid
+            [id]="'envioRastreio'"
+            [hidden]="controlExibirTela != 1"
+            [url]="url+'mo/atendimentos/listarEnvioRastreio'"
+            [tela]="355"
+            [telaGlobal]="[{'id' : 'colvis'}]"
+            [telaAcoes]="[{'id' : 1,  'metodo' : 'visualizarRast',   'icone': 'fa fa-eye'}]"
+            [nivel]="0"
+            [stateSave]="true"
+            [thisParent]="this"
+            [allList]="true"
+            [scroll]="500"
+            [notOnLoad]="true"
+            [excelServer]="true"
+            [order]="[9, 'desc']">
+
+            <th data-id="IDG078"     data-object     ="true" data-type-column="actions"         >Ações       </th>
+            <th data-id="NMCLIENTDE" data-align-left ="true" data-function="validaNullMonitoria">Destinatário</th>
+            <th data-id="NMCIDADE"   data-align-left ="true" data-function="validaNullMonitoria">Cidade      </th>
+            <th data-id="NMESTADO"   data-align-left ="true" data-function="validaNullMonitoria">Estado      </th>
+            <th data-id="CJCLIENTDE" data-align-left ="true" data-function="validCnpjCpf"       >CNPJ Dest.  </th>
+            <th data-id="IECLIENTDE" data-align-left ="true" data-function="validaNullMonitoria">IE Dest.    </th>
+            <th data-id="NRNOTA"     data-align-right="true" data-function="validaNullMonitoria">Nº NF       </th>
+            <th data-id="CDCTRC"     data-align-right="true" data-function="validaNullMonitoria">Nº CTE      </th>
+            <th data-id="DSOPERAC"   data-align-left ="true" data-function="validaNullMonitoria">Operação    </th>
+            <th data-id="DTENVIA"    data-align-left ="true" data-function="dataDG"             >Data envio  </th>
+            <th data-id="DSENVPAR"   data-align-left ="true" data-function="validaNullMonitoria">Email       </th>
+        </app-datagrid>
+
+
+        <app-datagrid
+            [id]="'envioRastreioCliente'"
+            [hidden]="controlExibirTela != 2"
+            [url]="url+'mo/atendimentos/listRastreioByClient'"
+            [tela]="355"
+            [telaGlobal]="[{'id' : 'colvis'}]"
+            [telaAcoes]="[{'id' : 97,  'metodo' : 'visualizarStEmailSatisf',   'icone': 'fas fa-eye'},
+                          {'id' : 98,  'metodo' : 'visualizarContatos'     ,   'icone': 'fas fa-eye'}]"
+            [nivel]="0"
+            [stateSave]="true"
+            [thisParent]="this"
+            [allList]="true"
+            [scroll]="500"
+            [notOnLoad]="true"
+            [excelServer]="true">
+
+            <th data-id="IDG005"    data-object     ="true" data-type-column="actions"         >Ações          </th>
+            <th data-id="NMCLIENT"  data-align-left ="true" data-function="validaNullMonitoria">Nome Cliente   </th>
+            <th data-id="CJCLIENT"  data-align-right="true" data-function="validaNullMonitoria">CPF/CNPJ       </th>
+            <th data-id="IECLIENT"  data-align-right="true" data-function="validaNullMonitoria">IE             </th>
+            <th data-id="IMCLIENT"  data-align-right="true" data-function="validaNullMonitoria">IM             </th>
+            <th data-id="NMCIDADE"  data-align-left ="true" data-function="validaNullMonitoria">Cidade - Estado</th>
+            <th data-id="ENVIOS"    data-align-right="true" data-function="validaNullMonitoria">Envios         </th>
+            <th data-id="EMAILS"    data-align-left ="true" data-function="validaNullMonitoria">Emails         </th>
+        </app-datagrid>
+    </app-cards>
+</div>
+
+<app-formulario-contato
+  *ngIf="controlExibir == 2"
+  [nrTela] = "'355'"
+  [idCliente] = "idCliente"
+  (goBack) = "voltarTela($event)"
+></app-formulario-contato>

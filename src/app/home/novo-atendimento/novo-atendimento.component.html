@@ -1,0 +1,742 @@
+<ng-template #modalCargaNfe>
+	<div class="modal-header">
+		<h4 class="modal-title">Detalhes da Carga</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeCargaNfe()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border" *ngIf="controllerCargaPorNfe">
+				<legend class="scheduler-border">Filtrar por CTE</legend>
+				<div class="row">
+					<div class="col-md-3">
+						<app-single-numeroCte [objForm]="objFormFiltrarCargaAux"
+						 [formName]="'G051_CDCTRC'">
+						</app-single-numeroCte>
+					</div>
+					<div class="col-md-3">
+						<label>&nbsp;</label><br />
+						<button type="submit" class="btn btn-info mb-2" (click)="filtrarCargaPorNfe()">Buscar</button>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Notas Atribuídas à esta carga</legend>
+				<app-datagrid [id]="'listarNotasFiscaisCarga'" [url]="url+'mo/deliverynf/listarCargaPorNfe'" [tela]="42"
+				 [telaGlobal]="[
+						{'id' : 25, 'metodo' : 'addNfesSelecionadas', 'icone':'fa fa-plus'}]" [nivel]="0"
+				 [stateSave]="false" [thisParent]="this" [notOnLoad]="true" [allList]="true" initComplete="filtrarCargaPorNfe" [scroll]="500"> 
+					<th data-id="IDG043" data-type-column="checkbox">
+						<label class="custom-control custom-checkbox">
+							<input id="listarNotasFiscaisCarga-select-all" name="select_all" type="checkbox" class="custom-control-input"
+							 value="1" />
+							<span class="custom-control-indicator"></span>
+						</label>
+					</th>
+					<th data-id="NRNOTA">Nº NF</th>
+					<th data-id="G051_CDCTRC">Nº CTe</th>
+					<th data-id="DTEMINOT">Data Emissão NF</th>
+					<th data-id="IDG043" data-function="homeMonitoria" data-function-full="true">Indicadores</th>
+					<th data-id="G051_DTEMICTR" data-align-left="true">Data Emissão CTe</th>
+					<th data-id="G051_DTPREENT" data-align-left="true">Data Pre. Entrega</th>
+					<th data-id="DTENTCON" data-align-left="true">Data Ent. Prometida</th>
+					<th data-id="DTENTREG" data-align-left="true">Data Ent. Realizada</th>
+					<th data-id="DTDELIVE" data-align-left="true">Data Criação</th>
+					<th data-id="G005RE_NMCLIENTRE" data-align-left="true">Emissor</th>
+					<th data-id="G005DE_NMCLIENTDE" data-align-left="true">Destino</th>
+					<th data-id="G003RE_NMCIDADERE" data-align-left="true">Cidade do Emissor</th>
+					<th data-id="G002RE_NMESTADORE" data-align-left="true">Estado do Emissor</th>
+					<th data-id="G003DE_NMCIDADEDE" data-align-left="true">Cidade do Destino</th>
+					<th data-id="G002DE_NMESTADODE" data-align-left="true">Estado do Destino</th>
+					<th data-id="G024_NMTRANSP" data-align-left="true">Transportadora</th>
+				</app-datagrid>
+			</fieldset>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeCargaNfe()">Fechar</button>
+	</div>
+</ng-template>
+
+
+<ng-template #modalAnexoOcorrencia>
+	<div class="modal-header">
+		<h4 class="modal-title">Anexar arquivos na Ocorrência</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeAnexoOcorrencia()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" class="well my-drop-zone box-import">
+							<i class="fas fa-arrow-circle-up iconUpload"></i><br>
+							Arraste os arquivos aqui <br>
+
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="box">
+							<label for="file-5" style="height:100%; width: 100%; padding-top: 10px; cursor: pointer;">
+								<span class="textBIcon">ESCOLHER ARQUIVOS</span>
+							</label>
+							<input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4 custom-file-input" ng2FileSelect
+							 [uploader]="uploader" multiple />
+						</div>
+
+					</div>
+
+					<div class="col-md-12" style="margin-top: 25px;" *ngIf="uploader.queue.length != 0">
+
+
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th width="50%">Nome</th>
+									<th style="text-align: center">Tamanho</th>
+									<th style="text-align: center">Ações</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let item of uploader.queue">
+									<td>
+										<strong>
+											{{ item?.file?.name }}
+										</strong>
+									</td>
+									<td nowrap style="text-align: center">
+										{{ item?.file?.size/1024/1024 | number:'.2' }} MB
+									</td>
+									<td nowrap style="text-align: center">
+										<i class="far fa-trash-alt btTableR cursorIcon" (click)="item.remove()"></i>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="boxer">
+									<label style="height:100%; width: 100%; padding-top: 10px; cursor: pointer;">
+										<span class="textBIconQ"> {{ uploader?.queue?.length }} ARQUIVO(S)</span>
+									</label>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<!-- <div class="col-md-6 text-center">
+                  <button type="button" class="btn btn-succe btBottom" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <i class="fas fa-upload"></i> Enviar todos
+                  </button>
+                </div> -->
+							<div class="col-md-6">
+								<button type="button" class="btn btn-dang btBottom" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+									<i class="far fa-trash-alt"></i> Remover todos
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeAnexoOcorrencia()">Fechar</button>
+	</div>
+</ng-template>
+
+<ng-template #modalViewAnexoOcorrencia>
+	<div class="modal-header">
+		<h4 class="modal-title">Visualizar arquivos na Ocorrência</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeAnexoOcorrencia()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+
+					<div class="col-md-12" style="margin-top: 25px;" *ngIf="listArquivos.length != 0">
+
+
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th style="text-align: left">Nome</th>
+									<th style="text-align: right; width: 20px;">Download</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let item of listArquivos">
+									<td nowrap style="text-align: left">
+										{{ item.NMANEXO }}
+									</td>
+									
+									<td nowrap style="text-align: center">
+										<i class="fas fa-download btTableI cursorIcon" style="cursor: pointer;" (click)="downloadArquivo(item)"></i>
+									</td>
+									
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-12" style="margin-top: 25px;" *ngIf="listArquivos.length == 0 && !carregando">
+						<h4 class="modal-title">Não há arquivos!</h4>
+					</div>
+					<div class="col-md-12" style="margin-top: 25px;" *ngIf="listArquivos.length == 0 && carregando">
+						<h4 class="modal-title">Carregando...</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeAnexoOcorrencia()">Fechar</button>
+	</div>
+</ng-template>
+
+
+<form class="form-horizontal" [formGroup]="objFormNewAtendimento" (ngSubmit)="salvarAtendimento()">
+	<ngx-loading [show]="loadingAtendimento"></ngx-loading>
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Ações</legend>
+				<div class="row">
+					<div class="col-md-3 col-lg-3">
+						<label for="IDA008">Tipo de Ação</label>
+						<select formControlName="IDA008" id="IDA008" name="IDA008" class="form-control" (change)="selectTipoAcao($event)">
+							<option value="0">Selecione</option>
+							<option *ngFor="let item of tiposDeAcaoList;" [ngValue]="item.IDA008">
+								{{ item.DSACAO }}
+							</option>
+						</select>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && (bloqueio || (desbloqueio && vlMarkBloque)) && (!validaSyngenta || (validaSyngenta && desbloqueio))">
+						<label for="">&nbsp;</label>
+						<button type="button" class="btn btn-{{classButtonMarkBlock}} btn-block" (click)="setMarkBlock();" [disabled]="desbloqueio && vlMarkBloque">
+							{{txtButtonMarkBlock}}
+						</button>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio">
+						<label for="">&nbsp;</label>
+						<button type="button" class="btn btn-{{classButtonChangeDatas}} btn-block" (click)="changeDates();" [disabled]="
+								this.objFormNewAtendimento.controls['IDA008'].value != 1 ||
+								 !controllerTouchedDataReasonCode || !controllerTouchedRecusaNota || !controllerTouchedCancelaRecusa || !controllerTouchedDataRemove">
+							{{txtButtonChangeDatas}}
+						</button>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio">
+						<label for="">&nbsp;</label>
+						<button type="button" class="btn btn-{{classButtonSelecionarNotas}} btn-block" (click)="checkarNotas();"
+						 [disabled]="
+								(this.objFormNewAtendimento.controls['IDA008'].value != 1 && this.objFormNewAtendimento.controls['IDA008'].value != 2) || !controllerTouchedCancelaRecusa">
+							{{txtButtonSelecionarNotas}}
+						</button>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio && (TPMODCAR == 2 || TPMODCAR == 3)">
+						<label for="">&nbsp;</label>
+						<button
+							type="button"
+							class="btn btn-{{classButtonChangeDatasReasonCode}} btn-block"
+							(click)="changeDatesReasonCode();"
+							[disabled]="
+								this.objFormNewAtendimento.controls['IDA008'].value != 1 || !controllerTouchedData || !controllerTouchedRecusaNota || !controllerTouchedCancelaRecusa || !controllerTouchedDataRemove">
+							{{txtButtonReasonCode}}
+						</button>
+					</div>
+					<!-- Quando o botão de reason code estiver ativo, deixo espaço em branco de 3 para alinhar os botões com o de cima para que a quebra de linha fique harmoniosa -->
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio && (TPMODCAR == 2 || TPMODCAR == 3)">
+						<label for="">&nbsp;</label>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio && DTENTREG && SNADMIN == 1">
+						<label for="">&nbsp;</label>
+						<button
+							type="button"
+							class="btn btn-{{classButtonRemoveEntrega}} btn-block"
+							(click)="changeDataEntregaRemove();"
+							[disabled]="
+								this.objFormNewAtendimento.controls['IDA008'].value != 1 || !controllerTouchedData || !controllerTouchedRecusaNota || !controllerTouchedCancelaRecusa|| !controllerTouchedDataReasonCode">
+							{{txtButtonRemoveEntrega}}
+						</button>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio && TPMODCAR != 2 && TPMODCAR != 3 && (DTENTREG && SNADMIN)">
+						<label for="">&nbsp;</label>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio">
+						<label for="">&nbsp;</label>
+						<button
+							type="button"
+							class="btn btn-{{classButtonRecusaNotas}} btn-block"
+							(click)="recusaNotas();"
+							[disabled]="
+								(this.objFormNewAtendimento.controls['IDA008'].value != 1 || !controllerTouchedData  || !controllerTouchedDataReasonCode || !controllerTouchedDataRemove) || STRECUSA > 0 || SNFIMREC == 1 || SNREC3PL">
+							{{txtButtonRecusa}}
+						</button>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio && (STRECUSA > 0 || SNFIMREC == 1 || SNREC3PL) && (TPMODCAR != 2 && TPMODCAR != 3) && !DTENTREG">
+						<label for="">&nbsp;</label>
+					</div>
+					<div class="col-md-3 col-lg-3" *ngIf="!IDA001 && !bloqueio && !desbloqueio && (STRECUSA > 0 || SNFIMREC == 1 || SNREC3PL) ">
+						<label for="">&nbsp;</label>
+						<button
+							type="button"
+							class="btn btn-{{classButtonCancelaRecusaNotas}} btn-block"
+							(click)="cancelaRecusa();"
+							[disabled]="
+								(this.objFormNewAtendimento.controls['IDA008'].value != 1 || !controllerTouchedData  || !controllerTouchedDataReasonCode || !controllerTouchedDataRemove)">
+							{{txtButtonCancelaRecusa}}
+						</button>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Datas</legend>
+				<div class="row auxRow">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Emissão NF-e:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTEMINOT ? (DTEMINOT ): ('n.i.') }}
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Emissão CT-e:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTEMICTR ? (DTEMICTR ): ('n.i.') }}
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Data SLA:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTENTCON ? (DTENTCON ): ('n.i.') }}
+					</div>
+				</div>
+				<div class="row separator"></div>
+				<div class="row auxRow">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Entrega Planejada:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTENTPLA ? (DTENTPLA): ('n.i.') }}
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Entrega:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+						{{ DTENTREG ? (DTENTREG ): ('n.i.') }}
+					</div>
+					<!-- <div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Previsão Corretiva
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2">
+						<app-input
+							name="DTPRECOR"
+							typeMask="data"
+							[formInput] = "objFormNewAtendimento"
+							[formControlNameInput] = "'DTPRECOR'"
+							[disabled] = "IDA001 || !vlChangeDatas || 
+							(
+								objFormNewAtendimento.controls['DTCOMBIN'].value != '' &&
+										objFormNewAtendimento.controls['DTCOMBIN'].value != null &&
+										objFormNewAtendimento.controls['DTCOMBIN'].touched
+									)"
+						>
+						</app-input>
+					</div> -->
+				</div>
+				<div class="row separator"></div>
+				<!-- <div class="row auxRow">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Entrega:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+
+						{{ DTENTREG ? (DTENTREG | date:'dd/MM/yyyy' :'+0000'): ('n.i.') }}
+
+						{{ DTENTREG ? (DTENTREG ): ('n.i.') }}
+					</div>					
+				</div> -->
+				<div class="row auxRow">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Entrega:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2">
+						<app-input
+							name="DTENTREG"
+							typeMask="data"
+							[formInput] = "objFormNewAtendimento"
+							[formControlNameInput] = "'DTENTREG'"
+							[disabled] = " IDA001 || ((TPMODCAR == 2 || TPMODCAR == 3) && vlChangeDatas) || ((TPMODCAR != 2 || TPMODCAR != 3) && vlChangeDatas && !SNADMIN) || (!vlChangeDatas && !vlChangeDatasReasonConde)"
+						>
+						</app-input>
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Entrega Planejada:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2">
+						<app-input
+							name="DTENTPLA"
+							typeMask="data"
+							[formInput] = "objFormNewAtendimento"
+							[formControlNameInput] = "'DTENTPLA'"
+							[disabled] = " IDA001 || (!vlChangeDatasReasonConde && !vlChangeDatas) || ((TPMODCAR == 2 || TPMODCAR == 3) && vlChangeDatas) || ((TPMODCAR != 2 || TPMODCAR != 3) && vlChangeDatas && !SNADMIN)"
+						>
+						</app-input>
+					</div>
+				</div>
+				<div class="row separator"></div>
+				<div class="row auxRow">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Agendada:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2">
+						<app-input name="DTAGENDA" typeMask="data" [formInput]="objFormNewAtendimento" [formControlNameInput]="'DTAGENDA'"
+						 [disabled]="
+									(
+										objFormNewAtendimento.controls['DTCOMBIN'].value != '' &&
+										objFormNewAtendimento.controls['DTCOMBIN'].value != null &&
+										objFormNewAtendimento.controls['DTCOMBIN'].touched
+									) ||
+									(
+										objFormNewAtendimento.controls['DTCOMBIN'].value != '' &&
+										objFormNewAtendimento.controls['DTCOMBIN'].value != null &&
+										objFormNewAtendimento.controls['DTCOMBIN'].touched
+
+									) || IDA001 || !vlChangeDatas || vlChangeDatasReasonConde"
+						>
+
+						</app-input>
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Roteirização:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2">
+						<app-input name="DTROTERI" typeMask="data" [formInput]="objFormNewAtendimento" [formControlNameInput]="'DTROTERI'"
+						 [disabled]="IDA001 || !vlChangeDatas || vlChangeDatasReasonConde"
+						>
+						</app-input>
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Dt Combinada:
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2">
+						<app-input name="DTCOMBIN" typeMask="data" [formInput]="objFormNewAtendimento" [formControlNameInput]="'DTCOMBIN'"
+						 [disabled]="
+									(
+										objFormNewAtendimento.controls['DTAGENDA'].value != '' &&
+										objFormNewAtendimento.controls['DTAGENDA'].value != null &&
+										objFormNewAtendimento.controls['DTAGENDA'].touched
+									) 
+									||
+									(
+										objFormNewAtendimento.controls['DTPRECOR'].value != '' &&
+										objFormNewAtendimento.controls['DTPRECOR'].value != null &&
+										objFormNewAtendimento.controls['DTPRECOR'].touched
+
+									) || IDA001 || !vlChangeDatas || vlChangeDatasReasonConde">
+						</app-input>
+					</div>
+				</div>
+
+				<div class="row separator" *ngIf="showRecusaInfo && (TPMODCAR == 2 || TPMODCAR == 3)"></div>
+				<div class="row auxRow" *ngIf="showRecusaInfo && (TPMODCAR == 2 || TPMODCAR == 3)">
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Protocolo Syngenta
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2">
+						<app-input name="NRPROTOC"  [formInput]="objFormNewAtendimento" [formControlNameInput]="'NRPROTOC'"
+						 [disabled]= "IDA001 || vlChangeDatas || vlChangeDatasReasonConde || !vlRecusaNotas"
+						>
+
+						</app-input>
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+						Nota devolvida?
+					</div>
+					<div class="col-md-2 col-lg-2 col-xl-2" [formGroup]="objFormNewAtendimento">
+							<select [formControl]="" class="form-control" id="SNDEVNOT" name="SNDEVNOT" formControlName="SNDEVNOT" >
+								<option value="N" [selected]="true">Não</option>
+								<option value="S">Sim</option>
+							</select>
+					</div>
+					
+				</div>
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<fieldset class="scheduler-border">
+				<legend class="scheduler-border">Conteúdo do Atendimento</legend>
+
+				<div class="row auxRow">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card card-body my-bg">
+									<div class="d-flex">
+										<div class="mr-auto">
+											<h5 class="mt-0 mb-0 text-uppercase">
+												<small class="fw-300">Notas Atribuídas ao Atendimento </small>
+											</h5>
+										</div>
+									</div>
+
+									<div style="margin-top: 15px">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th scope="col">Número</th>
+													<th scope="col">CTE</th>
+													<th scope="col">Dt Emissão</th>
+													<th scope="col">Modelo</th>
+													<th scope="col">Série</th>
+													<th scope="col">Remover</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let item of listNfeSelecionadas;let i = index">
+													<td>{{ item.NRNOTA }}</td>
+													<td>{{ item.CDCTRC }}</td>
+													<td>{{ item.DTEMINOT  }}</td>
+													<td>{{ item.DSMODENF }}</td>
+													<td>{{ item.NRSERINF }}</td>
+													<td>
+														<button *ngIf="listNfeSelecionadas.length > 1 && !IDA001" type="button" (click)="removeNfeSelecionada(i)"
+														 class="btn btn-info">
+															<i class="fa fa-trash"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row auxRow" *ngIf="!showCancelaRecusaInfo">
+					<div class="form-group col-md-4 col-lg-4">
+						<label for="IDA002">Motivo</label>
+						<select formControlName="IDA002" id="IDA002" name="IDA002" class="form-control" (change)="selecionaMotivo($event)">
+							<option value="" selected>Selecione</option>
+							<option *ngFor="let item of listMotivos;" [ngValue]="item.IDA002">
+								{{ item.DSTPMOTI }}
+							</option>
+						</select>
+					</div>
+					<div class="form-group col-md-3 col-lg-3">
+						<app-single-usuario-sac [objForm]="objFormNewAtendimento" [displayName]="'Direcionar para:'" [formName]="'IDS001DE'">
+						</app-single-usuario-sac>
+					</div>
+
+					<div class="form-group col-md-3 col-lg-3">
+						<label for="NMSOLITE">Solicitante</label>
+						<input id="NMSOLITE" type="text" name="NMSOLITE" formControlName="NMSOLITE" class="form-control" placeholder="Nome do Solicitante">
+					</div>
+
+					<div class="form-group col-md-2 col-lg-2">
+						<label for="TFSOLITE">Tel. Solic.</label>
+						<input id="TFSOLITE" type="text" name="TFSOLITE" formControlName="TFSOLITE" class="form-control" placeholder="Telefone do Solicitante">
+					</div>
+				</div>
+
+				<div class="row" *ngIf="arrConfigMotivo.length > 0">
+					<div *ngFor="let config of arrConfigMotivo" class="form-group col-sm-4 col-md-4 col-lg-4">
+
+						<label for="config.NMCAMPO">{{config.NMLABEL}}</label>
+						<input
+							class	="form-control"
+							[id]	="config.NMCAMPO"
+							[type]="objTypeInput[config.TPINPUT]"
+							[(ngModel)]="config.VRCAMPO"
+							[ngModelOptions]="{standalone: true}"
+							[required]="(config.SNOBRIGA == 1)"
+							[disabled]="disabledConfig"
+						>
+
+					</div>
+				</div>
+
+				<div class="row" *ngIf="!IDA001 && !bloqueio && !desbloqueio && !showCancelaRecusaInfo && !vlRemoveEntrega">
+					<div class="form-group col-sm-6">
+						<label for="NMGRUPOC">Enviar Para</label>
+						<app-combobox-multi
+							[url]="url+'filtro/buscarContatoAtendimento'"
+							[formMultiSelect] = "objFormNewAtendimento"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'NMGRUPOC'">
+						</app-combobox-multi>
+					</div>
+				</div>
+
+				<div class="row auxRow" *ngIf="!IDA001 && !showCancelaRecusaInfo">
+					<div class="form-group col-sm-12 col-md-12 col-lg-12">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text">Descrição:</span>
+							</div>
+							<textarea maxlength="3900" class="form-control" formControlName="DSOBSERV" rows="6" aria-label="Descrição" >
+							</textarea><br/>																				
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="!IDA001 && !showCancelaRecusaInfo">
+					<!-- Contador de caracteres restantes -->
+					<p>&nbsp; {{3900 - ( objFormNewAtendimento.controls['DSOBSERV'].value != null ? objFormNewAtendimento.controls['DSOBSERV'].value.length : 0) }} caracteres restantes</p>
+				</div>
+				<br />
+
+				<br />
+
+				<!-- <div class="row auxRow" *ngIf="!vlChangeDatasReasonConde">
+					<div class="col-md-{{ IDA001 ? '8':'3' }}"></div>
+					<div class="col-md-2" *ngIf="!auxViews" >
+						<button
+							type="button"
+							class="btn btn-primary btn-block"
+							icon="fas fa-upload"
+							(click)="openModalAnexoOcorrencia();">
+							<i _ngcontent-c25="" class="fas fa-upload"></i> &nbsp;Anexo
+						</button>
+					</div>
+				</div> -->
+
+				<br />
+
+				<div class="row auxRow" *ngIf="!vlChangeDatasReasonConde && !vlRemoveEntrega && !showRecusaInfo && !showCancelaRecusaInfo">
+					<div class="col-md-{{ IDA001 ? '10':'3' }}"></div>
+					<div class="col-md-2" *ngIf="!IDA001" >
+						<button
+							type="button"
+							class="btn btn-primary btn-block"
+							icon="fas fa-upload"
+							(click)="openModalAnexoOcorrencia();">
+							<i _ngcontent-c25="" class="fas fa-upload"></i> &nbsp;Anexo
+						</button>
+					</div>
+					<div class="col-md-2" *ngIf="!IDA001">
+						<button type="button" class="btn btn-primary btn-block" [disabled]="bloqueio || desbloqueio || !controllerTouchedData || objFormNewAtendimento.controls['IDA002'].value == 143" (click)="salvarAtendimento();">
+							<i _ngcontent-c25="" class="fa fa-save"></i> Salvar
+						</button>
+					</div>
+					<div class="col-md-3" *ngIf="!IDA001">
+						<button type="button" class="btn btn-success btn-block" [disabled]="this.objFormNewAtendimento.controls['IDS001DE'].value && !bloqueio && !desbloqueio"
+						 (click)="salvarFinalizarAtendimento();">
+							<i _ngcontent-c25="" class="fa fa-save"></i> &nbsp;Salvar&nbsp;e&nbsp;Finalizar
+						</button>
+					</div>
+					<div class="col-md-2" *ngIf="!IDA001">
+						<app-botoes class="danger btn-block" text="Cancelar" icon="fa fa-times" (click)="backToListAtendimentos();">
+						</app-botoes>
+					</div>
+					<div class="col-md-2" *ngIf="IDA001">
+						<button type="button" class="btn btn-primary btn-block" icon="fas fa-eye" (click)="openModalViewAnexoOcorrencia();">
+							<i _ngcontent-c25="" class="fas fa-eye"></i> &nbsp;Visualizar&nbsp;Anexo&nbsp;
+						</button>
+					</div>
+				</div>
+				<!-- Botões de salvar reason code -->
+				<div class="row auxRow" *ngIf="vlChangeDatasReasonConde">
+					<div class="col-md-{{ IDA001 ? '10':'7' }}"></div>
+					<div class="col-md-3" *ngIf="!IDA001">
+						<button
+							type="button"
+							class="btn btn-success btn-block"
+							[disabled]="this.objFormNewAtendimento.controls['IDS001DE'].value && !bloqueio && !desbloqueio"
+							(click)="salvarFinalizarAtendimentoReasonCode();"
+							>
+							<i _ngcontent-c25="" class="fa fa-save"></i> &nbsp;Alterar&nbsp;Datas&nbsp;4PL
+						</button>
+					</div>
+					<div class="col-md-2" *ngIf="!IDA001">
+						<app-botoes class="danger btn-block" text="Cancelar" icon="fa fa-times" (click)="backToListAtendimentos();">
+						</app-botoes>
+					</div>
+
+				</div>
+				<!-- Botão para remover data de entrega -->
+				<div class="row auxRow" *ngIf="vlRemoveEntrega">
+					<div class="col-md-{{ IDA001 ? '10':'7' }}"></div>
+					<div class="col-md-3" *ngIf="!IDA001">
+						<button
+							type="button"
+							class="btn btn-success btn-block"
+							[disabled]="this.objFormNewAtendimento.controls['IDS001DE'].value && !bloqueio && !desbloqueio"
+							(click)="removerDataEntrega();"
+							>
+							<i _ngcontent-c25="" class="fa fa-trash"></i> &nbsp;Remover&nbsp;Data&nbsp;de&nbsp;Entrega
+						</button>
+					</div>
+					<div class="col-md-2" *ngIf="!IDA001">
+						<app-botoes class="danger btn-block" text="Cancelar" icon="fa fa-times" (click)="backToListAtendimentos();">
+						</app-botoes>
+					</div>
+
+				</div>
+				<!-- Botões de salvar recusa -->
+				<div class="row auxRow" *ngIf="showRecusaInfo">
+					<div class="col-md-{{ IDA001 ? '10':'7' }}"></div>
+					<div class="col-md-3" *ngIf="!IDA001 ">
+						<button
+							type="button"
+							class="btn btn-success btn-block"
+							[disabled]="this.objFormNewAtendimento.controls['IDS001DE'].value && !bloqueio && !desbloqueio"
+							(click)="salvarFinalizarAtendimentoRecusa();"
+							>
+							<i _ngcontent-c25="" class="fa fa-save"></i> &nbsp;Confirmar&nbsp;Recusa?
+						</button>
+					</div>
+					<div class="col-md-2" *ngIf="!IDA001">
+						<app-botoes class="danger btn-block" text="Cancelar" icon="fa fa-times" (click)="backToListAtendimentos();">
+						</app-botoes>
+					</div>
+
+				</div>
+
+				<div class="row auxRow" *ngIf="showCancelaRecusaInfo">
+					<div class="col-md-{{ IDA001 ? '10':'7' }}"></div>
+					<div class="col-md-3" *ngIf="!IDA001 ">
+						<button
+							type="button"
+							class="btn btn-success btn-block"
+							[disabled]="this.objFormNewAtendimento.controls['IDS001DE'].value && !bloqueio && !desbloqueio"
+							(click)="cancelamentoRecusa();"
+							>
+							<i _ngcontent-c25="" class="fa fa-save"></i> &nbsp;Confirmar&nbsp;Cancelamento&nbsp;da&nbsp;Recusa?
+						</button>
+					</div>
+					<div class="col-md-2" *ngIf="!IDA001">
+						<app-botoes class="danger btn-block" text="Cancelar" icon="fa fa-times" (click)="backToListAtendimentos();">
+						</app-botoes>
+					</div>
+				</div>
+
+			</fieldset>
+		</div>
+	</div>
+</form>

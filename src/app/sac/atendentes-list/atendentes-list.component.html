@@ -1,0 +1,46 @@
+<div style="margin-top: 10px;">	
+	<div class="row">
+		<div class="col-sm-12 col-md-6 col-lg-6 col-xl-4" *ngFor="let item of arrayDNada" >
+			<div class="card card-body card-widget bg-my card-inverse" (click)="item.selected = !item.selected; selecionados();" [ngClass]="{'disabled': !item.selected}">
+				<a href="javascript:;">
+					<img src="{{item.img}}" class="avatar-md rounded-circle" alt="">
+				</a>
+				<div class="pl-3 pr-3">
+					<p class="ff-headers mb-0 text-uppercase">
+						{{item.NMUSUARI}}<br/>
+						<strong>{{item.sobreN}} </strong>
+						<i class="fas fa-circle" [ngClass]="{'circleTopGreen': item.status == 0, 'circleTopRed': item.status == 1}"></i>
+					</p>
+					<small class="d-block fontSm">#Ocorrências: {{item.QTD_OCORRENCIAS}}</small>
+					<small class="d-block fontSm">#Atendimentos: {{item.QTD_ATENDIMENTOS}}</small>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			Filtrando por {{nmFilter}} de {{arrayDNada.length}} atendentes
+		</div>
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-2">
+			<button 
+				type="button"
+				class="btn btn-primary btn-block"
+				(click)="checkAll();"
+				>
+				<i _ngcontent-c25="" class="fa fa-check-circle"></i> Marcar Todos
+			</button>
+		</div>
+		<div class="col-md-2">
+			<button 
+				type="button"
+				class="btn btn-danger btn-block"
+				(click)="uncheckAll();"
+				>
+				<i _ngcontent-c25="" class="fa fa-check-circle"></i> Desmarcar Todos
+			</button>
+		</div>
+	</div>
+</div>

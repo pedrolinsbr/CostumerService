@@ -1,0 +1,128 @@
+<ng-template #modalConfirmaEnvio>
+	<div class="modal-header">
+			<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;"><small class="fw-300">Confirmação de Envio</small></h3>
+		<button type="button" class="close" aria-label="Close" (click)="closeModalConfirmaEnvioNps()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" style="color: #464444">
+		<div class="row">
+			<div class="col-md-12">
+			  	Tem certeza que deseja enviar para o(s) contato(s) selecionado(s)?
+			</div>
+		</div>
+		<ul class="list-group" *ngIf="!envSyngenta">
+			<li class="list-group-item list-group-item-info">{{ objFormNpsEmailCliente.controls['DSEMAIL'].value }}</li>
+		</ul>
+		<ul class="list-group" *ngIf="envSyngenta">
+			<li class="list-group-item list-group-item-info">{{ objFormNpsEmailCliente.controls['DSEMASYN'].value }}</li>
+		</ul>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="enviarNps()">Enviar</button>
+		<button type="button" class="btn btn-danger" (click)="closeModalConfirmaEnvioNps()">Cancelar</button>
+	</div>
+</ng-template>
+
+<div class="row">
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border">Compartilhar NPS</legend>
+			
+			<form class="form-horizontal" *ngIf="objEnvioNps.IDG043 && objEnvioNps.IDG051 && objEnvioNps.IDG005CO" [formGroup]="objFormNpsEmailCliente" (ngSubmit) = "enviarNps()">
+				<div class="row" *ngIf="!objEnvioNps.DSEMAIL && !envSyngenta">
+					<div class="col-md-12">
+						<div class="alert alert-warning" role="alert">
+							<strong>Ops!</strong> Não foi encontrado um e-mail para este cliente.
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="!objEnvioNps.DSEMASYN && envSyngenta">
+					<div class="col-md-12">
+						<div class="alert alert-warning" role="alert">
+							<strong>Ops!</strong> Não foi encontrado um e-mail para este cliente.
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="!objEnvioNps.DTBLOQUE || (objEnvioNps.DTBLOQUE && !objEnvioNps.DTDESBLO)">
+					<div class="col-md-12">
+						<div class="alert alert-warning" role="alert">
+							<strong>Atenção!</strong> Confira o e-mail antes de clicar em <strong>enviar pesquisa</strong>.
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="!objEnvioNps.DTBLOQUE || (objEnvioNps.DTBLOQUE && objEnvioNps.DTDESBLO)">
+					<div class="col-md-12">
+						<div class="alert alert-warning" role="alert">
+							<strong>Atenção!</strong> Você pode separar vários e-mails utilizando vírgula como delimitador.
+						</div>
+					</div>					
+				</div>
+				<div class="row" *ngIf="(!objEnvioNps.DTBLOQUE && !envSyngenta) || (objEnvioNps.DTBLOQUE && objEnvioNps.DTDESBLO && !envSyngenta)">
+					<div class="form-group col-md-4 col-lg-4">
+						<label for="DSEMAIL">E-mail do Cliente: </label>
+						<input
+							id="DSEMAIL"
+							type="text"
+							name="DSEMAIL"
+							formControlName="DSEMAIL"
+							class="form-control"
+							value=""
+							placeholder="E-mail do Cliente"
+						>
+					</div>
+					<div class="col-md-2 col-lg-2">
+						<label for="">&nbsp;</label>
+						<button
+							type="button"
+							class="btn btn-primary btn-block"
+							(click)="showModalConfirmaEnvio();"
+							[disabled]="
+								(!this.objFormNpsEmailCliente.controls['DSEMAIL'].value || this.objFormNpsEmailCliente.controls['DSEMAIL'].value == '')">
+							<i class="fas fa-share-alt"></i> &nbsp; Enviar Pesquisa
+						</button>
+					</div>
+				</div>
+				<div class="row" *ngIf="(!objEnvioNps.DTBLOQUE && envSyngenta) || (objEnvioNps.DTBLOQUE && objEnvioNps.DTDESBLO && envSyngenta)">
+					<div class="form-group col-md-4 col-lg-4">
+						<label for="DSEMASYN">E-mail do Cliente: </label>
+						<input
+							id="DSEMASYN"
+							type="text"
+							name="DSEMASYN"
+							formControlName="DSEMASYN"
+							class="form-control"
+							value=""
+							placeholder="E-mail do Cliente"
+						>
+					</div>
+					<div class="col-md-2 col-lg-2">
+						<label for="">&nbsp;</label>
+						<button
+							type="button"
+							class="btn btn-primary btn-block"
+							(click)="showModalConfirmaEnvio();"
+							[disabled]="
+								(!this.objFormNpsEmailCliente.controls['DSEMASYN'].value || this.objFormNpsEmailCliente.controls['DSEMASYN'].value == '')">
+							<i class="fas fa-share-alt"></i> &nbsp; Enviar Pesquisa
+						</button>
+					</div>
+				</div>
+				<div class="row" *ngIf="objEnvioNps.DTBLOQUE && !objEnvioNps.DTDESBLO">
+					<div class="col-md-12">
+						<div class="alert alert-danger" role="alert">
+							A nota fiscal está bloqueada.
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="row" *ngIf="!objEnvioNps.IDG043 || !objEnvioNps.IDG051 || !objEnvioNps.IDG005CO">
+				<div class="col-md-12">
+					<div class="alert alert-danger" role="alert">
+						<strong>Ops!</strong> Não há informações suficientes para prosseguir com o envio do NPS.
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>

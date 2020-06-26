@@ -1,0 +1,133 @@
+<app-indicadores-group [objIndicadoresHome]="indicadores"></app-indicadores-group>
+
+<app-cards-filter
+	titleDrop="Filtros"
+	nameSubmitFunction="initCharts"
+	nameClearFunction="limpar"
+	[dropdown]="true"
+	[isCollapsed]="true"
+	[context]="this">
+
+	<form class="form-horizontal" [formGroup]="objFormFilterDashboardAux" >
+		<div class="row">
+			<div class="form-group col-sm-3 col-md-3 col-lg-3">
+				<label for="">Visão por</label>
+				<select class="form-control" id="VISAO" name="VISAO" formControlName="VISAO" >
+					<option value="CTE" >CTE</option>
+					<option value="NF" selected>NF</option>
+				</select>
+			</div>
+			<div class="form-group col-sm-3 col-md-3 col-lg-3">
+				<label>Data Início</label>
+				<app-datapicker-popup
+					navegacao='select'
+					[dataMinima]='dataMinima'
+					[dataMaxima]='dataMaxima'
+					[dataSelecionada]='dtInicioDefault'
+					[mesesDisplay]='1'
+					[desabilitar]='false'
+					[formDatePop]="objFormFilterDashboardAux"
+					[formControlNameDatePop]="'DTINICIO'"
+					(dataClicada)="dataClick($event)">
+				</app-datapicker-popup>
+			</div>
+
+			<div class="form-group col-sm-3 col-md-3 col-lg-3">
+				<label>Data Término</label>
+				<app-datapicker-popup
+					navegacao='select'
+					[dataMinima]='dataMinima'
+					[dataMaxima]='dataMaxima'
+					[dataSelecionada]='dtTerminoDefault'
+					[mesesDisplay]='1'
+					[desabilitar]='false'
+					[formDatePop]="objFormFilterDashboardAux"
+					[formControlNameDatePop]="'DTFIM'"
+					(dataClicada)="dataClick($event)">
+				</app-datapicker-popup>
+			</div>
+			<div class="form-group col-sm-3 col-md-3 col-lg-3">
+				<label >Tomador:</label>
+				<app-combobox-multi
+					[url]="url+'filtro/tomadores'"
+					[formMultiSelect] = "objFormFilterDashboardAux"
+					[disabledViewMultiSelect] = 'false'
+					[formControlNameMultiSelect] = "'G014_IDG014'">
+				</app-combobox-multi>
+			</div>
+		</div>
+	</form>
+</app-cards-filter>
+
+
+<br />
+<!-- Loader -->
+<div *ngIf="isLoading && !realizouFiltro && !errorFound" class="alert alert-warning" role="alert">
+	<div class="row vertical-align">
+		<div class="col-xs-2">
+			<i class="fa fa-spinner fa-spin fa-5x"></i> 
+		</div>
+		<div class="col-xs-10">
+			&nbsp;<strong>Carregando...</strong>
+		</div>
+	</div>
+</div>
+<!-- Gráficos abaixo. -->
+<div *ngIf="realizouFiltro  && !errorFound">
+	<div class="row">
+		<div class="col-md-12 col-lg-12 col-xl-12">
+			<div class="card">
+				<div class="card-header text-white bg-info text-center">
+					Demanda
+				</div>
+				<div class="card-body">
+					<div echarts [options]="objVisaoDemanda" ></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-lg-6 col-xl-6">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header text-white bg-info text-center">
+							Entregas no prazo - Percentual
+						</div>
+						<div class="card-body">
+							<div echarts [options]="objEntregasPrazo" ></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-6 col-xl-6">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header text-white bg-info text-center">
+							Dias em Atraso - Previsão de Entrega
+						</div>
+						<div class="card-body" *ngIf="!noValueDiasAtraso">
+							<div echarts [options]="objDiasAtrazo"></div>
+						</div>
+						<div *ngIf="noValueDiasAtraso" class="alert alert-warning" role="alert">
+							<strong>Atenção!</strong> Não há resultados a serem exibidos.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Erro encontrado durante o carregamento dos gráficos. -->
+<div *ngIf="errorFound" class="alert alert-danger" role="alert">
+	<div class="row vertical-align">
+		<div class="col-xs-2">
+			<i class="fa fa-frown fa-5x"></i> 
+		</div>
+		<div class="col-xs-10">
+			&nbsp;<strong>Ops!</strong> Não foi possível carregar os gráficos.
+		</div>
+	</div>
+</div>

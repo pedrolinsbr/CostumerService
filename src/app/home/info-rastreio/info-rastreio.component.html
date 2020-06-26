@@ -1,0 +1,397 @@
+
+<div class="row" [hidden]="!resumido">
+
+	<ng-template #modalConfirmaExclusao>
+		<div class="modal-header">
+				<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;"><small class="fw-300">Confirmação remoção</small></h3>
+			<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" style="color: #464444">
+			<div class="row">
+				<div class="col-md-12">
+						Tem certeza que deseja excluir o canhoto?
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-success" (click)="removerCanhoto(objSelected)">Sim</button>
+			<button type="button" class="btn btn-danger" (click)="closeModal()">Não</button>
+		</div>
+		<ngx-loading [show]="loadingModal" ></ngx-loading>
+	</ng-template>
+	
+	<ng-template #modalUploadCanhoto>
+		<div class="modal-header">
+			<h4 class="modal-title">Upload do Canhoto</h4>
+			<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" *ngIf="!validaAg">
+			
+			<div class="card">
+			<div class="card-body">
+			  <div class="row">
+				<div class="col-md-12">
+				  <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" 
+					class="well my-drop-zone box-import">
+					<i class="fas fa-arrow-circle-up iconUpload"></i><br>
+					Arraste os arquivos aqui <br>
+	
+				  </div>
+				</div>
+				<div class="col-md-12">
+				  <div class="box">
+					<label for="file-5" style="height:100%; width: 100%; padding-top: 10px; cursor: pointer;">
+					  <span class="textBIcon">ESCOLHER ARQUIVOS</span>
+					</label>
+					<input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4 custom-file-input" ng2FileSelect [uploader]="uploader" multiple/>
+				  </div>
+	
+				</div>
+	
+				<div class="col-md-12" style="margin-top: 25px;" *ngIf="uploader.queue.length != 0">
+				
+	
+				  <table class="table table-striped">
+					<thead>
+					  <tr>
+						<th width="50%">Nome</th>
+						<th style="text-align: center">Tamanho</th>
+						<!-- <th style="text-align: center">Status</th> -->
+						<th style="text-align: center">Ações</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr *ngFor="let item of uploader.queue">
+						<td>
+						  <strong>
+							{{ item?.file?.name }}
+						  </strong>
+						</td>
+						<td  nowrap style="text-align: center">
+						  {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+						</td>
+
+						<!-- <td class="text-center" style="text-align: center">
+							<span *ngIf="item.isSuccess">
+								<i class="fas fa-upload btTableI"></i>
+							</span> -->
+							<!-- <span *ngIf="item.isCancel">
+								<i class="far fa-times-circle btTableC"></i>
+							</span> -->
+							<!-- <span *ngIf="item.isError">
+								<i class="far fa-times-circle btTableR cursorIcon" tooltip="Erro ao enviar"></i>
+							</span>
+						</td> -->
+
+						<td nowrap style="text-align: center">
+							<!-- <i class="fas fa-upload btTableI cursorIcon" (click)="alertaDev()"></i>  &nbsp; -->
+							<i class="far fa-trash-alt btTableR cursorIcon" (click)="item.remove()"></i>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+	
+				  <div class="row">
+					<div class="col-md-12">
+					  <div class="boxer">
+						<label style="height:100%; width: 100%; padding-top: 10px; cursor: pointer;">
+						  <span class="textBIconQ">  {{ uploader?.queue?.length }} ARQUIVO(S)</span>
+						</label>
+					  </div>
+					</div>
+				  </div>
+	
+	
+				  <div class="row">
+					<div class="col-md-6 text-center">
+					  <button type="button" class="btn btn-succe btBottom" (click)="validaUsuario()" [disabled]="!uploader.getNotUploadedItems().length">
+						<i class="fas fa-upload"></i> Enviar todos
+					  </button>
+					</div>
+					<div class="col-md-6">
+					  <button type="button" class="btn btn-dang btBottom" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+						<i class="far fa-trash-alt"></i> Remover todos
+					  </button>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+	
+	
+		</div>
+
+		<div class="col-md-12">
+				<div class="card card-body ">
+					<div style="margin-top: 15px">
+						<div class="table-responsive">
+								<div class="mr-auto">
+										<h3 class="mt-0 mb-0 text-uppercase">
+											<small class="fw-300">Canhoto(s)</small>
+										</h3>
+									</div>
+		
+							<div class="col-md-12" *ngIf="listCanhoto.length != 0">
+		
+		
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th style="text-align: left;">Nº NF</th>
+											<th style="text-align: left;">Nome</th>
+											<th style="text-align: right; width: 20px;">Download</th>
+											<th style="text-align: right; width: 20px;">Remover</th>
+											<!-- <th style="text-align: right; width: 20px;" *ngIf="syngenta">Gerar XML</th> -->
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of listCanhoto">
+											<td nowrap style="text-align: left">
+												{{ numNF }}
+											</td>
+											<td nowrap style="text-align: left">
+												{{ item.NMDOCUME }}
+											</td>
+											<td nowrap style="text-align: center">
+												<i class="fas fa-download btTableI cursorIcon" style="cursor: pointer;" (click)="downloadCanhoto(item)"></i>
+											</td>
+											<td nowrap style="text-align: center">
+												<i class="fas fa-trash-alt btTableI cursorIcon" style="cursor: pointer;" (click)="openModalConfirmacao(item)"></i>
+											</td>
+											<!-- <td nowrap style="text-align: center" *ngIf="syngenta">
+												<i class="fas fa-cogs btTableI cursorIcon" style="cursor: pointer;" (click)="gerarXML(item)"></i>
+											</td> -->
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div *ngIf="listCanhoto.length == 0 && !carregando" class="alert" role="alert">
+									<div class="row vertical-align">
+										<div class="col-xs-10">
+											&nbsp;
+											<h6>Não há arquivos</h6>
+										</div>
+									</div>
+							</div>
+							<div *ngIf="listCanhoto.length == 0 && carregando" class="alert" role="alert">
+									<div class="row vertical-align">
+										<div class="col-xs-10">
+											&nbsp;
+											<h6>Carregando...</h6>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		
+		
+			</div>
+
+		<div class="modal-footer">
+			<button type="button" class="btn btn-info" (click)="closeModal()">Fechar</button>
+		</div>
+		<ngx-loading [show]="loadingModal" ></ngx-loading>
+	</ng-template> 
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border">Rastreamento</legend>
+			<div class="row" *ngIf="objRastreio.DTBLOQUE || objRastreio.DTDESBLO">
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left font-weight-bold">
+					Data de Bloqueio:
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left">
+					{{ objRastreio.DTBLOQUE ? (objRastreio.DTBLOQUE) : ('n.i.') }}
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left font-weight-bold">
+					Data de Desbloqueio:
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left">
+					{{ objRastreio.DTDESBLO ? (objRastreio.DTDESBLO) : ('n.i.') }}
+				</div>
+			</div>
+			<br *ngIf="objRastreio.DTBLOQUE && !objRastreio.DTDESBLO" />
+			<div class="row" *ngIf="objRastreio.DTBLOQUE && !objRastreio.DTDESBLO">
+				<div class="col-md-12">
+					<div class="alert alert-danger" role="alert">
+						A nota fiscal está bloqueada.
+					</div>
+				</div>
+			</div>
+			<hr>
+			<br /><br />
+			<ul class="progress-indicator">
+				<li [ngClass]="
+					{
+						'completed': objRastreio.DTEMINOT != '' && objRastreio.DTEMINOT != null
+					}
+				">
+					<span class="bubble"></span> Nota Fiscal
+					<br />
+					<span *ngIf="objRastreio.DTEMINOT != ''">
+						Data: {{ objRastreio.DTEMINOT }}<br>
+						{{ objRastreio.DTEMINOT != '' ? '(COMPLETO)' : '' }}
+					</span>
+				</li>
+				<li [ngClass]="
+					{
+						'completed': objRastreio.DTEMICTR != '' && objRastreio.DTEMICTR != null
+					}
+				">
+					<span class="bubble"></span> Emissão do Conhecimento
+					<br />
+					<span *ngIf="objRastreio.DTEMICTR != '' && objRastreio.DTEMICTR != null">
+						DATA: {{ objRastreio.DTEMICTR }}<br />
+						{{ objRastreio.DTEMICTR != '' ? '(COMPLETO)' : '' }}
+					</span>
+				</li>
+
+				<!--######## TRATATIVA PARA DATA DE COLETA 4PL ########-->
+				<li class="info"  
+						*ngIf="objRastreio.DTSAICAR == null && (objRastreio.DTENTREG == '' || objRastreio.DTENTREG == null) && validaMilestone.SNHABCOL != 1 && syngenta ">
+					<span class="bubble"></span> Previsão de Coleta 
+					<br />
+					<span *ngIf="(objRastreio.DTCOLETA && !objRastreio.DTBLOQUE) || (objRastreio.DTCOLETA && objRastreio.DTBLOQUE && objRastreio.DTDESBLO) && syngenta">
+						DATA: {{ objRastreio.DTCOLETA | date:'dd/MM/yyyy' }}<br />
+					</span>
+				</li>
+
+				<li class="completed" *ngIf="(objRastreio.DTSAICAR != '' && objRastreio.DTSAICAR != null) && syngenta">
+					<span class="bubble"></span> Data de Coleta
+					<br />
+					<span>
+						DATA: {{ objRastreio.DTSAICAR }}<br />
+						(COMPLETO)
+					</span>
+				</li>
+				<li class="completed" *ngIf="(objRastreio.DTSAICAR == '' || objRastreio.DTSAICAR == null) && (objRastreio.DTCOLETA != '' && objRastreio.DTCOLETA != null) && (objRastreio.DTENTREG != '' && objRastreio.DTENTREG != null) && syngenta">
+					<span class="bubble"></span> Data de Coleta
+					<br />
+					<span>
+						DATA: {{ objRastreio.DTCOLETA | date:'dd/MM/yyyy' }}<br />
+						(COMPLETO)
+					</span>
+				</li>
+				<li class="completed" *ngIf="(objRastreio.DTSAICAR == '' || objRastreio.DTSAICAR == null) && (objRastreio.DTCOLETA != '' && objRastreio.DTCOLETA != null) && (objRastreio.DTENTREG == '' || objRastreio.DTENTREG == null) && validaMilestone.SNHABCOL == 1 && syngenta">
+					<span class="bubble"></span> Data de Coleta
+					<br />
+					<span>
+						DATA: {{ objRastreio.DTCOLETA | date:'dd/MM/yyyy' }}<br />
+						(COMPLETO)
+					</span>
+				</li>
+
+
+				<!--######## TRATATIVA PARA DATA DE COLETA QUANDO NÃO FOR 4PL ########-->
+				<li class="info"  
+						*ngIf="validaMilestone.SNHABCOL != 1 && !syngenta ">
+					<span class="bubble"></span> Previsão de Coleta 
+					<br />
+					<span *ngIf="(objRastreio.DTCOLETA && !objRastreio.DTBLOQUE) || (objRastreio.DTCOLETA && objRastreio.DTBLOQUE && objRastreio.DTDESBLO) ">
+						DATA: {{ objRastreio.DTCOLETA | date:'dd/MM/yyyy' }}<br />
+					</span>
+				</li>
+
+				<li class="completed" *ngIf="(objRastreio.DTCOLETA != '' && objRastreio.DTCOLETA != null) && validaMilestone.SNHABCOL == 1 && !syngenta">
+					<span class="bubble"></span> Data de Coleta
+					<br />
+					<span>
+						DATA: {{ objRastreio.DTCOLETA | date:'dd/MM/yyyy' }}<br />
+						(COMPLETO)
+					</span>
+				</li>
+
+
+				<!-- Se estiver bloqueado. -->
+				<!-- <ng-container *ngIf="objRastreio.DTBLOQUE != '' &&
+									 objRastreio.DTBLOQUE != null &&
+									(
+										objRastreio.DTDESBLO == '' || objRastreio.DTDESBLO == null
+									)">
+					<li class="">
+						<span class="bubble"></span> Previsão de Entrega
+						<br />
+					</li>
+				</ng-container> -->
+				<!-- Está desbloqueada. -->
+				<ng-container>
+					<li class="completed" *ngIf="objRastreio.DTENTREG != '' && objRastreio.DTENTREG != null">
+						<span class="bubble"></span> Data de Entrega
+						<br />
+						<span>
+							DATA: {{ objRastreio.DTENTREG }}<br />
+							(COMPLETO)
+						</span>
+					</li>
+					<li class="info" *ngIf="objRastreio.DTENTREG == '' ||
+											objRastreio.DTENTREG == null">
+						<span class="bubble"></span> Previsão de Entrega
+						<br />
+						<span *ngIf="objRastreio.DTPREENT != '' && objRastreio.DTPREENT != null">
+							DATA: {{ objRastreio.DTPREENT }}<br />
+						</span>
+						<span *ngIf="objRastreio.DTPREENT == '' || objRastreio.DTPREENT == null">
+							n.i.
+						</span>
+					</li>
+					<li class="info" *ngIf="objRastreio.DTENTREG == '' ||
+											objRastreio.DTENTREG == null">
+						<span class="bubble"></span> Data de entrega SLA
+						<br />
+						<span *ngIf="objRastreio.DTENTCON != '' && objRastreio.DTENTCON != null">
+							DATA: {{ objRastreio.DTENTCON }}<br />
+						</span>
+						<span *ngIf="objRastreio.DTENTCON == '' || objRastreio.DTENTCON == null">
+							n.i.
+						</span>
+					</li>
+				</ng-container>
+				<ng-container >
+						<li [ngClass]="
+					
+							[ arCanhoto > 0 ? 'completed' : 'info' ]
+						
+						">
+						<span class="bubble"></span>
+						<!-- <span (click)="openModalUploadCanhoto()" *ngIf="validaHome">
+							<i class="fa fa-upload" style="font-size: 37px;cursor: pointer;"></i>
+							<br />
+							<span> Upload do Canhoto</span>
+						</span> -->
+						<span (click)="openModalUploadCanhoto()">
+							<i class="fas fa-barcode" style="font-size: 37px; cursor: pointer;"></i>
+							<br />
+							<span> Canhoto <br />
+								{{arCanhoto}}
+							</span>
+						</span>
+						<br />
+					</li>
+					<!-- <li class="completed" *ngIf="listCanhoto.length != 0" style="cursor: pointer;">
+						<span class="bubble"></span>
+						<span (click)="visualizarCanhoto()">
+							<i class="fas fa-barcode" style="font-size: 37px;"></i>
+							<br />
+							<span> Canhoto</span>
+						</span>
+						<br />
+					</li>
+					<li class="info" *ngIf="listCanhoto.length != 0 && validaHome" style="cursor: pointer;">
+						<span class="bubble"></span>
+						<span (click)="openModalUploadCanhoto()">
+							<i class="fa fa-upload" style="font-size: 37px;cursor: pointer;"></i>
+							<br />
+							<span> Upload do Canhoto</span>
+						</span>
+						<br />
+					</li> -->
+				</ng-container>
+			</ul>
+		</fieldset>
+	</div>
+</div>

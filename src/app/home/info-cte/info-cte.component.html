@@ -1,0 +1,215 @@
+<ng-template #modalCteCompleta>
+	<div class="modal-header">
+		<!-- <h4 class="modal-title">Detalhes do CT-e</h4> -->
+		<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;"><small class="fw-300">Detalhes do CT-e</small></h3>
+		<button type="button" class="close" aria-label="Close" (click)="closeModalCteCompleta()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<div class="row" *ngIf="objCTE != null && objCTE.STCTRC == 'C'">
+				<div class="col-md-12">
+					<div class="alert alert-danger" role="alert">
+						O Conhecimento está cancelado.
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase"><small class="fw-300">Dados do </small> <strong>CT-e</strong></h3>
+							</div>
+						</div>
+						<div style="margin-top: 15px">							
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Remetente</strong></a>
+											<div>{{ objCTE.NMCLIENTRE }} [{{objCTE.CJCLIENTRE | cnpj }}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Destinatário</strong></a>
+											<div>{{ objCTE.NMCLIENTDE }} [{{ (objCTE.CJCLIENTDE != null) && (objCTE.CJCLIENTDE.length == 11) ? (objCTE.CJCLIENTDE | cpf) : (objCTE.CJCLIENTDE | cnpj)}}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Expedidor</strong></a>
+											<div>{{ objCTE.NMCLIENTEX }} [{{objCTE.CJCLIENTEX | cnpj }}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Recebedor</strong></a>
+											<div>{{ objCTE.NMCLIENTRC }} [{{ (objCTE.CJCLIENTRC != null) && (objCTE.CJCLIENTRC.length == 11) ? (objCTE.CJCLIENTRC | cpf) : (objCTE.CJCLIENTRC | cnpj)}}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Tomador</strong></a>
+											<div>{{ objCTE.NMCLIENTCO }} [{{objCTE.CJCLIENTCO | cnpj }}][{{objCTE.IDCJCLIENTCO}}]
+											</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Chave</strong></a>
+											<div>{{ objCTE.NRCHADOC }}</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Data de emissão</strong></a>
+											<div>{{ objCTE.DTEMICTR ? (objCTE.DTEMICTR | date:'dd/MM/yyyy' :'+0000'): ('n.i.') }}	</div>
+										
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Número</strong></a>
+											<div>{{ objCTE.CDCTRC }}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Série</strong></a>
+											<div>{{ objCTE.NRSERINF }}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Modelo</strong></a>
+											<div>{{ objCTE.DSMODENF }}</div>
+										</div>
+									</div>
+								</div>								
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Observação do Conhecimento</strong></a>
+											<div>{{ objCTE.DSINFCPL }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase"><small class="fw-300">Notas Fiscais Vinculadas ao </small><strong>Conhecimento</strong></h3>
+							</div>
+						</div>
+						<div style="margin-top: 15px">
+							<div class="table-responsive">
+								<table class="table table-striped ts">
+									<thead>
+										<tr>
+											<th>Nº da Chave</th>
+											<th>Nº NF-e.</th>
+											<th>Volume</th>
+											<th>Peso Bruto (KG)</th>
+											<th>Data de Emissão</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of objCTE.NOTAS_CTE;">
+											<td>{{ item.NRCHADOC }}</td>
+											<td>{{ item.IDG043 }}</td>
+											<td>{{ item.VRVOLUME | number:'1.2-2' }}</td>
+											<td>{{ item.PSBRUTO  | number:'1.2-2' }}</td>
+											<td>{{ item.DTEMINOT ? (item.DTEMINOT | date:'dd/MM/yyyy' :'+0000') : ('n.i.') }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button *ngIf="buttonDacte" type="button" class="btn btn-primary" (click)="openModalDacte()" style="margin-right: 10px;">Dacte</button>
+		<button type="button" class="btn btn-info" (click)="closeModalCteCompleta()">Fechar</button>
+	</div>
+</ng-template>
+
+<ng-template #modalDacte>
+		<div class="modal-header">
+				<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;">
+						<small class="fw-300">Visualização Dacte</small>
+				</h3>
+				<button type="button" class="close" aria-label="Close" (click)="closeModalCteCompleta()">
+						<span aria-hidden="true">&times;</span>
+				</button>
+		</div>
+		<div class="modal-body" style="color: #464444">
+				<div style="width: 100%">
+						<div>
+								<app-dacte [IDG051]="IDG051"></app-dacte>
+						</div>
+				</div>
+		</div>       
+</ng-template>
+
+<div class="row">
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border">Informações do CT-e
+				<div style="float: right" *ngIf="objCTE != null">
+					<i
+						class="fas fa-eye fa-fw fa-lg btn-fieldset"
+						alt="Detalhes do CT-e"
+						title="Detalhes do CT-e"
+						(click)="showModalCteCompleta()">
+					</i>
+				</div>
+		</legend>
+		<div class="row" *ngIf="objCTE != null && objCTE.STCTRC == 'C'">
+			<div class="col-md-12">
+				<div class="alert alert-danger" role="alert">
+					O Conhecimento está cancelado.
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+				Nº do CT-e
+			</div>
+			<div class="col-md-4 col-lg-4 col-xl-4 text-left">
+				{{ objCTE != null ? ( objCTE.CDCTRC ) : ('n.i.') }}
+			</div>
+
+			<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+				Dt. Emi. CT-e
+			</div>
+			<div class="col-md-4 col-lg-4 col-xl-4 text-left">
+				{{ objCTE != null ? (objCTE.DTEMICTR | date:'dd/MM/yyyy' :'+0000'):('n.i.') }}
+			</div>
+		</div>
+	</fieldset>
+</div>
+</div>

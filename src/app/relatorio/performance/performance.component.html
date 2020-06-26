@@ -1,0 +1,313 @@
+<div style="padding-top: 20px;">
+	<app-cards-filter titleDrop="Filtros" nameSubmitFunction="filtrarHome" nameClearFunction="limparHome"
+		idGrid="gridHomeNFe" [dropdown]="true" advancedOptions="advancedFilter" [isCollapsed]="true" [context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilter">
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data Emissão NF (inicial)</label>
+					<app-datapicker-popup navegacao='select' [dataSelecionada]='dtInicioDefault' [mesesDisplay]='1'
+						[desabilitar]='false' [formDatePop]="objFormFilterH" [formControlNameDatePop]="'DTINICIO'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Emissão NF (final)</label>
+					<app-datapicker-popup navegacao='select' [dataSelecionada]='dtTerminoDefault' [mesesDisplay]='1'
+						[desabilitar]='false' [formDatePop]="objFormFilterH" [formControlNameDatePop]="'DTFIM'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-1" [formGroup]="objFormFilterH">
+					<label for="">Ação</label>
+					<select class="form-control" formControlName="A002_IDA008" id="A002_IDA008" name="A002_IDA008">
+						<option value="0" [selected]="true">Todos</option>
+						<option value="1">Atendimento</option>
+						<option value="2">Ocorrência</option>
+					</select>
+				</div>
+
+				<div class="form-group col-sm-2">
+					<label for="">Tipo de Ocorrência</label>
+					<select class="form-control" id="G051_TPTRANSP" name="G051_TPTRANSP"
+						formControlName="G051_TPTRANSP">
+						<option value="" [selected]="true">Todos</option>
+						<option value="{{item.value}}" *ngFor="let item of global.arTpOcorrenciasNF">{{item.text}}
+						</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-2" [formGroup]="objFormFilterH">
+
+					<label for="">Situação CT-e</label>
+					<select class="form-control" formControlName="G051_STCTRC" id="G051_STCTRC" name="G051_STCTRC">
+						<option value="N">Todos</option>
+						<option value="A" [selected]="true">Ativos</option>
+						<option value="C">Cancelados</option>
+					</select>
+				</div>
+
+
+				<div class="form-group col-sm-1" [formGroup]="objFormFilterH">
+					<label for="">Modelo Carga</label>
+					<i class="far fa-question-circle" ngbPopover="Tipo de logística aplicada na carga." container="body"
+						triggers="mouseenter:mouseleave"></i>
+					<select class="form-control" id="TPMODCAR" name="TPMODCAR" formControlName="TPMODCAR">
+						<option value="0" [selected]="true">Todos</option>
+						<option value="1">3PL</option>
+						<option value="2">4PL</option>
+						<option value="3">Mista</option>
+					</select>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label>Número da NF-e</label>
+					<app-chips-input [typeInput]="'numberText'" [chips]='arIdNfe' [removable]='true' [addOnBlur]='true'
+						[duplicate]='false' [objStyle]="objStyle" [inputSpace]='true'>
+					</app-chips-input>
+				</div>
+				<div class="form-group col-sm-6">
+					<label>Número do CT-e</label>
+					<app-chips-input [typeInput]="'numberText'" [chips]='arIdCte' [removable]='true' [addOnBlur]='true'
+						[duplicate]='false' [objStyle]="objStyle" [inputSpace]='true'>
+					</app-chips-input>
+				</div>
+			</div>
+
+			<div *ngIf="advancedFilter">
+				<div class="row">
+					<div class="col-lg-12">
+						<app-cards titleDrop="Filial" idGrid="gridHomeDados" [isCollapsed]="true" [dropdown]="true">
+							<div class="row marginMy">
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="G051_IDG005RE">Filial</label>
+									<app-combobox-multi [url]="url+'filtro/clientes'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false' [formControlNameMultiSelect]="'G051_IDG005RE'"
+										[showInfo]="true">
+									</app-combobox-multi>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="G005DE_CJCLIENTDE">CNPJ</label>
+									<app-input id="G005DE_CJCLIENTDE" name="teste" [isRequired]='false'
+										placeholder="CNPJ" typeMask="cnpj" [formInput]="objFormFilter"
+										[formControlNameInput]="'G005RE_CJCLIENT'">
+									</app-input>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label>Cidade</label>
+									<app-combobox-multi [url]="url+'filtro/cidades'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G005RE_IDG003'">
+									</app-combobox-multi>
+								</div>
+							</div>
+						</app-cards>
+					</div>
+
+					<div class="col-lg-12">
+						<app-cards titleDrop="Destinatário" idGrid="gridHomeDados" [isCollapsed]="true"
+							[dropdown]="true">
+							<div class="row marginMy">
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label>Destinatário</label>
+									<app-combobox-multi [url]="url+'filtro/clientes'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G051_IDG005DE'">
+									</app-combobox-multi>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="G005DE_CJCLIENTDE">CNPJ</label>
+									<app-input id="G005DE_CJCLIENTDE" name="teste" [isRequired]='false'
+										placeholder="CNPJ Destinatári" typeMask="cnpj" [formInput]="objFormFilter"
+										[formControlNameInput]="'G005DE_CJCLIENT'">
+									</app-input>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label>Cidade</label>
+									<app-combobox-multi [url]="url+'filtro/cidades'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G005DE_IDG003'">
+									</app-combobox-multi>
+								</div>
+							</div>
+						</app-cards>
+					</div>
+
+					<div class="col-lg-12">
+						<app-cards titleDrop="Tomador" idGrid="gridHomeDados" [isCollapsed]="true" [dropdown]="true">
+							<div class="row marginMy">
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="NMCIDADE">Tomador</label>
+									<app-combobox-multi [url]="url+'filtro/tomadores'"
+										[formMultiSelect]="objFormFilterH" [disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G051_IDG005CO'">
+									</app-combobox-multi>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="G005DE_CJCLIENTDE">CNPJ</label>
+									<app-input id="G005DE_CJCLIENTDE" name="teste" [isRequired]='false'
+										placeholder="CNPJ Destinatári" typeMask="cnpj" [formInput]="objFormFilter"
+										[formControlNameInput]="'G005CO_CJCLIENT'">
+									</app-input>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label>Cidade</label>
+									<app-combobox-multi [url]="url+'filtro/cidades'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G005CO_IDG003'">
+									</app-combobox-multi>
+								</div>
+							</div>
+						</app-cards>
+					</div>
+
+
+					<div class="col-lg-12">
+						<app-cards titleDrop="Recebedor" idGrid="gridHomeDados" [isCollapsed]="true" [dropdown]="true">
+							<div class="row marginMy">
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="NMCIDADE">Recebedor</label>
+									<app-combobox-multi [url]="url+'filtro/clientes'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G051_IDG005RC'">
+									</app-combobox-multi>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="G005DE_CJCLIENTDE">CNPJ</label>
+									<app-input id="G005DE_CJCLIENTDE" name="teste" [isRequired]='false'
+										placeholder="CNPJ Destinatári" typeMask="cnpj" [formInput]="objFormFilter"
+										[formControlNameInput]="'G005RC_CJCLIENT'">
+									</app-input>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label>Cidade</label>
+									<app-combobox-multi [url]="url+'filtro/cidades'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G005RC_IDG003'">
+									</app-combobox-multi>
+								</div>
+							</div>
+						</app-cards>
+					</div>
+
+					<div class="col-lg-12">
+						<app-cards titleDrop="Expedidor" idGrid="gridHomeDados" [isCollapsed]="true" [dropdown]="true">
+							<div class="row marginMy">
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="G051_IDG005EX">Expedidor</label>
+									<app-combobox-multi [url]="url+'filtro/clientes'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G051_IDG005EX'">
+									</app-combobox-multi>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label for="G005DE_CJCLIENTDE">CNPJ</label>
+									<app-input id="G005DE_CJCLIENTDE" name="teste" [isRequired]='false'
+										placeholder="CNPJ Destinatári" typeMask="cnpj" [formInput]="objFormFilter"
+										[formControlNameInput]="'G005EX_CJCLIENT'">
+									</app-input>
+								</div>
+
+								<div class="form-group col-sm-4 col-md-4 col-lg-4">
+									<label>Cidade</label>
+									<app-combobox-multi [url]="url+'filtro/cidades'" [formMultiSelect]="objFormFilterH"
+										[disabledViewMultiSelect]='false'
+										[formControlNameMultiSelect]="'G005EX_IDG003'">
+									</app-combobox-multi>
+								</div>
+							</div>
+						</app-cards>
+					</div>
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards titleDrop="Registros" idGrid="gridHomeDados" [isCollapsed]="false" [dropdown]="true">
+
+		<app-datagrid [id]="'relatorioPerformanceGrid'" [url]="url+'mo/atendimentos/listarRelatorioPerformance'"
+			[tela]="42" [telaGlobal]="
+			[
+				{'id' : 'colvis'}
+			]" [telaAcoes]="
+			[
+				{'id' : 1,  'metodo' : 'visualizarNota',   'icone': 'fa fa-eye'},
+				{'id' : 22, 'metodo' : 'bloquearNfe',   'icone': 'fa fa-lock'},
+				{'id' : 23, 'metodo' : 'liberarNfe',   'icone': 'fa fa-unlock'}
+			]" [nivel]="0" [stateSave]="true" [thisParent]="this" [allList]="true" [scroll]="500" [order]="[6, 'desc']"
+			[excelServer]="true" [notOnLoad]="true">
+
+			<th data-id="IDG043" data-type-column="details" data-exec="detailPerformance">Detalhes</th>
+			<th data-id="NRNOTA" data-function="linhaCompletaRelatorioAtendimentos" data-function-full="true"
+				data-align-right="true">Nº NF</th>
+			<th data-id="G051_CDCTRC" data-align-right="true">Nº CTE</th>
+			<th data-id="G024EM_NMTRANSP" data-align-left="true">Transportadora</th>
+			<th data-id="G024EM_IDLOGOS" data-align-right="true">Empresa</th>
+			<th data-id="G046_IDG046" data-align-right="true" data-function="validaNullMonitoria">Carga</th>
+			<!-- DATAS -->
+			<th data-id="DTEMINOT" data-align-center="true">Data Emissão NF</th>
+			<th data-id="DTEMICTR" data-align-center="true">Data Emissão CTe</th>
+			<th data-id="DTCOLETA" data-align-center="true">Data Coleta</th>
+			<th data-id="DTENTREG" data-align-center="true">Data Entrega</th>
+			<th data-id="DTENTCON" data-align-center="true">Data SLA</th>
+			<th data-id="G051_DTAGENDA" data-align-center="true">Data Agendada</th>
+			<th data-id="DTREPROG" data-align-center="true">Data Reprogramada</th>
+			<th data-id="DTPREENT" data-align-center="true">Previsão de Entrega</th>
+			<!-- ## -->
+			<th data-id="PSBRUTO" data-align-right="true">Peso Bruto</th>
+			<th data-id="VRDELIVE" data-align-right="true">Valor da Nota</th>
+			<!-- REMETENTE -->
+			<th data-id="G005RE_NMCLIENTRE" data-align-left="true"> Remetente</th>
+			<th data-id="G005RE_CJCLIENTRE" data-function="validCnpjCpf" data-align-right="true">CNPJ Remetente</th>
+			<th data-id="G003RE_NMCIDADERE" data-align-left="true">Cidade Remente</th>
+			<th data-id="G002RE_NMESTADORE" data-align-left="true">UF Remente</th>
+			<!-- DESTINATÁRIO -->
+			<th data-id="G005DE_NMCLIENTDE" data-align-left="true"> Destinatário</th>
+			<th data-id="G005DE_CJCLIENTDE" data-function="validCnpjCpf" data-align-right="true">CNPJ Destinatário</th>
+			<th data-id="G003DE_NMCIDADEDE" data-align-left="true">Cidade Destinatário</th>
+			<th data-id="G002DE_NMESTADODE" data-align-left="true">UF Destinatário</th>
+			<!-- RECEBEDOR -->
+			<th data-id="G005RC_NMCLIENTRC" data-align-left="true"> Recebedor</th>
+			<th data-id="G005RC_CJCLIENTRC" data-function="validCnpjCpf" data-align-right="true">CNPJ Recebedor</th>
+			<th data-id="G003RC_NMCIDADERC" data-align-left="true">Cidade Recebedor</th>
+			<th data-id="G002RC_NMESTADORC" data-align-left="true">UF Recebedor</th>
+			<!-- EXPEDIDOR -->
+			<th data-id="G005EX_NMCLIENTEX" data-align-left="true"> Expedidor</th>
+			<th data-id="G005EX_CJCLIENTEX" data-function="validCnpjCpf" data-align-right="true">CNPJ Expedidor</th>
+			<th data-id="G003EX_NMCIDADEEX" data-align-left="true">Cidade Expedidor</th>
+			<th data-id="G002EX_NMESTADOEX" data-align-left="true">UF Expedidor</th>
+			<!-- TOMADOR -->
+			<th data-id="G005CO_NMCLIENTCO" data-align-left="true"> Tomador</th>
+			<th data-id="G005CO_CJCLIENTCO" data-function="validCnpjCpf" data-align-right="true">CNPJ Tomador</th>
+			<th data-id="G003CO_NMCIDADECO" data-align-left="true">Cidade Tomador</th>
+			<th data-id="G002CO_NMESTADOCO" data-align-left="true">UF Tomador</th>
+			<!-- ## -->
+			<th data-id="G051_TPTRANSP" data-align-left="true">Tipo Operação</th>
+
+			<!-- <th data-id="A001_IDA001" data-align-right="true" data-visible="false">Protocolo Atendimento</th>
+			<th data-id="A001_DTREGIST" data-visible="false">Data Abertura</th>
+			<th data-id="A001_DTFIM" data-visible="false">Data Fechamento</th>
+			<th data-id="A002_DSTPMOTI" data-visible="false" data-align-left="true">Motivo Atendimento</th>
+			<th data-id="S001_NMUSUARI" data-visible="false" data-align-left="true">Criador do Atendimento</th>
+			<th data-id="DSOBSERV" data-visible="false" data-align-left="true">Descrição do atendimento</th> -->
+
+			<th data-id="G032_NRFROTA" data-align-right="true" data-function="validaNullMonitoria">Origem/Nº Frota</th>
+
+			<th data-id="PRAZO" data-function="validaNullMonitoria" data-align-right="true">Prazo</th>
+			<th data-id="TPMODCAR" data-function="validaNullMonitoria" data-align-right="true">4PL</th>
+
+		</app-datagrid>
+	</app-cards>
+</div>

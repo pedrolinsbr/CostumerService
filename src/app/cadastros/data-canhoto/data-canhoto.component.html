@@ -1,0 +1,169 @@
+<div style="padding-top: 20px;">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<form class="form-horizontal" [formGroup]="objFormInfo" (ngSubmit)="salvarData()">
+					<div class="card-header">
+						Dados do Conhecimento
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-6">
+								<label for="G051_NRCHADOC">Chave</label>
+								<input #chaveCte class="form-control" id="G051_NRCHADOC" name="G051_NRCHADOC" formControlName="G051_NRCHADOC" (keydown)="showInfo($event)">
+							</div>
+							<div class="col-sm-2">
+								<label>Modelo</label>
+								<app-input id="G051_DSMODENF" name="G051_DSMODENF" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Modelo" model="{{objFormInfo.controls['G051_DSMODENF'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G051_DSMODENF'">
+								</app-input>
+							</div>
+							<div class="col-sm-2">
+								<label>Série</label>
+								<app-input id="G051_NRSERINF" name="G051_NRSERINF" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Série" model="{{objFormInfo.controls['G051_NRSERINF'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G051_NRSERINF'">
+								</app-input>
+							</div>
+							<div class="col-sm-2">
+								<label>Data de Emissão</label>
+								<app-input id="G051_DTEMICTR" name="G051_DTEMICTR" valid="text" [isRequired]='false' [disabled]="true"
+									typeMask="data" model="{{objFormInfo.controls['G051_DTEMICTR'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G051_DTEMICTR'">
+								</app-input>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<label>Remetente</label>
+								<app-input id="G005_NMCLIENTRE" name="G005_NMCLIENTRE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Remetente" model="{{objFormInfo.controls['G005_NMCLIENTRE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G005_NMCLIENTRE'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>CNPJ</label>
+								<app-input id="G005_CJCLIENTRE" name="G005_CJCLIENTRE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="CNPJ" model="{{objFormInfo.controls['G005_CJCLIENTRE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G005_CJCLIENTRE'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>IE</label>
+								<app-input id="G005_IECLIENTRE" name="G005_IECLIENTRE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="IE" model="{{objFormInfo.controls['G005_IECLIENTRE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G005_IECLIENTRE'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>Município</label>
+								<app-input id="G003_NMCIDADERE" name="G003_NMCIDADERE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Município" model="{{objFormInfo.controls['G003_NMCIDADERE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G003_NMCIDADERE'">
+								</app-input>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<label>Destinatário</label>
+								<app-input id="G005_NMCLIENTDE" name="G005_NMCLIENTDE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Destinatário" model="{{objFormInfo.controls['G005_NMCLIENTDE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G005_NMCLIENTDE'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>CNPJ</label>
+								<app-input id="G005_CJCLIENTDE" name="G005_CJCLIENTDE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="CNPJ" model="{{objFormInfo.controls['G005_CJCLIENTDE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G005_CJCLIENTDE'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>IE</label>
+								<app-input id="G005_IECLIENTDE" name="G005_IECLIENTDE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="IE" model="{{objFormInfo.controls['G005_IECLIENTDE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G005_IECLIENTDE'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>Município</label>
+								<app-input id="G003_NMCIDADEDE" name="G003_NMCIDADEDE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Município" model="{{objFormInfo.controls['G003_NMCIDADEDE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G003_NMCIDADEDE'">
+								</app-input>
+							</div>
+						</div>
+					</div>
+
+					<div class="card-header">
+						Dados do Veículo
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<label>Veículo</label>
+								<app-input id="G032_DSVEICUL" name="G032_DSVEICUL" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Veículo" model="{{objFormInfo.controls['G032_DSVEICUL'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G032_DSVEICUL'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>Placa</label>
+								<app-input id="G032_NRPLAVEI" name="G032_NRPLAVEI" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Placa" model="{{objFormInfo.controls['G032_NRPLAVEI'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G032_NRPLAVEI'">
+								</app-input>
+							</div>
+							<div class="col-sm-3">
+								<label>UF</label>
+								<app-input id="G002_CDESTADOVE" name="G002_CDESTADOVE" valid="text" [isRequired]='false' [disabled]="true"
+									placeholder="Estado" model="{{objFormInfo.controls['G002_CDESTADOVE'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G002_CDESTADOVE'">
+								</app-input>
+							</div>
+						</div>
+					</div>
+
+					<div class="card-header">
+						Informações da Entrega
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<label>Data de Entrega do Canhoto</label>
+								<input #dataCanhoto class="form-control" id="G043_DTCANHOT" name="G043_DTCANHOT" placeholder="00/00/0000" maxlength="10" formControlName="G043_DTCANHOT" type="text" [textMask]="{mask: mask, guide: false, modelClean: true}">
+							</div>
+							<div class="col-sm-3">
+								<label>Data de Previsão</label>
+								<app-input id="G051_DTPREENT" name="G051_DTPREENT" valid="text" [isRequired]='false' [disabled]="true"
+									typeMask="data" model="{{objFormInfo.controls['G051_DTPREENT'].value}}" [formInput]="objFormInfo"
+									[formControlNameInput]="'G051_DTPREENT'">
+								</app-input>
+							</div>
+						</div>
+						<div class="row" style="margin-bottom: 10px">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Observação:</span>
+								</div>
+								<textarea class="form-control" formControlName="DSOBSERV" rows="3" aria-label="Observação">
+	
+								</textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2">
+								<button type="button" class="btn btn-success btn-block" [disabled]="!objFormInfo.controls['G051_NRCHADOC'].value || !objFormInfo.controls['G043_DTCANHOT'].value" type="submit">
+									<i _ngcontent-c25="" class="fa fa-save"></i> Salvar
+								</button>
+							</div>
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+

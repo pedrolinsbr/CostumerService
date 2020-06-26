@@ -1,0 +1,589 @@
+<app-breadcrumbs
+  #breadcrumbs
+  home="Visualização AG"
+  [arBreadcrumbs]="arBreadcrumbsLocal"
+  (goHome)="goHome($event)"
+  (clearNext)="clearNext($event)"
+  [context]="this"
+  backgroundColor="#d5e0e4">
+</app-breadcrumbs>
+
+<div *ngIf="exibir == 1" style="padding-top: 20px;">
+
+	<!-- <app-indicadores-group [objIndicadoresHome]="indicadores"></app-indicadores-group> -->
+
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrarHome"
+		nameClearFunction="limparHome"
+		idGrid="gridHomeNFe"
+		[dropdown]="true"
+		advancedOptions="advancedFilter"
+		[isCollapsed]="true"
+		[context]="this">
+
+		<form class="form-horizontal" [formGroup]="objFormFilterHome" >
+			<!-- Filtros Comuns -->
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data de Recebimento Delivery (inicial)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='visible'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtInicioDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTLANCT0'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data de Recebimento Delivery (final)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='visible'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtTerminoDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTLANCT1'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="form-group col-sm-3" [formGroup]="objFormFilterH">
+					<label for="">Notas Entregues</label>
+					<select class="form-control"
+						id="G043_DTENTREG"
+						name="G043_DTENTREG" formControlName="G043_DTENTREG" >
+						<option value="2" [selected]="selected1">Todos</option>
+						<option value="{{item.value}}" *ngFor="let item of global.arDtEntreg">{{item.text}}</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-3">
+					<label for="">Tipo de Operação</label>
+					<select [formControl]="" class="form-control" id="G051_TPTRANSP" name="G051_TPTRANSP" formControlName="G051_TPTRANSP" >
+						<option value="" [selected]="selected2">Todos</option>
+						<option value="{{item.value}}" *ngFor="let item of global.arTpOcorrenciasNF">{{item.text}}</option>
+					</select>
+				</div>
+			
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label >Número da NF-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+				<div class="form-group col-sm-6">
+					<label >Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+
+			<div *ngIf="!advancedFilter">
+				<div class="row">
+					<!-- <div class="form-group col-sm-3 col-md-3 col-lg-3">
+						<app-single-numeroViagem
+							[objForm] = "objFormFilterH"
+							[formName] = "'G051_IDG046'"
+							[haveCTE]="1">
+						</app-single-numeroViagem> -->
+
+
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Transportadora - Carga</label>
+						<app-combobox-multi
+						[url]="url+'filtro/transportadoras'"
+						[formMultiSelect] = "objFormFilterH"
+						[disabledViewMultiSelect] = 'false'
+						[formControlNameMultiSelect] = "'G046_IDG024'"
+						[auxGoBack] = "auxGoHome"
+						[valSelected] = "objAux.G046_IDG024">
+						</app-combobox-multi>
+					</div>
+
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Transportadora - CTe</label>
+						<app-combobox-multi
+							[url]="url+'filtro/transportadoras'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G024_IDG024'"
+							[auxGoBack] = "auxGoHome"
+							[valSelected] = "objAux.G024_IDG024">
+						</app-combobox-multi>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientesAg'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005RE'"
+							[auxGoBack] = "auxGoHome"
+							[valSelected] = "objAux.G043_IDG005RE"
+							[showInfo] = "showCDUF"
+							[IDS001] = "IDS001">
+						</app-combobox-multi>
+					</div>
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Destinatário</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientesAg'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005DE'"
+							[auxGoBack] = "auxGoHome"
+							[valSelected] = "objAux.G043_IDG005DE"
+							[IDS001] = "IDS001"
+							[showInfo] = "showCDUF">
+						</app-combobox-multi>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientesAg'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'"
+							[auxGoBack] = "auxGoHome"
+							[valSelected] = "objAux.G051_IDG005CO"
+							[IDS001] = "IDS001">
+						</app-combobox-multi>		
+					</div>
+					<div class="form-group col-sm-2">
+						<app-single-numeroViagem
+							[objForm] = "objFormFilterH"
+							[formName] = "'G046_IDG046'">
+						</app-single-numeroViagem>
+					</div>
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterH">
+						<label for="">Situação CT-e</label>
+						<select class="form-control"
+								formControlName="G051_STCTRC"
+								id="G051_STCTRC"
+								name="G051_STCTRC" >
+							<option value="N" [selected]="selected4" >Todos</option>
+							<option value="A">Ativos</option>
+							<option value="C">Cancelados</option>
+						</select>
+					</div>
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterH">
+						<label for="">Situação Notas</label>
+						<select class="form-control"
+							id="G043_DTBLOQUE"
+							name="G043_DTBLOQUE" formControlName="G043_DTBLOQUE">
+							<option value="2" [selected]="selected6">Todos</option>
+							<option value="1">Bloqueadas</option>
+							<option value="0">Desbloqueadas</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-3" [formGroup]="objFormFilterHome">
+						<label>Número do Atendimento</label>
+						<input class="form-control" id="A005_IDA001" name="A005_IDA001" formControlName="A005_IDA001" placeholder="Digite para pesquisar">
+					</div>
+
+					<div class="form-group col-sm-3" [formGroup]="objFormFilterH">
+						<label for="">Ação</label>
+						<select class="form-control"
+								formControlName="A008_IDA008"
+								id="A008_IDA008"
+								name="A008_IDA008" >
+							<option value="0" [selected]="selected5">Todos</option>
+							<option value="1">Atendimento</option>
+							<option value="2">Ocorrência</option>
+						</select>
+					</div>
+
+					
+					<div class="form-group col-sm-6">
+						<label >Carga Logos</label>
+						<app-chips-input
+						[typeInput]="'numberText'"
+						[chips]='arIdCargaLog'
+						[removable]='true'
+						[addOnBlur]='true'
+						[duplicate]='false'
+						[objStyle]="objStyle"
+						[inputSpace]='true'
+						>
+						</app-chips-input>
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente do CTE</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientesAg'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005RE'"
+							[auxGoBack] = "auxGoHome"
+							[valSelected] = "objAux.G051_IDG005RE"
+							[showInfo] = "showCDUF"
+							[IDS001] = "IDS001">
+						</app-combobox-multi>
+					</div>
+
+					<div class="form-group col-sm-4" [formGroup]="objFormFilterHome">
+						<label>Código da Delivery</label>
+						<input class="form-control" id="G043_CDDELIVE" name="G043_CDDELIVE" formControlName="G043_CDDELIVE" placeholder="Digite para pesquisar">
+					</div>
+				
+
+					<div class="form-group col-sm-2" [formGroup]="objFormFilterH">
+						<label for="">QM Motivos</label>
+						<select class="form-control"
+							id="G051_IDI015"
+							name="G051_IDI015" formControlName="G051_IDI015">
+							<option value="2" [selected]="selected7">Todos</option>
+							<option value="1">Sim</option>
+							<option value="0">Não</option>
+						</select>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label>Data Agendada</label>
+
+						<app-datapicker-popup
+							navegacao='select'
+							[outsideDays]='visible'
+							[dataMinima]='dataMinima'
+							[dataMaxima]='dataMaxima'
+							[mesesDisplay]='1'
+							[desabilitar]='false'
+							[formDatePop]="objFormFilterH"
+							[formControlNameDatePop]="'G051_DTAGENDA'"
+							(dataClicada)="dataClick($event)">
+						</app-datapicker-popup>
+					</div>
+					<div class="col-sm-3">
+						<label>Data Prevista</label>
+						<app-datapicker-popup
+							navegacao='select'
+							[outsideDays]='visible'
+							[dataMinima]='dataMinima'
+							[dataMaxima]='dataMaxima'
+							[mesesDisplay]='1'
+							[desabilitar]='false'
+							[formDatePop]="objFormFilterH"
+							[formControlNameDatePop]="'DTPREENT'"
+							(dataClicada)="dataClick($event)">
+						</app-datapicker-popup>
+					</div>
+
+					<div class="col-sm-3">
+						<label>Data de Entrega (inicial)</label>
+						<app-datapicker-popup
+							navegacao='select'
+							[outsideDays]='visible'
+							[dataMinima]='dataMinima'
+							[dataMaxima]='dataMaxima'
+							[mesesDisplay]='1'
+							[desabilitar]='false'
+							[formDatePop]="objFormFilterH"
+							[formControlNameDatePop]="'DTENTREG0'"
+							(dataClicada)="dataClick($event)">
+						</app-datapicker-popup>
+					</div>
+					<div class="col-sm-3">
+						<label>Data de Entrega (final)</label>
+						<app-datapicker-popup
+							navegacao='select'
+							[outsideDays]='visible'
+							[dataMinima]='dataMinima'
+							[dataMaxima]='dataMaxima'
+							[mesesDisplay]='1'
+							[desabilitar]='false'
+							[formDatePop]="objFormFilterH"
+							[formControlNameDatePop]="'DTENTREG1'"
+							(dataClicada)="dataClick($event)">
+						</app-datapicker-popup>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-3 col-md-3 col-lg-3">
+						<label>Nº da Frota</label>
+						<app-combobox-multi
+							[url]="url+'filtro/frota'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G032_NRFROTA'"
+							[auxGoBack] = "auxGoHome"
+							[valSelected] = "objAux.G032_NRFROTA">
+						</app-combobox-multi><!-- [showInfo] = "showCDUF"-->
+					</div>
+
+					<div class="form-group col-sm-3 col-md-3 col-lg-3">
+							<app-combobox-multi
+								label="Veículos"
+								[url]="url+'filtro/buscarDescVeiculos'"
+								[formMultiSelect] = "objFormFilterH"
+								[formControlNameMultiSelect] = "'G032_IDG032'"
+								[auxGoBack] = "auxGoHome"
+								[valSelected] = "objAux.G032_IDG032">
+						</app-combobox-multi>
+					</div>
+
+					<div class="col-sm-3">
+						<label>Data Emissão NF (inicial)</label>
+						<app-datapicker-popup
+							navegacao='select'
+							[outsideDays]='visible'
+							[dataMinima]='dataMinima'
+							[dataMaxima]='dataMaxima'
+							[mesesDisplay]='1'
+							[desabilitar]='false'
+							[formDatePop]="objFormFilterH"
+							[formControlNameDatePop]="'DTINICIO'"
+							(dataClicada)="dataClick($event)">
+						</app-datapicker-popup>
+					</div>
+					<div class="col-sm-3">
+						<label>Data Emissão NF (final)</label>
+						<app-datapicker-popup
+							navegacao='select'
+							[outsideDays]='visible'
+							[dataMinima]='dataMinima'
+							[dataMaxima]='dataMaxima'
+							[mesesDisplay]='1'
+							[desabilitar]='false'
+							[formDatePop]="objFormFilterH"
+							[formControlNameDatePop]="'DTFIM'"
+							(dataClicada)="dataClick($event)">
+						</app-datapicker-popup>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards
+		titleDrop="Registros"
+		idGrid="gridHomeDados"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		<!-- class="fixed-tops"-->
+		<app-datagrid 
+			#dgNotasFiscaisHome
+			[id]="'listarNotasViewAG'"
+			[url]="url+'mo/deliverynf/listarAg'"
+			[tela]="375"
+			[order]="[14, 'desc']"
+			[telaGlobal]="[ {'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[telaAcoes]="[
+				{'id' : 1,  'metodo' : 'visualizarNota',   'icone': 'fa fa-eye'}]"
+			[nivel]="0"
+			[thisParent]="this"
+			[allList]="true"
+			[notOnLoad]="true"
+			[stateSave]="true"
+			[scroll]="500">
+			
+			<th data-id="IDG083" data-object="true" data-type-column="actions">Ações</th>
+			<th data-id="NRNOTA" data-align-right="true">Nº NF</th>
+			<th data-id="CDDELIVE" data-align-left="true"  data-function="validaNullMonitoria">Código da Delivery</th>
+			<th data-id="G046_IDG046" data-align-right="true"  >Carga</th>
+			<th data-id="G051_CDCTRC" data-align-right="true">Nº CTe</th>
+			<th data-id="G005RE_RSCLIENTRE" data-align-left="true">Razão Social - Emissor</th>
+			<th data-id="G005DE_RSCLIENTDE" data-align-left="true">Razão Social - Destino</th>
+			<th data-id="G005RE_NMCLIENTRE" data-visible="false" data-align-left="true">Nome - Emissor</th>
+			<th data-id="G005DE_NMCLIENTDE" data-visible="false" data-align-left="true">Nome - Destino</th>
+			<th data-id="G003RE_NMCIDADERE" data-visible="false" data-align-left="true">Cidade do Emissor</th>
+			<th data-id="G002RE_NMESTADORE" data-visible="false" data-align-left="true">Estado do Emissor</th>
+			<th data-id="G003DE_NMCIDADEDE" data-visible="false" data-align-left="true">Cidade do Destino</th>
+			<th data-id="G002DE_NMESTADODE" data-visible="false" data-align-left="true">Estado do Destino</th>
+			<th data-id="G005CO_NMCLIENTCO" data-visible="false" data-align-left="true">Tomador</th>
+			<th data-id="DTEMINOT" data-align-center="true">Data Emissão NF</th>
+			<th data-id="G051_DTEMICTR" data-align-center="true">Data Emissão CTe</th>
+			<!-- <th data-id="IDG083" data-function="homeMonitoria" data-visible="false" data-function-full="true">Indicadores</th> -->
+			<th data-id="G046_DTSAIORI" data-align-center="true"  data-function="validaNullMonitoria">Data de previsão de despacho Original</th>
+			<th data-id="G046_DTPRESAI" data-align-center="true"  data-function="validaNullMonitoria">Data de previsão de despacho Rec.</th>
+			<th data-id="G046_DTSAICAR" data-align-center="true"  data-function="validaNullMonitoria">Data de Despacho</th>
+			<th data-id="G046_DTCARGA" data-align-center="true">Data Roteirização</th>
+			<th data-id="DTENTCON" data-align-center="true">Data Ent. SLA</th>
+			<th data-id="G051_DTAGENDA" data-align-center="true">Data Agendada</th>
+			<th data-id="G051_DTCOMBIN" data-align-center="true">Data Combinada</th>
+			<th data-id="G051_DTPREENT" data-align-center="true" data-function="validaNullMonitoria">Data Pre. Entrega</th>
+			<th data-id="DTENTREG" data-align-center="true">Data Ent. Realizada</th>
+			<th data-id="DTLANCTO" data-align-center="true" >Data de Lançamento</th>
+			<th data-id="DTDELIVE" data-align-center="true" >Data Solicitação de Retorno</th>
+			<!-- <th data-id="G051_TPTRANSP" data-align-left="true">Tipo de Operação</th> -->
+			<th data-id="G046_SNCARPAR" data-align-left="true" >Tipo da carga</th>
+			<th data-id="DSTIPVEI"  data-align-left="true">Tipo do Veículo</th>
+			<th data-id="G046_STCARGA" data-align-left="true">Status da Carga</th>
+			<th data-id="G048_NRSEQETA" data-align-right="true"  >Sequência de parada</th>
+			<th data-id="G046_QTDISPER" data-align-right="true"  data-function="formataDistancia">Total do Km</th>
+			<th data-id="VRFRETE" data-align-right="true" data-function="formataDinheiro">Valor do Frete</th>
+			<th data-id="A002_DSTPMOTI" data-align-left="true" data-function="validaNullMonitoria">Motivo Dt. Entrega</th>
+		</app-datagrid>
+	</app-cards>
+</div>
+
+<!--
+Exibir = 2
+Atendimentos referentes a NF-e escolhida
+-->
+<div *ngIf="exibir == 2">
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+			<app-cards
+				titleDrop="Informações"
+				[isCollapsed]="collapsed"
+				[dropdown]="true">
+
+				<!-- <button
+					type="button"
+					class="btn btn-primary btn-block"
+					(click)="envioSatisfacao();">
+					<i class="fas fa-share-alt"></i> &nbsp; Satisfação
+				</button> -->
+
+				<ngx-loading [show]="loading" ></ngx-loading>
+
+				<app-info-rastreio #componentRastreio [validaMilestone]="objValidaMilestone" [objRastreio]="rastreioObj" resumido="true" [validaHome]="true" [numNF]="numNF" [syngenta]="validSyngenta" [arCanhoto]="arCanhoto" [validaAg]="true"></app-info-rastreio>
+
+				<div class="row" *ngIf="SNADMIN == 1">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<fieldset class="scheduler-border">
+							<legend class="scheduler-border" style="background-color:SlateGray !important;">Datas - Visão Administrativa</legend>
+							<div class="row auxRow">
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Emissão NF-e:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTEMINOT ? (DTEMINOT ): ('n.i.') }}
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Emissão CT-e:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTEMICTR ? (DTEMICTR ): ('n.i.') }}
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Roterizada:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTROTERI ? (DTROTERI ): ('n.i.') }}
+								</div>
+							</div>
+							<div class="row separator"></div>
+							<div class="row auxRow">
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Data SLA:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTENTCON ? (DTENTCON ): ('n.i.') }} <br /><small *ngIf="previsao4" class="text-info">Previsão de entrega atual</small>
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Entrega Planejada:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTENTPLA ? (DTENTPLA): ('n.i.') }} <br /><small *ngIf="previsao3" class="text-info">Previsão de entrega atual</small>
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Calculada pelo Logos:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTCALDEP ? (DTCALDEP ): ('n.i.') }} <br /><small *ngIf="previsao5" class="text-info">Previsão de entrega atual</small>
+								</div>
+							</div>
+							<div class="row separator"></div>
+							<div class="row auxRow">
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Agendada:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTAGENDA ? (DTAGENDA ): ('n.i.') }} <br /><small *ngIf="previsao1" class="text-info">Previsão de entrega atual</small>
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Combinada:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTCOMBIN ? (DTCOMBIN ): ('n.i.') }} <br /><small *ngIf="previsao2" class="text-info">Previsão de entrega atual</small>
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Entrega:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTENTREG ? (DTENTREG ): ('n.i.') }} <br /><small *ngIf="markEntrega" class="text-info">Nota já entregue</small>
+								</div>
+							</div>
+							<!-- <div class="row separator"></div>
+							<div class="row auxRow">
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+										Dt Entrega Mobile:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTENTMOB ? (DTENTMOB ): ('n.i.') }} <br /> -->
+									<!-- <small *ngIf="markEntrega" class="text-info">Nota já entregue</small> -->
+								<!-- </div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Entrega do Canhoto:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTCANHOT ? (DTCANHOT ): ('n.i.') }} <br /> -->
+									<!-- <small *ngIf="markEntrega" class="text-info">Nota já entregue</small> -->
+								<!-- </div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+									Dt Entrega do Rastreador:
+								</div>
+								<div class="col-md-2 col-lg-2 col-xl-2 text-left">
+									{{ DTENTRAS ? (DTENTRAS ): ('n.i.') }} <br /> -->
+									<!-- <small *ngIf="markEntrega" class="text-info">Nota já entregue</small> -->
+								<!-- </div>
+							</div> -->
+						</fieldset>
+					</div>
+				</div>
+
+				<app-info-nfe [objNotaFiscal]="nfeObj"></app-info-nfe>
+
+				<app-info-cte [objCTE]="cteObj"></app-info-cte>
+
+				<app-info-carga [objCarga]="cargaObj"></app-info-carga>
+
+				<!-- <app-info-rastreio-detalhado [objTracking]="trackingObj" [entreg]="entregTracking"></app-info-rastreio-detalhado>
+
+				<app-envio-rastreio #componenteEnvioRastreio [objEnvioRastreio]="envioRastreioObj" (shareRastreio)="compartilharRastreio($event)" [envSyngenta]="validSyngenta"></app-envio-rastreio>
+
+				<app-envio-nps #componenteEnvioNps [objEnvioNps]="envioRastreioObj" (shareNps)="enviarSatisfacaoUnico($event)" [envSyngenta]="validSyngenta"></app-envio-nps> -->
+			</app-cards>
+		</div>
+	</div>
+</div>

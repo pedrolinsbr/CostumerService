@@ -1,0 +1,536 @@
+<ng-container *ngIf="showAll">
+<strong><H3>Conhecimento {{objConhecimento.CDCTRC}}</H3></strong>
+
+<ngb-tabset>
+		<ngb-tab title="C.T.R.C.">
+		  <ng-template ngbTabContent>
+				
+				<table cellspacing="15px" class=" nowrap dataTable no-footer">
+						<tbody>
+							<tr>
+								<th>Dt. Emissão:</th>
+								<td>{{utilServices.formatDate(objConhecimento.DTEMICTR)}}</td>
+								<th>Frete Pago por:</th>
+								<td>---</td>
+								<th>Tipo de Transporte:</th>
+								<td>{{utilServices.tipoTransporte(objConhecimento.TPTRANSP)}}</td>
+							</tr>
+						
+							<tr>
+								<th>Cd. Fiscal:</th>
+								<td>---</td>
+								<th>Fatura N°:</th>
+								<td>---</td>
+								<th>Situação:</th>
+								<td>{{utilServices.stCTRC(objConhecimento.STCTRC)}}</td>
+							</tr>
+
+							<tr>
+								<th>Motorista:</th>
+								<td>{{utilServices.numberNullDG(objConhecimento.NRMATRIC)}} - {{utilServices.registroNullDG(objConhecimento.NMMOTORI)}}</td>
+							</tr>
+
+							<tr>
+								<th>Veículo:</th>
+								<td>{{objConhecimento.DSVEICUL}}</td>
+								<th>UF:</th>
+								<td>---</td>
+							</tr>
+
+							<tr>
+								<th>Cidade:</th>
+								<td>---   ---</td>
+								<th>UF:</th>
+								<td>---</td>
+							</tr>
+
+							<tr>
+								<th>Calculado até:</th>
+								<td>---</td>
+							</tr>
+
+						</tbody>
+				</table>
+
+			<ngb-tabset>
+
+				<ngb-tab title="Remetente">
+					<ng-template ngbTabContent>
+						<!-- table-borderless -->
+							<table cellspacing="15px" class=" nowrap dataTable no-footer">
+									<tbody>
+										<tr>
+											<th><i class="far fa-address-card"></i>&nbsp;Remetente:</th>
+											<td>{{objConhecimento.IDG005RE + ' - ' + objConhecimento.NMCLIENTRE}}</td>
+										</tr>
+									
+										<tr>
+											<th>Endereço:</th>
+											<td>{{objConhecimento.DSENDERERE}}</td>
+											<th>CEP:</th>
+											<td>{{objConhecimento.CPENDERERE}}</td>
+										</tr>
+			
+										<tr>
+											<th>Bairro:</th>
+											<td>{{objConhecimento.BIENDERERE}}</td>
+											<th>Fone:</th>
+											<td> --- </td>
+										</tr>
+			
+										<tr>
+											<th>Município:</th>
+											<td>{{objConhecimento.CDMUNICIRE +' - '+ objConhecimento.NMCIDADERE}}</td>
+											<th>Estado:</th>
+											<td>{{objConhecimento.NMESTADORE}}</td>
+										</tr>
+			
+										<tr>
+											<th>C.N.P.J.(M.F):</th>
+											<td>{{utilServices.validCnpjCpf(objConhecimento.CJCLIENTRE)}}</td>
+											<th>IE:</th>
+											<td>{{objConhecimento.IECLIENTRE}}</td>
+										</tr>
+
+										<tr>
+											<th><i class="fas fa-arrows-alt-h"></i>&nbsp;Latitude:</th>
+											<td>{{objConhecimento.NRLATITURE}}</td>
+											<th><i class="fas fa-arrows-alt-v"></i>&nbsp;Longitude:</th>
+											<td>{{objConhecimento.NRLONGITRE}}</td>
+										</tr>
+			
+									</tbody>
+								  </table>
+
+					</ng-template>
+				</ngb-tab>
+
+				<ngb-tab title="Expedidor">
+					<ng-template ngbTabContent>
+
+							<table cellspacing="15px" class=" nowrap dataTable no-footer">
+									<tbody>
+										<tr>
+											<th><i class="far fa-address-card"></i>&nbsp;Expedidor:</th>
+											<td>{{objConhecimento.IDG005EX  + ' - ' + objConhecimento.NMCLIENTEX}}</td>
+										</tr>
+									
+										<tr>
+											<th>Endereço:</th>
+											<td>{{objConhecimento.DSENDEREEX}}</td>
+											<th>CEP:</th>
+											<td>{{objConhecimento.CPENDEREEX}}</td>
+										</tr>
+			
+										<tr>
+											<th>Bairro:</th>
+											<td>{{objConhecimento.BIENDEREEX}}</td>
+											<th>Fone:</th>
+											<td> --- </td>
+										</tr>
+			
+										<tr>
+											<th>Municipio:</th>
+											<td>{{objConhecimento.CDMUNICIEX + ' - ' + objConhecimento.NMCIDADEEX}}</td>
+											<th>Estado:</th>
+											<td>{{objConhecimento.NMESTADOEX}}</td>
+											
+										</tr>
+			
+										<tr>
+											<th>C.N.P.J.(M.F):</th>
+											<td>{{utilServices.validCnpjCpf(objConhecimento.CJCLIENTEX)}}</td>
+											<th>IE:</th>
+											<td>{{objConhecimento.IECLIENTEX}}</td>
+										</tr>
+
+										<tr>
+											<th><i class="fas fa-arrows-alt-h"></i>&nbsp;Latitude:</th>
+											<td>{{objConhecimento.NRLATITUEX}}</td>
+											<th><i class="fas fa-arrows-alt-v"></i>&nbsp;Longitude:</th>
+											<td>{{objConhecimento.NRLONGITEX}}</td>
+										</tr>
+			
+									</tbody>
+								  </table>
+	
+					</ng-template>
+				</ngb-tab>
+			
+				<ngb-tab title="Destinatario">
+					<ng-template ngbTabContent>
+
+							<table cellspacing="15px" class=" nowrap dataTable no-footer">
+									<tbody>
+										<tr>
+											<th><i class="far fa-address-card"></i>&nbsp;Destinatario:</th>
+											<td>{{objConhecimento.IDG005DE + ' - ' + objConhecimento.NMCLIENTDE}}</td>
+										</tr>
+									
+										<tr>
+											<th>Endereço:</th>
+											<td>{{objConhecimento.DSENDEREDE}}</td>
+											<th>CEP:</th>
+											<td>{{objConhecimento.CPENDEREDE}}</td>
+										</tr>
+			
+										<tr>
+											<th>Bairro:</th>
+											<td>{{objConhecimento.BIENDEREDE}}</td>
+											<th>Fone:</th>
+											<td> --- </td>
+										</tr>
+			
+										<tr>
+											<th>Municipio:</th>
+											<td>{{objConhecimento.CDMUNICIDE + ' - ' + objConhecimento.NMCIDADEDE}}</td>
+											<th>Estado:</th>
+											<td>{{objConhecimento.NMESTADODE}}</td>
+											
+										</tr>
+			
+										<tr>
+											<th>C.N.P.J.(M.F):</th>
+											<td>{{utilServices.validCnpjCpf(objConhecimento.CJCLIENTDE)}}</td>
+											<th>IE:</th>
+											<td>{{objConhecimento.IECLIENTDE}}</td>
+										</tr>
+
+										<tr>
+											<th><i class="fas fa-arrows-alt-h"></i>&nbsp;Latitude:</th>
+											<td>{{objConhecimento.NRLATITUDE}}</td>
+											<th><i class="fas fa-arrows-alt-v"></i>&nbsp;Longitude:</th>
+											<td>{{objConhecimento.NRLONGITDE}}</td>
+										</tr>
+			
+									</tbody>
+								  </table>
+	
+					</ng-template>
+				</ngb-tab>
+
+				<ngb-tab title="Recebedor">
+					<ng-template ngbTabContent>
+
+							<table cellspacing="15px" class=" nowrap dataTable no-footer">
+									<tbody>
+										<tr>
+											<th><i class="far fa-address-card"></i>&nbsp;Recebedor:</th>
+											<td>{{objConhecimento.IDG005RC + ' - ' + objConhecimento.NMCLIENTRC}}</td>
+										</tr>
+									
+										<tr>
+											<th>Endereço:</th>
+											<td>{{objConhecimento.DSENDERERC}}</td>
+											<th>CEP:</th>
+											<td>{{objConhecimento.CPENDERERC}}</td>
+										</tr>
+
+										<tr>
+											<th>Bairro:</th>
+											<td>{{objConhecimento.BIENDERERC}}</td>
+											<th>Fone:</th>
+											<td> --- </td>
+										</tr>
+			
+										<tr>
+											<th>Municipio:</th>
+											<td>{{objConhecimento.CDMUNICIRC + ' - ' + objConhecimento.NMCIDADERC}}</td>
+											<th>Estado:</th>
+											<td>{{objConhecimento.NMESTADORC}}</td>
+											
+										</tr>
+			
+										<tr>
+											<th>C.N.P.J.(M.F):</th>
+											<td>{{utilServices.validCnpjCpf(objConhecimento.CJCLIENTRC)}}</td>
+											<th>IE:</th>
+											<td>{{objConhecimento.IECLIENTRC}}</td>
+										</tr>
+
+										<tr>
+											<th><i class="fas fa-arrows-alt-h"></i>&nbsp;Latitude:</th>
+											<td>{{objConhecimento.NRLATITURC}}</td>
+											<th><i class="fas fa-arrows-alt-v"></i>&nbsp;Longitude:</th>
+											<td>{{objConhecimento.NRLONGITRC}}</td>
+										</tr>
+			
+									</tbody>
+								  </table>
+				
+					</ng-template>
+				</ngb-tab>
+
+				<ngb-tab title="Consignatario">
+					<ng-template ngbTabContent>
+
+							<table cellspacing="15px" class=" nowrap dataTable no-footer">
+									<tbody>
+										<tr>
+											<th><i class="far fa-address-card"></i>&nbsp;Consignatario:</th>
+											<td>{{objConhecimento.IDG005CO + ' - ' + objConhecimento.NMCLIENTCO}}</td>
+										</tr>
+									
+										<tr>
+											<th>Endereço:</th>
+											<td>{{objConhecimento.DSENDERECO}}</td>
+											<th>CEP:</th>
+											<td>{{objConhecimento.CPENDERECO}}</td>
+										</tr>
+			
+										<tr>
+											<th>Bairro:</th>
+											<td>{{objConhecimento.BIENDERECO}}</td>
+											<th>Fone:</th>
+											<td> --- </td>
+										</tr>
+			
+										<tr>
+											<th>Municipio:</th>
+											<td>{{objConhecimento.CDMUNICICO + ' - ' + objConhecimento.NMCIDADECO}}</td>
+											<th>Estado:</th>
+											<td>{{objConhecimento.NMESTADOCO}}</td>
+											
+										</tr>
+			
+										<tr>
+											<th>C.N.P.J.(M.F):</th>
+											<td>{{utilServices.validCnpjCpf(objConhecimento.CJCLIENTCO)}}</td>
+											<th>IE:</th>
+											<td>{{objConhecimento.IECLIENTCO}}</td>
+										</tr>
+
+										<tr>
+											<th><i class="fas fa-arrows-alt-h"></i>&nbsp;Latitude:</th>
+											<td>{{objConhecimento.NRLATITUCO}}</td>
+											<th><i class="fas fa-arrows-alt-v"></i>&nbsp;Longitude:</th>
+											<td>{{objConhecimento.NRLONGITCO}}</td>
+										</tr>
+			
+									</tbody>
+								  </table>
+		
+					</ng-template>
+				</ngb-tab>
+
+				<ngb-tab title="Composição do frete">
+					<ng-template ngbTabContent>
+							<table cellspacing="15px" class=" nowrap dataTable no-footer">
+									<tbody>
+											<tr>
+												<th>Frete Peso/Volume:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VRFRETEP)+ ' / ' +utilServices.formataDinheiro(objConhecimento.VRFRETEV)}}</td>
+												<th>Frete:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VRTOTFRE)}}</td>
+												<th>SEC/CAT:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VRSECCAT)}}</td>
+											</tr>
+												
+											<tr>
+												<th>Despacho:</th>
+												<td> --- </td>
+												<th>Pedagio:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VRPEDAGI)}}</td>
+												<th>Outros:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VROUTROS)}}</td>
+											</tr>
+						
+											<tr>
+												<th>Base Calculo:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VRBASECA)}}</td>
+												<th>Total Prestação:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VRTOTPRE)}}</td>
+												<th>Aliq. ICMS:</th>
+												<td>{{utilServices.formataDinheiro(objConhecimento.VRICMS)}}</td>
+											</tr>
+						
+											<tr>
+												<th>Cód. da Faixa:</th>
+												<td colspan="5"> --- </td>
+											</tr>
+						
+											<tr>
+												<th>Observações:</th>
+												<td colspan="5" rowspan="3"> --- </td>
+											</tr>
+						
+									</tbody>
+								</table>
+				
+					</ng-template>
+				</ngb-tab>
+
+			</ngb-tabset>
+
+		  </ng-template>
+		</ngb-tab>
+
+		
+		
+		<ngb-tab title="Notas">
+		  <ng-template ngbTabContent>
+
+				
+			<!-- <ngb-tabset>
+				<ngb-tab title="Notas">-->
+						<div class = "breadcrumbs-top">
+
+							<app-breadcrumbs
+								#breadcrumbs
+								home="Filtros"
+								[arBreadcrumbs]="arBreadcrumbsLocal"
+								(goHome)="goHome($event)"
+								[context]="this"
+								size="sm">
+							</app-breadcrumbs>
+
+						</div>
+							
+					
+				<app-datagrid
+					*ngIf = "controlViews == 1"
+					[id]="'carga2'"
+					[url]="urlNotasGrid"
+					[tela]="196"
+					[telaGlobal]="[]"
+					[telaAcoes]="[
+							{'id' : 33, 'metodo' : 'openDelete', 'icone': 'fas fa-trash-alt'},
+							{'id' : 34, 'metodo' : 'atriMotorista', 'icone': 'fas fa-address-card'}]"
+					[nivel]="0"
+					[thisParent]="this"
+					[additionalFields]="{IDG051:IDG051}">
+						
+				  <th data-id="IDG043" data-exec="viewConhecimento"  data-align-right="true">Código</th>
+				  <th data-id="NRSERINF" data-align-right="true" data-function="registroNullDG">Série</th>
+				  <th data-id="DTDELIVE" data-align-right="true" data-function="formatDate">Data da Nota</th>
+				  <th data-id="NRCHADOC" data-align-right="true" data-function="registroNullDG">Chave de acesso</th>
+				  <th data-id="CJDESTIN" data-align-right="true" data-function="registroNullDG">CNPJ Destinatário</th>
+				  <th data-id="VRDELIVE" data-align-right="true" data-function="formataDinheiro">Valor</th>
+				  <th data-id="PSBRUTO"  data-align-right="true"data-function="formataPeso">Peso bruto</th>
+				  <th data-id="PSLIQUID"  data-align-right="true" data-function="registroNullDG">Peso líquido</th>
+				  <th data-id="VRVOLUME" data-align-right="true" data-function="formataVolume">Volume</th>
+				  <th data-id="VRALTURA" data-align-right="true" data-function="registroNullDG">Altura</th>
+				  <th data-id="VRLARGUR" data-align-right="true" data-function="registroNullDG">Largura</th>
+				  <th data-id="VRCOMPRI" data-align-right="true" data-function="registroNullDG">Comprimento</th>		
+				  <th data-id="CDRASTRE" data-align-right="true" data-function="registroNullDG">Código de rastreamento</th>
+				  <!-- <th data-id="CDDELIVE"  data-align-right="true" data-function="registroNullDG">Código da Delivery</th> -->
+				  <th data-id="DTLANCTO" data-align-right="true" data-function="formatDate">Data de lançamento</th>
+				  <th data-id="TPDELIVE" data-align-left="true" data-function="registroNullDG">Tipo</th>				  
+				  <!-- <th data-id="STDELIVE" data-align-left="true" data-function="registroNullDG">Status</th> -->
+				  <th data-id="NRNOTA" data-align-right="true" data-function="registroNullDG">Número da Nota</th>
+				  <th data-id="DTEMINOT" data-align-right="true" data-function="formatDate">Data Emissão</th>
+				  <th data-id="NRCHADOC" data-align-right="true" data-function="registroNullDG">Chave de acesso</th>
+				  <th data-id="DSMODENF" data-align-left="true" data-function="registroNullDG">Modelo da NF</th>
+				  <th data-id="IDG005RE" data-align-right="true" data-function="registroNullDG">Remetente</th>
+				  <th data-id="IDG005DE" data-align-right="true" data-function="registroNullDG">Destinatário</th>
+				  <th data-id="DTFINCOL" data-align-right="true" data-function="formatDate">Data Final da Coleta</th>
+				  <th data-id="TPTRANSP"  data-align-left="true"data-function="registroNullDG">Tipo de transporte</th>
+				  <!-- <th data-id="STETAPA" data-align-left="true" data-function="registroNullDG">Status da etapa</th> -->
+				  <th data-id="VRALTURA" data-align-right="true" data-function="registroNullDG">Altura</th>
+				  <th data-id="VRLARGUR" data-align-right="true" data-function="registroNullDG">Largura</th>
+				  <th data-id="VRCOMPRI" data-align-right="true" data-function="registroNullDG">Comprimento</th>
+				  <th data-id="CJDESTIN" data-align-right="true" data-function="registroNullDG">CNPJ Destinatário</th>
+				  <th data-id="IEDESTIN" data-align-right="true" data-function="registroNullDG">I.E. Destinatário</th>
+				  <!-- <th data-id="IDG009PS" data-align-left="true" data-function="formataPeso">Unidade de Peso</th> -->
+				  <th data-id="DTENTREG" data-align-right="true" data-function="formatDate">Data de entrega</th>
+				  <th data-id="DTENTCON" data-align-right="true" data-function="formatDate">Data de entrega contratual</th>
+				  <th data-id="TXINSTRU" data-align-left="true" data-function="registroNullDG">Texto de instrução </th>
+				  <!-- <th data-id="TXCANHOT" data-align-left="true" data-function="registroNullDG">Texto do canhoto</th> -->
+				  <!-- <th data-id="DSEMACLI" data-align-left="true" data-function="registroNullDG">E-mail cliente</th> -->
+				  <!-- <th data-id="DSEMARTV" data-align-left="true" data-function="registroNullDG">E-mail Representante de venda das industrias</th> -->
+				  <th data-id="IDG005RC" data-align-left="true" data-function="registroNullDG">Recebedor</th>
+				  <!-- <th data-id="CDRASTRE" data-align-right="true" data-function="registroNullDG">Código de rastreamento para o cliente</th> -->
+				  <th data-id="DTBLOQUE" data-align-left="true" data-function="formatDate">Bloqueio</th>
+				  <th data-id="DTDESBLO" data-align-left="true" data-function="formatDate">Desbloqueio</th>
+				  <th data-id="IDG005TO" data-align-left="true" data-function="registroNullDG">Tomador</th>
+				  <th data-id="IDG024TR" data-align-left="true" data-function="registroNullDG">Transportadora</th>
+				  <!-- <th data-id="SNOTIMAN" data-align-left="true" data-function="registroNullDG">Enviado otimizador manual</th> -->
+				  <!-- <th data-id="IDG074" data-align-left="true" data-function="registroNullDG">Motivos de devolução</th> -->
+				  <!-- <th data-id="CDG46ETA" data-align-right="true" data-function="registroNullDG">Código da carga com a etapa. Referência da primeira carga.</th> -->
+				  <!-- <th data-id="IDS001CA" data-align-left="true" data-function="registroNullDG">Usuario que cancelou a delivery</th> -->
+					  </app-datagrid>	
+				
+						<!-- </ng-template>
+					</ngb-tab>
+				</ngb-tabset> -->
+
+						<div *ngIf = "controlViews == 2 && showGrid">
+							<h3>Produtos</h3>
+								<app-cards>
+									<app-datagrid
+										[id]="'carga3'"
+										[url]="urlProdutoGrid"
+										[tela]="196"
+										[telaAcoes]="[
+												{'id' : 33, 'metodo' : 'openDelete', 'icone': 'fas fa-trash-alt'},
+												{'id' : 34, 'metodo' : 'atriMotorista', 'icone': 'fas fa-address-card'}]"
+										[nivel]="0"
+										[thisParent]="this"
+										[additionalFields]="{IDG043:IDG043}">
+											
+									
+										<th data-id="IDG043"  data-align-left="true" data-function="registroNullDG">ID</th>
+										<th data-id="DSPRODUT" data-align-left="true" data-function="registroNullDG">Descrição do produto</th>
+										<th data-id="VRUNIPRO" data-align-left="true" data-function="formataDinheiro">Valor unitário  produto</th>
+										<th data-id="NRORDITE" data-align-right="true" data-function="registroNullDG">Ordem do item</th>
+										<th data-id="NRONU" data-align-left="true" data-function="registroNullDG">ONU</th>
+										<th data-id="IDG009PS" data-align-left="true" data-function="registroNullDG">Unidade de Peso</th>
+										<th data-id="PSBRUTO" data-align-left="true" data-function="registroNullDG">Peso bruto do item</th>
+										<th data-id="IDG009UM" data-align-left="true" data-function="registroNullDG">Unidade de Medida</th>
+
+										
+										<!-- <th data-id="IDG015" data-align-left="true" data-function="registroNullDG">Código da ONU</th> -->
+										<th data-id="CDNCM" data-align-left="true" data-function="registroNullDG">NCM</th>
+										<th data-id="SNINFLAM" data-align-left="true" data-function="registroNullDG">Produto inflamável?</th>
+										<th data-id="TPORIPRO" data-align-left="true" data-function="registroNullDG">Tipo origem do projeto</th>
+										<th data-id="DTCADAST" data-align-left="true" data-function="formatDate">Data de cadastro</th>
+										<!-- <th data-id="STCADAST" data-align-left="true" data-function="registroNullDG">Status</th>
+										<th data-id="IDS001" data-align-left="true" data-function="registroNullDG">Usuário do Cadastro</th>
+										<th data-id="IDG014" data-align-left="true" data-function="registroNullDG">Operações</th>
+										<th data-id="IDG038" data-align-left="true" data-function="registroNullDG">Grupo de produto</th>
+										<th data-id="STENVOTI" data-align-left="true" data-function="registroNullDG">Status da integração com o otimizador</th>
+										<th data-id="IDG037" data-align-left="true" data-function="registroNullDG">Categoria de produto</th> -->
+									</app-datagrid>
+								</app-cards>			
+						</div>
+				
+			
+				</ng-template>
+		</ngb-tab>
+		
+
+		
+		<ngb-tab title="Movimento">
+				<ng-template ngbTabContent>
+					<app-cards>
+						<app-datagrid
+							[id]="'carga3'"
+							[url]="urlMovimentoGrid"
+							[tela]="196"
+							[telaGlobal]="[]"
+							[telaAcoes]="[
+									{'id' : 33, 'metodo' : 'openDelete', 'icone': 'fas fa-trash-alt'},
+									{'id' : 34, 'metodo' : 'atriMotorista', 'icone': 'fas fa-address-card'}]"
+							[nivel]="0"
+							[thisParent]="this"
+							[additionalFields]="{IDG051:IDG051}">
+								
+						
+						<!-- <th data-id="IDLOGOS"  data-align-left="true" data-function="registroNullDG">Empresa</th> -->
+						<th data-id="NMTRANSP"  data-align-left="true" data-function="registroNullDG">Transportadora</th>
+						<th data-id="DSCARGA" data-align-left="true" data-function="registroNullDG">Descrição</th>
+						<th data-id="IDG046" data-align-right="true" data-function="registroNullDG">Carga</th>
+						<th data-id="DTCARGA" data-align-left="true" >Data</th>
+						<th data-id="STCARGA" data-function="statusCargaTpDG">Status</th>
+					
+						</app-datagrid>
+					</app-cards>
+				</ng-template>
+		</ngb-tab>
+		
+	  </ngb-tabset>
+</ng-container>
+
+<ng-container *ngIf="!showAll">
+	<h6>Dados não encontrados !!</h6>
+</ng-container>

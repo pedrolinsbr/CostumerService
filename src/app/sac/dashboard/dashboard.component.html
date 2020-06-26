@@ -1,0 +1,108 @@
+<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="initCharts"
+		nameClearFunction="limpar"
+		idGrid="gridSacAtendimentos"
+		[dropdown]="true"
+		[isCollapsed]="true"
+		[context]="this">
+
+		<form class="form-horizontal" [formGroup]="objFormFilterSac" >
+			<div class="row">
+				<div class="form-group col-sm-4 col-md-4 col-lg-4">
+					<label>Data Início</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtInicioDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterSacAux"
+						[formControlNameDatePop]="'DTINICIO'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-4 col-md-4 col-lg-4">
+					<label>Data Término</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtTerminoDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterSacAux"
+						[formControlNameDatePop]="'DTFIM'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="form-group col-sm-4 col-md-4 col-lg-4">
+					<label >Operação</label>
+					<app-combobox-multi
+						[url]="url+'filtro/operacao'"
+						[formMultiSelect] = "objFormFilterSacAux"
+						[disabledViewMultiSelect] = 'false'
+						[formControlNameMultiSelect] = "'G014_IDG014'">
+					</app-combobox-multi>
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+<br />
+
+<!-- Loader -->
+<div *ngIf="isLoading && !realizouFiltro && !errorFound" class="alert alert-warning" role="alert">
+	<div class="row vertical-align">
+		<div class="col-xs-2">
+			<i class="fa fa-spinner fa-spin fa-5x"></i> 
+		</div>
+		<div class="col-xs-10">
+			&nbsp;<strong>Carregando...</strong>
+		</div>
+	</div>
+</div>
+<!-- Gráficos Abaixo -->
+<div *ngIf="realizouFiltro && !errorFound">
+	<div class="row">
+		<div class="col-md-6 col-lg-6 col-xl-6">
+			<div class="card">
+				<div class="card-header text-white bg-info text-center">
+					Situação de Atendimento
+				</div>
+				<div class="card-body" *ngIf="!noValueSituacaoDeAtendimento">
+					<div  echarts [options]="objSitAtendimento" class="auxRow"></div>
+				</div>
+				<div *ngIf="noValueSituacaoDeAtendimento" class="alert alert-warning" role="alert">
+					<strong>Atenção!</strong> Não há resultados a serem exibidos.
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-6 col-xl-6">
+			<div class="card">
+				<div class="card-header text-white bg-info text-center">
+					Ação X Motivo
+				</div>
+				<div class="card-body" *ngIf="!noValueAcaoEMotivo">
+					<div echarts [options]="objAcaoXMotivo"  class="auxRow"></div>
+				</div>
+				<div *ngIf="noValueAcaoEMotivo" class="alert alert-warning" role="alert">
+					<strong>Atenção!</strong> Não há resultados a serem exibidos.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Erro encontrado durante o carregamento dos gráficos. -->
+<div *ngIf="errorFound" class="alert alert-danger" role="alert">
+	<div class="row vertical-align">
+		<div class="col-xs-2">
+			<i class="fa fa-frown fa-5x"></i> 
+		</div>
+		<div class="col-xs-10">
+			&nbsp;<strong>Ops!</strong> Não foi possível carregar os gráficos.
+		</div>
+	</div>
+</div>

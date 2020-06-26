@@ -1,0 +1,352 @@
+<ng-template #modalNfeCompleta>
+	<div class="modal-header">
+			<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;"><small class="fw-300">Detalhes da Nota Fiscal</small></h3>
+		<button type="button" class="close" aria-label="Close" (click)="closeModalNfeCompleta()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" style="color: #464444">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase">
+									<small class="fw-300">Dados da </small> <strong>NF-e</strong>
+								</h3>
+							</div>
+						</div>
+
+						<div style="margin-top: 15px">
+							<div class="row">
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Chave de Acesso</strong></a>
+											<div>{{ objNotaFiscal.NRCHADOC }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12 col-md-12 col-lg-12" >
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Data de emissão</strong></a>
+											<div>{{ objNotaFiscal.DTEMINOT? (objNotaFiscal.DTEMINOT) : ('n.i') }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Modelo</strong></a>
+											<div>{{ objNotaFiscal.DSMODENF }}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Número</strong></a>
+											<div>{{ objNotaFiscal.NRNOTA }}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Tipo</strong></a>
+											<div>{{ objNotaFiscal.TPDELIVE }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Série</strong></a>
+											<div>{{ objNotaFiscal.NRSERINF }}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Peso Bruto (Kg)</strong></a>
+											<div>{{ objNotaFiscal.PSBRUTO ? (objNotaFiscal.PSBRUTO | number:'1.2-2'):('n.i.') }}</div>
+										</div>
+									</div>	
+								</div>
+								<div class="col-sm-4">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Peso Líquido (Kg)</strong></a>
+											<div>{{ objNotaFiscal.PSLIQUID ? (objNotaFiscal.PSLIQUID | number:'1.2-2'):('n.i.') }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Observação da Nota</strong></a>
+											<div>{{ objNotaFiscal.DSINFCPL }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase">
+									<small class="fw-300">Dados do </small><strong>Emitente</strong>
+								</h3>
+							</div>
+						</div>
+
+						<div style="margin-top: 15px">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>CNPJ</strong></a>
+											<div>{{objNotaFiscal.CJCLIENTRE | cnpj }}</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Razão Social</strong></a>
+											<div>{{ objNotaFiscal.NMCLIENTRE }}</div>
+										</div>
+
+									</div>
+
+								</div>
+								<div class="col-sm-6">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Inscrição Estadual</strong></a>
+											<div>{{objNotaFiscal.IECLIENTRE}}</div>
+										</div>
+
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>UF</strong></a>
+											<div>{{ objNotaFiscal.NMCIDADERE }} - {{ objNotaFiscal.CDESTADORE}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase">
+									<small class="fw-300">Dados do </small><strong>Destinatário</strong>
+								</h3>
+							</div>
+						</div>
+						<div style="margin-top: 15px">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>CNPJ/CPF</strong></a>
+											<div>{{ (objNotaFiscal.CJCLIENTDE != null) && (objNotaFiscal.CJCLIENTDE.length == 11) ? (objNotaFiscal.CJCLIENTDE | cpf) : (objNotaFiscal.CJCLIENTDE | cnpj)}}</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Razão Social</strong></a>
+											<div>{{ objNotaFiscal.NMCLIENTDE }}</div>
+										</div>
+
+									</div>
+
+								</div>
+								<div class="col-sm-6">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Inscrição Estadual</strong></a>
+											<div>{{objNotaFiscal.IECLIENTDE}}</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>UF</strong></a>
+											<div>{{ objNotaFiscal.NMCIDADEDE }} - {{objNotaFiscal.CDESTADODE}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase">
+									<small class="fw-300">Itens da </small><strong>Nota Fiscal</strong>
+								</h3>
+							</div>
+						</div>
+
+						<div style="margin-top: 15px">
+							<div class="table-responsive" style="overflow-x: hidden;">
+								<!--
+								<table class="table table-striped ts">
+									 <thead>
+										<tr>
+											<th></th>
+											<th>Descrição do Produto</th>
+											<th>Quantidade</th>
+											<th>Valor Unitário</th>
+											<th>Valor Total</th>
+											<th>Unidade</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of objNotaFiscal.ITENS_NFE; let i = index">
+											<td><i class="fas fa-plus cursorIcon btTableI" (click)="controlView(item,i)" style="cursor: pointer;"></i></td>
+											<td>{{item.DSPRODUT}}</td>
+											<td>{{item.QTPRODUT}}</td>
+											<td>{{item.VRUNIPRO | currency:'BRL'}}</td>
+											<td>{{item.VLTOTAL | currency:'BRL'}}</td>
+											<td>{{item.CDUNIDAD}}</td>
+										</tr>
+										
+									</tbody> 
+									
+								</table>-->
+
+								<div class="row">
+									<div class="col-md-1"></div>
+									<div class="col-md-3" style="padding-bottom: 5px">Descrição do Produto</div>
+									<div class="col-md-2" style="padding-bottom: 5px">Quantidade</div>
+									<div class="col-md-2" style="padding-bottom: 5px">Valor Unitário</div>
+									<div class="col-md-2" style="padding-bottom: 5px">Valor Total</div>
+									<div class="col-md-2" style="padding-bottom: 5px">Unidade</div>
+								</div>
+								<div class="row row-striped" *ngFor="let item of objNotaFiscal.ITENS_NFE;let i = index;">
+									<div class="col-md-1" style="padding-top: 7px; padding-bottom: 7px; text-align: center"><i class="fas fa-plus cursorIcon btTableI" style="cursor: pointer;" (click)="controlView(item, i)" *ngIf="item.DSINFAD != null"></i></div>
+									<div class="col-md-3 rowAuxList">{{item.DSPRODUT}}</div>
+									<div class="col-md-2 rowAuxList">{{item.QTPRODUT}}</div>
+									<div class="col-md-2 rowAuxList">{{item.VRUNIPRO | currency:'BRL'}}</div>
+									<div class="col-md-2 rowAuxList">{{item.VLTOTAL | currency:'BRL'}}</div>
+									<div class="col-md-2 rowAuxList">{{item.CDUNIDAD}}</div>
+
+									<div class="col-md-12" *ngIf="controlViewDados[i]" style="font-size: 0.775rem">
+										{{item.DSINFAD}}
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button *ngIf="buttonDanfe" type="button" class="btn btn-primary" (click)="openModalDanfe()" style="margin-right: 10px;">Danfe</button>
+		<button type="button" class="btn btn-info" (click)="closeModalNfeCompleta()">Fechar</button>
+	</div>
+</ng-template>
+
+<ng-template #modalDanfe>
+		<div class="modal-header">
+				<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;">
+						<small class="fw-300">Visualização Danfe</small>
+				</h3>
+				<button type="button" class="close" aria-label="Close" (click)="closeModalNfeCompleta()">
+						<span aria-hidden="true">&times;</span>
+				</button>
+		</div>
+		<div class="modal-body" style="color: #464444">
+				<div style="width: 100%">
+						<div>
+								<app-danfe [IDG083]="IDG083"></app-danfe>
+						</div>
+				</div>
+		</div>       
+</ng-template>
+
+<div class="row">
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border">
+				Informações da Nota Fiscal
+				<div style="float: right">
+					<i
+						class="fas fa-eye fa-fw fa-lg btn-fieldset"
+						alt="Detalhes da NF-e"
+						title="Detalhes da NF-e"
+						(click)="showModalNfeCompleta()">
+					</i>
+				</div>
+			</legend>
+			<div class="row">
+				<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+					Nº da NF
+				</div>
+				<div class="col-md-4 col-lg-4 col-xl-4 text-left">
+					{{objNotaFiscal.NRNOTA}}
+				</div>
+				<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+					Dt. Emi. NF
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left">
+					{{ objNotaFiscal.DTEMINOT? (objNotaFiscal.DTEMINOT) : ('n.i') }}
+				</div>
+			</div>
+			<div class="row separator"></div>
+			<div class="row">
+				<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+					Emissor
+				</div>
+				<div class="col-md-4 col-lg-4 col-xl-4 text-left">
+					{{ objNotaFiscal.NMCLIENTRE }} [ {{ objNotaFiscal.CJCLIENTRE | cnpj }} ]
+				</div>
+				<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+					Transportadora
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left">
+					{{objNotaFiscal.NMTRANSP}} [ {{ objNotaFiscal.CJTRANSP | cnpj }} ]
+				</div>
+			</div>
+			<div class="row separator"></div>
+			<div class="row">
+				<div class="col-md-2 col-lg-2 col-xl-2 text-left font-weight-bold">
+					Destino
+				</div>
+				<div class="col-md-10 col-lg-10 col-xl-10 text-left">
+					{{ objNotaFiscal.NMCLIENTDE }} [ {{ (objNotaFiscal.CJCLIENTDE != null) && (objNotaFiscal.CJCLIENTDE.length == 11) ? (objNotaFiscal.CJCLIENTDE | cpf) : (objNotaFiscal.CJCLIENTDE | cnpj)}} ]
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>

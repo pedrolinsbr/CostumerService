@@ -1,0 +1,196 @@
+
+<ng-template #modalViewConteudoQM>
+	<div class="modal-header">
+		<h4 class="modal-title">Detalhe do Arquivo</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" style="color: #464444">
+
+		<app-cards-filter
+			titleDrop="Filtros"
+			nameSubmitFunction="filtrarConteudo"
+			nameClearFunction="limparHome"
+			idGrid="gridHomeNFe"
+			[dropdown]="true"
+			[isCollapsed]="true"
+			[context]="this">
+	
+	
+			<form class="form-horizontal" [formGroup]="objFormFilterConteudo">
+				<div class="row">
+					<div class="form-group col-sm-3 col-md-3 col-lg-3">
+						<label>Número da nota</label>
+						<input class="form-control" id="NRNOTA" name="NRNOTA" formControlName="NRNOTA" placeholder="Digite para pesquisar">
+					</div>
+				</div>
+			</form>
+		</app-cards-filter>
+
+		<div class="card">
+			<div class="card-body my-bg">
+				<div class="row">
+
+					<div class="col-md-12" style="margin-top: 25px;">
+
+						<div style="max-height: 600px;overflow-x: auto;overflow-y: auto;">
+							<table class="table table-striped">
+									<thead>
+										<tr>
+											<th style="text-align: left">NF</th>
+											<th style="text-align: left">Latitude</th>
+											<th style="text-align: left">Longitude</th>
+											<th style="text-align: left">Data de atualização</th>
+											<th style="text-align: left">Localização</th>
+											<th style="text-align: left">Data Ent. Realizada</th>
+											<th style="text-align: left">Data Pre. Entrega</th>
+											<th style="text-align: left">Cod. ocorrência</th>
+											<th style="text-align: left">CNPJ Remetente</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngIf="listConteudoQM.length == 0">
+											<td colspan="9" style="text-align: center">Nehum arquivo encontrado</td>
+										</tr>
+										<tr *ngFor="let arq of listConteudoQM">
+											<td style="text-align: left"> {{arq.NF}} </td>
+											<td style="text-align: left"> {{arq.LAT}} </td>
+											<td style="text-align: left"> {{arq.LON}} </td>
+											<td style="text-align: left"> {{arq.DHATU}} </td>
+											<td style="text-align: left"> {{arq.LOC}} </td>
+											<td style="text-align: left"> {{arq.DTENTR}} </td>
+											<td style="text-align: left"> {{arq.DTPREENT}} </td>
+											<td style="text-align: left"> {{arq.OCOR}} </td>
+											<td style="text-align: left"> {{arq.CJREM}} </td>
+										</tr>
+									</tbody>
+								</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeModal()">Fechar</button>
+	</div>
+</ng-template>
+
+
+<ng-template #modalViewDetalheQM>
+	<div class="modal-header">
+		<h4 class="modal-title">Visualizar Conteudo do Arquivo</h4>
+		<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" style="color: #464444">
+
+		<div class="card">
+			<div class="card-body my-bg">
+				<div class="row">
+
+					<div class="col-md-12" style="margin-top: 25px;">
+
+						<div style="max-height: 600px;overflow-x: auto;overflow-y: auto;">
+							<article *ngFor="let dado of detalheArquivo">
+								{{dado}}
+							</article>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeModal()">Fechar</button>
+	</div>
+</ng-template>
+
+
+<div style="padding-top: 20px;">
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrarHome"
+		nameClearFunction="limparHome"
+		idGrid="gridHomeNFe"
+		[dropdown]="true"
+		[isCollapsed]="true"
+		[context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilter">
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data do processamento</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DT_PROCESS'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<app-single-transportadoras-qm
+              strLabel="Transportadora"
+              comboFix="transpQM"
+              [objForm]  = "objFormFilterH"
+              [formName] = "'NM_TRANSP'">
+          </app-single-transportadoras-qm>
+				</div>
+
+				<div class="col-sm-5" [formGroup]="objFormFilterH">
+					<label for="G043_NRNOTA">Nota/Chave</label>
+					<input #chaveCte class="form-control" id="G043_NRNOTA" name="G043_NRNOTA" formControlName="G043_NRNOTA">
+				</div>
+
+				<div class="form-group col-sm-1" [formGroup]="objFormFilterH">
+					<label for="NM_PASTA">Pasta</label>
+					<select class="form-control"
+							formControlName="NM_PASTA"
+							id="NM_PASTA"
+							name="NM_PASTA" >
+						<option value="" [selected]="selected" hidden></option>
+						<option value="2">In</option>
+						<option value="3">Out</option>
+					</select>
+				</div>
+				
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<div style="max-height: 600px;overflow-x: auto;overflow-y: auto;">
+		<table class="table table-striped">
+				<thead>
+					<tr>
+						<th style="text-align: center">Transportadora</th>
+						<th style="text-align: center">Pasta</th>
+						<th style="text-align: center">Arquivo</th>
+						<th style="text-align: center">Detalhar</th>
+						<th style="text-align: center">Visualizar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngIf="listArquivos.length == 0">
+						<td colspan="5" style="text-align: center">Nehum arquivo encontrado</td>
+					</tr>
+					<tr *ngFor="let arq of listArquivos">
+						<td style="text-align: center"> {{arq.TRANSPORTADORA}} </td>
+						<td style="text-align: center"> {{arq.PASTA}} </td>
+						<td style="text-align: center"> {{arq.ARQUIVO}} </td>
+						<td style="text-align: center"> <i class="fas fa-eye btTableR cursorIcon" style="cursor: pointer;" (click)="listarConteudoQM(arq)"></i></td>
+						<td style="text-align: center"> <i class="fa fa-file-alt btTableI cursorIcon" style="cursor: pointer;" (click)="visualizarArquivo(arq)"></i></td>
+		
+					</tr>
+				</tbody>
+			</table>
+	</div>
+
+</div>

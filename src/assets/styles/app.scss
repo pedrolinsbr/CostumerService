@@ -1,0 +1,49 @@
+@import "scss/mixins/material-palette";
+@import "scss/mixins/skinning";
+@import "scss/variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "scss/theming";
+@import "scss/custom-bootstrap";
+@import "scss/core";
+
+fieldset.scheduler-border {
+	border: 1px groove #ddd !important;
+	padding: 0 1.4em 1.4em 1.4em !important;
+	margin: 0 0 1.5em 0 !important;
+	border-radius: 5px;
+}
+
+legend.scheduler-border {
+	background: #122f3b !important;
+	color: #fff !important;
+	padding: 5px 10px !important;
+	min-width: 300px !important;
+	font-size: 14px !important;
+	border-radius: 5px !important;
+	box-shadow: 0 0 0 3px #ddd !important;
+	margin-left: 20px !important;
+	font-weight: normal !important;
+	font-size: 1.1em !important;
+	width: inherit !important;
+	padding: 1px 10px;
+}
+
+i.btn-fieldset {
+	color: #fff;
+	cursor: pointer;
+	margin-top: 5px;	
+}
+
+div.separator {
+	margin-top: 3px;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	margin-bottom: 3px;
+}
+
+div.notBreak {
+	word-wrap: break-word;
+}
+
+a.cursorDefault {
+	cursor:default;
+}

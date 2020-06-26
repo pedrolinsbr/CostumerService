@@ -1,0 +1,45 @@
+<!-- <div id='map' style="width: 100%; height: 1000px;"></div> -->
+<div class="d-flex align-items-stretch min-height-100 h-100" style="height:  initial !important; background: white; padding: 0px;">
+  <ngx-loading [show]="loading"></ngx-loading>
+  <div class="row" style="width: 100%;">
+  <div class="bg-cover bg-1 hidden-xs-down hidden-sm-down col-md-6 col-lg-8"></div>
+  <div class="card card-block mb-0 rounded-0 col-xs-12 col-sm-12 col-md-6 col-lg-4" style="padding: 0px;">
+
+    
+      <div class="mb-3" style="text-align: center; padding-top: 15px; padding-bottom: 15px; background-color: #122f3b;">
+        <img src="assets/images/logo.png" class="avatar-xs mb-1" alt="">
+      </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="height: 100%; padding-left: 10px;">
+      <div class="form-group" [ngClass]="{'has-danger': form.controls['uname'].hasError('required') && form.controls['uname'].touched}">
+        <label for="username" class="form-control-label">
+          E-Mail
+        </label>
+        <input type="text" class="form-control" placeholder="Nome de Usuário" [formControl]="form.controls['uname']" [ngClass]="{'form-control-danger': form.controls['uname'].hasError('required') && form.controls['uname'].touched}"/>
+        <div class="form-control-feedback" *ngIf="form.controls['uname'].hasError('required') && form.controls['uname'].touched">Nome de Usuário Obrigatório</div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-danger': form.controls['password'].hasError('required') && form.controls['password'].touched}">
+        <label for="password" class="form-control-label">
+          Senha
+        </label>
+        <input type="password" class="form-control" placeholder="********" [formControl]="form.controls['password']" [ngClass]="{'form-control-danger': form.controls['password'].hasError('required') && form.controls['password'].touched}"/>
+        <div class="form-control-feedback" *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">Senha Obrigatória</div>
+      </div>
+      <div class="block"></div>
+      <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Entrar</button>
+    </form>
+
+    <footer class="footer-auths">
+      <nav class="navbar-light main-footer small">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;" style="font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 13px;">
+              <span>Copyright &copy; 2018</span> <span>BRAVO SERVIÇOS LOGISTICOS.</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </footer>
+    
+  </div>
+</div>
+</div>

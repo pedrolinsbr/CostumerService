@@ -1,0 +1,321 @@
+<app-breadcrumbs
+#breadcrumbs
+home="Cust. Service - Backlog"
+[arBreadcrumbs]="arBreadcrumbsLocal"
+(goHome)="goHome($event)"
+(clearNext)="clearNext($event)"
+[context]="this"
+backgroundColor="#d5e0e4">
+</app-breadcrumbs>
+
+<ng-template #modalConfirmaRemocao>
+	<div class="modal-header">
+			<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 10px !important;"><small class="fw-300"><strong>Atendimento/Ocorrência #{{IDA001_remover}}</strong></small></h3>
+		<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" style="color: #464444">
+		<div class="form-group col-sm-12 col-md-12 col-lg-12">
+			<div class="input-group" [formGroup]="objFormRemoveAtendimento">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Motivo da exclusão:</span>
+				</div>
+				<textarea class="form-control" formControlName="DSREMOTI" rows="6" placeholder="Digite aqui o motivo..." aria-label="Motivo da exclusão">
+				</textarea>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="removerAtendimento()">Remover</button>
+		<button type="button" class="btn btn-danger" (click)="closeModal()">Cancelar</button>
+	</div>
+	<ngx-loading [show]="loadingModalAtendimento" ></ngx-loading>
+</ng-template>
+
+<div *ngIf="exibir == 1" style="padding-top: 20px;">
+
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrar"
+		nameClearFunction="limpar"
+		idGrid="gridHomeNFe"
+		[dropdown]="true"
+		advancedOptions="advancedFilter"
+		[isCollapsed]="true"
+		[context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilter" >
+			<!-- Filtros Comuns -->
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data Abertura - Inicial</label>
+						<app-datapicker-popup
+						navegacao="none"
+						[outsideDays]='visible'
+						[dataSelecionada]='DTinici'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTI'"
+						>
+					</app-datapicker-popup>
+				</div>
+
+				<div class="col-sm-3">
+					<label>Data Abertura - Final</label>
+					<app-datapicker-popup
+						navegacao="none"
+						[outsideDays]='visible'
+						[dataSelecionada]='DTfinal'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTF'"
+						>
+					</app-datapicker-popup>
+				</div>
+
+				<div class="form-group col-sm-2">
+					<label for="">Tipo de Operação</label>
+					<select class="form-control" id="G051_TPTRANSP" name="G051_TPTRANSP" formControlName="G051_TPTRANSP" >
+						<option value="" [selected]="selected">Todos</option>
+						<option value="{{item.value}}" *ngFor="let item of global.arTpOcorrenciasNF">{{item.text}}</option>
+					</select>
+				</div>
+
+				<div class="form-group col-sm-2">
+					<label for="">Situação</label>
+					<select class="form-control" id="A006_DSSITUAC" name="A006_DSSITUAC" formControlName="A006_DSSITUAC" >
+						<option value="" >Todos</option>
+						<option value="Aberto" [selected]="selected">Aberto</option>
+						<option value="Finalizado">Finalizado</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-2 col-md-2 col-lg-2">
+					<label>Ação</label>
+					<form  [formGroup]="objFormFilterH">
+						<select class="form-control" id="A008_IDA008" name="A008_IDA008" formControlName="A008_IDA008" placeholder="Status">
+							<option value="0" [selected]="selected">Todos</option>
+							<option value="1" >  Atendimento     </option>
+							<option value="2" >  Ocorrência  </option>
+						</select>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label >Número da NF-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+
+				<div class="form-group col-sm-6">
+					<label >Número do CT-e</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+
+			<div *ngIf="!advancedFilter">
+				<div class="row">
+					<div class="form-group col-sm-3 col-md-3 col-lg-3">
+						<app-single-numeroViagem
+							[objForm] = "objFormFilter"
+							[formName] = "'G046_IDG046'">
+						</app-single-numeroViagem>
+					</div>					
+
+					<div class="form-group col-sm-3 col-md-3 col-lg-3">
+						<app-single-transportadora
+							[objForm] = "objFormFilter"
+							[formName] = "'G043_IDG024TR'">
+						</app-single-transportadora>
+					</div>
+
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Destinatário</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005DE'"
+							[auxGoBack] = "auxGoBacklog"
+							[valSelected] = "objAux.G043_IDG005DE">
+						</app-combobox-multi>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005RE'"
+							[auxGoBack] = "auxGoBacklog"
+							[valSelected] = "objAux.G043_IDG005RE">
+						</app-combobox-multi>
+					</div>
+
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/tomadores'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'"
+							[auxGoBack] = "auxGoBacklog"
+							[valSelected] = "objAux.G051_IDG005CO">
+						</app-combobox-multi>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-2 col-md-2 col-lg-2">
+						<label>Deletadas</label>
+						<form  [formGroup]="objFormFilter">
+							<select class="form-control" id="A001_SNDELETE" name="A001_SNDELETE" formControlName="A001_SNDELETE">
+								<option value="0" [selected]="selected">Não</option>
+								<option value="1" >Sim</option>
+							</select>
+						</form>
+					</div>
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards
+		titleDrop="Registros"
+		idGrid="gridSacDados"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		<app-datagrid
+			[id]="'gridAtendimentosCriados'"
+			[url]="url+'mo/atendimentos/listarByNfe'"
+			[tela]="42"
+			[telaGlobal]="[ {'id' : 'excel'},
+			{'id' : 'colvis'} ]"
+			[telaAcoes]="arrayBotoes"
+			[nivel]="0"
+			[thisParent]="this"
+			[notOnLoad]="true"
+			[scroll]="500"
+			[allList]="true"
+			[stateSave]="true"
+			>
+			<th data-id="IDA001" data-type-column="actions" >Ações</th>
+			<th data-id="IDA001" data-function="linhaCompletaBacklogMonitoria" data-function-full="true" data-align-right="true">
+				ID
+			</th>
+			<th data-id="IDA001" data-type-column="details" data-exec="getNfeFromAtendimento">
+				Notas Fiscais
+			</th>
+			<th data-id="A008_DSACAO" data-align-left="true">Ação</th>
+			<th data-id="S001_NMUSUARI" data-align-left="true">Atendente</th>
+			<th data-id="A002_DSTPMOTI" data-align-left="true">Título</th>
+			<th data-id="A006_DSSITUAC" data-align-left="true">Situação</th>
+			<th data-id="DTREGIST" data-align-center="true">Abertura</th>
+			<th data-id="DTFIM"    data-align-left="true" data-visible="false">Fechamento</th>
+			<th data-id="TEMPO"    data-align-center="true">Tempo</th>
+			<!-- th data-id="NRNOTAS">Notas Fiscais</th> -->
+		</app-datagrid>
+
+	</app-cards>
+</div>
+
+<!--
+Exibir = 2
+Cadastro de Atendimento
+ -->
+<div *ngIf="exibir == 2">
+	<app-cards
+	titleDrop="Detalhes do Atendimento"
+	[isCollapsed]="collapsed"
+	[dropdown]="true">
+		<app-novo-atendimento
+			[IDA001]="IDA001_selected"
+			(callListAtendimentos)="backToAtendimento()">
+		</app-novo-atendimento>
+
+	</app-cards>
+
+	<br />
+
+	<app-cards
+		titleDrop="Movimentações do Atendimento"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+		<app-atendimento-movs
+			[IDA001]="IDA001_selected"
+			(callListAtendimentos)="backToAtendimento()"
+		>
+		</app-atendimento-movs>
+	</app-cards>
+
+	<app-cards
+		titleDrop="Buscar Nota Fiscal"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		 <div class="row">
+			<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+				<fieldset class="scheduler-border">
+					<legend class="scheduler-border">Pesquisar Nota Fiscal</legend>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<app-single-numeroNfe
+								[objForm] = "objFormSearchNfe"
+								[formName] = "'IDG043'">
+							</app-single-numeroNfe>
+						</div>
+						<div class="col-md-2 col-lg-2">
+							<label for="">&nbsp;</label>
+							<button
+								type="button"
+								class="btn btn-primary btn-block"
+								(click)="buscarNotaFiscal()">
+								Buscar
+							</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+
+
+		<div [hidden]="!buscouNotaFiscal">
+
+			<ngx-loading [show]="loadingNfe" ></ngx-loading>
+
+			<app-info-rastreio [objRastreio]="rastreioObj" resumido="true"></app-info-rastreio>
+
+			<app-info-nfe [objNotaFiscal]="nfeObj"></app-info-nfe>
+
+			<app-info-cte [objCTE]="cteObj"></app-info-cte>
+
+			<app-info-carga [objCarga]="cargaObj"></app-info-carga>
+
+			<app-info-rastreio-detalhado [objTracking]="trackingObj"></app-info-rastreio-detalhado>
+
+		</div> 
+	</app-cards>
+</div>

@@ -1,0 +1,712 @@
+<ng-template #modalCteCompleta>
+	<div class="modal-header">
+		
+		<h3 class="mt-0 mb-0 text-uppercase" style="margin-left: 23px !important;"><small class="fw-300">Detalhes do NPS - Nota {{ objComent.NRNOTA ? objComent.NRNOTA : 'n.i' }}</small></h3>
+		<button type="button" class="close" aria-label="Close" (click)="closeModalCteCompleta()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<div class="row" *ngIf="objCTE != null && objCTE.STCTRC == 'C'">
+				<div class="col-md-12">
+					<div class="alert alert-danger" role="alert">
+						O Conhecimento está cancelado.
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex align-items-center marg">
+							<div class="mr-auto">
+								<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Comentario</strong></a>
+								<div>{{ objComent.DSCOMENT ? objComent.DSCOMENT : 'n.i' }}</div>
+							</div>
+						</div>
+						<div>
+							<form class="form-horizontal" [formGroup]="objEnvioResposta">
+								<div class="row auxRow">
+									<div class="form-group col-sm-12 col-md-12 col-lg-12">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">Resposta:</span>
+											</div>
+											<textarea class="form-control" formControlName="DSAVALID" rows="6" aria-label="Resposta">
+						
+											</textarea>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="row">
+							<div class="col-sm-3 col-md-3">
+								<button
+									type="button"
+									class="btn btn-secondary btn-block"
+									[disabled]="objEnvioResposta.controls.STAVALIA.value && objEnvioResposta.controls.STAVALIA.value != 'B'"
+									(click)="changeStatus('B')"
+									>
+									<i _ngcontent-c25="" class="far fa-times-circle"></i> Não Iniciado
+								</button>
+							</div>
+							<div class="col-sm-3 col-md-3">
+								<button
+									type="button"
+									class="btn btn-warning btn-block"
+									[disabled]="objEnvioResposta.controls.STAVALIA.value && objEnvioResposta.controls.STAVALIA.value != 'E'"
+									(click)="changeStatus('E')"
+									>
+									<i _ngcontent-c25="" class="fa fa-eye"></i> Em Tratativa
+								</button>
+							</div>
+							<div class="col-sm-3 col-md-3">
+								<button
+									type="button"
+									class="btn btn-success btn-block"
+									[disabled]="objEnvioResposta.controls.STAVALIA.value && objEnvioResposta.controls.STAVALIA.value != 'T'"
+									(click)="changeStatus('T')"
+									>
+									<i _ngcontent-c25="" class="fas fa-check"></i> Tratado
+								</button>
+							</div>
+							<div class="col-sm-3 col-md-3">
+								<button
+									type="button"
+									class="btn btn-primary btn-block"
+									[disabled]="!objEnvioResposta.controls.STAVALIA.value"
+									(click)="salvarResposta();"
+									>
+									<i _ngcontent-c25="" class="fa fa-save"></i> Salvar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase"><small class="fw-300">Dados do </small> <strong>CT-e</strong></h3>
+							</div>
+						</div>
+						<div style="margin-top: 15px">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Remetente</strong></a>
+											<div>{{ objCTE.NMCLIENTRE }} [{{objCTE.CJCLIENTRE}}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Destinatário</strong></a>
+											<div>{{ objCTE.NMCLIENTDE }} [{{objCTE.CJCLIENTDE}}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Expedidor</strong></a>
+											<div>{{ objCTE.NMCLIENTEX }} [{{objCTE.CJCLIENTEX}}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Recebedor</strong></a>
+											<div>{{ objCTE.NMCLIENTRC }} [{{objCTE.CJCLIENTRC}}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Tomador</strong></a>
+											<div>{{ objCTE.NMCLIENTCO }} [{{objCTE.CJCLIENTCO}}]</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Chave</strong></a>
+											<div>{{ objCTE.NRCHADOC }}</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Transportadora - CTe</strong></a>
+											<div>{{ objCTE.NMTRANSP}}</div>
+										</div>
+									</div>
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Transportadora - Carga</strong></a>
+											<div>{{ NMTRANSP_selecionada}}</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Data de emissão</strong></a>
+											<div>{{ objCTE.DTEMICTR ? (objCTE.DTEMICTR | date:'dd/MM/yyyy' :'+0000'): ('n.i.') }} </div>
+
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Número</strong></a>
+											<div>{{ objCTE.CDCTRC }}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Série</strong></a>
+											<div>{{ objCTE.NRSERINF }}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Modelo</strong></a>
+											<div>{{ objCTE.DSMODENF }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="d-flex align-items-center marg">
+										<div class="mr-auto">
+											<a href="javascript:;" class="ff-headers text-color cursorDefault"><strong>Observação do Conhecimento</strong></a>
+											<div>{{ objCTE.DSINFCPL }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-body my-bg">
+						<div class="d-flex">
+							<div class="mr-auto">
+								<h3 class="mt-0 mb-0 text-uppercase"><small class="fw-300">Notas Fiscais Vinculadas ao </small><strong>Conhecimento</strong></h3>
+							</div>
+						</div>
+						<div style="margin-top: 15px">
+							<div class="table-responsive">
+								<table class="table table-striped ts">
+									<thead>
+										<tr>
+											<th>Nº da Chave</th>
+											<th>Nº NF-e.</th>
+											<th>Volume</th>
+											<th>Peso Bruto (KG)</th>
+											<th>Data de Emissão</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of objCTE.NOTAS_CTE">
+											<td></td>
+											<td>{{ item.IDG043 }}</td>
+											<td>{{ item.VRVOLUME | number:'1.2-2' }}</td>
+											<td>{{ item.PSBRUTO | number:'1.2-2' }}</td>
+											<td>{{ item.DTEMINOT ? (item.DTEMINOT | date:'dd/MM/yyyy' :'+0000') : ('n.i.') }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info" (click)="closeModalCteCompleta()">Fechar</button>
+	</div>
+	<ngx-loading [show]="loadingModal" ></ngx-loading>
+</ng-template>
+
+<ng-template #modalStEmailSatisf let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h6 class="modal-title text-uppercase">Situação Cadastro E-mail Satisfação</h6>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="table-responsive">
+			<table class="table table-inverse">
+				<thead>
+					<tr>
+						<th>CLIENTE</th>
+						<th>OPERAÇÃO</th>
+						<th>SATISFAÇÃO</th>
+						<th>MOTIVO</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of listaStEmailSatisf">
+						<td>{{ item.NMCLIENT }}</td>
+						<td>{{ item.DSOPERAC }}</td>
+						<td>{{ (item.SNSATISF) ? 'Cadastrado' : 'Descadastrado' }}</td>
+						<td>{{ item.MOTIVO   }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="c('Close click')">Fechar</button>
+	</div>
+</ng-template>
+
+<ng-template #modalAlteraNota let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h6 class="modal-title text-uppercase">Alteração de Nota</h6>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" >
+		<form class="form-horizontal ng-valid" [formGroup]="objFormAlteraNota">
+		 <div class="row">
+			 <div class="col-sm-6 col-md-6 col-lg-6">
+				<label>Nota Atual</label>
+				<app-input id="NRNOTA" name="NRNOTA" valid="text" [isRequired]='false' [disabled]="true"
+					placeholder="Nota Atual" model="{{objFormAlteraNota.controls['NRNOTA'].value}}" [formInput]="objFormAlteraNota"
+					[formControlNameInput]="'NRNOTA'">
+				</app-input>
+			 </div>
+			 <div class="col-sm-6 col-md-6 col-lg-6">
+				<label>Nota Aterada</label>
+				<app-input id="NRNOTA_ALTER" name="NRNOTA_ALTER" valid="text" [isRequired]='false' [disabled]="false"
+					placeholder="Nota Alterada" model="{{objFormAlteraNota.controls['NRNOTA_ALTER'].value}}" [formInput]="objFormAlteraNota"
+					[formControlNameInput]="'NRNOTA_ALTER'">
+				</app-input>
+			 </div>
+		 </div>
+			<div class="row" style="margin-bottom: 10px">
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Observação:</span>
+					</div>
+					<textarea class="form-control" formControlName="OBSERV" rows="4" aria-label="Observação">
+
+					</textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="c('Close click')">Fechar</button>
+		<button type="button" class="btn btn-success" (click)="salvarAlterarNota()">Salvar</button>
+
+	</div>
+	<ngx-loading [show]="loadingModal" ></ngx-loading>
+</ng-template>
+
+<div [hidden]="controlExibir != 1" style="padding-top: 20px;">
+	<app-cards-filter titleDrop="Filtros" nameSubmitFunction="filtrarHome" nameClearFunction="limparHome" idGrid="gridHomeNFe"
+	 [dropdown]="true" [isCollapsed]="true" [context]="this">
+		<form class="form-horizontal" [formGroup]="objFormFilter">
+			<div class="row">
+
+				<div class="col-sm-3">
+					<label>Data Emissão CTe (inicial)</label>
+					<app-datapicker-popup
+					navegacao='select'
+					[dataSelecionada]='dtInicioDefault' [mesesDisplay]='1' [desabilitar]='false' [formDatePop]="objFormFilterH"
+					[formControlNameDatePop]="'DTEMICTR0'" (dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Emissão CTe (final)</label>
+					<app-datapicker-popup
+					navegacao='select'
+					[dataSelecionada]='dtTerminoDefault' [mesesDisplay]='1' [desabilitar]='false' [formDatePop]="objFormFilterH"
+					[formControlNameDatePop]="'DTEMICTR1'" (dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				
+				<div class="col-sm-3">
+					<label>Cliente</label>
+					<app-combobox-multi [url]="url+'filtro/clientes'" [formMultiSelect]="objFormFilterH" [disabledViewMultiSelect]='false'
+					 [formControlNameMultiSelect]="'G005_IDG005'">
+					</app-combobox-multi>
+				</div>
+				<div class="form-group col-sm-3">
+						<label>Número do CT-e</label>
+						<app-chips-input [typeInput]="'numberText'" [chips]='arIdCte' [removable]='true' [addOnBlur]='true' [duplicate]='false' [objStyle]="objStyle" [inputSpace]='true'>
+						</app-chips-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<app-single-estado [objForm]="objFormFilter" [formName]="'G002_IDG002'"></app-single-estado>
+				</div>
+
+				<div class="form-group col-sm-2 col-md-2 col-lg-2">
+					<label>Tipo de Pessoa</label>
+					<select class="form-control" formControlName="G005_TPPESSOA">
+						<option value="" [selected]="true">Todos</option>
+						<option value="F">Física</option>
+						<option value="J">Jurídica</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-1 col-md-1 col-lg-1" [formGroup]="objFormFilter">
+					<label for="">Logística</label>
+					<i class="far fa-question-circle" ngbPopover="Tipo de logística aplicada." container="body" triggers="mouseenter:mouseleave"></i>
+					<select class="form-control" id="TPOPERAC" name="TPOPERAC" formControlName="TPOPERAC">
+						<option value="3" [selected]="true">Todos</option>
+						<option value="1">3PL</option>
+						<option value="2">4PL</option>
+					</select>
+				</div>	
+				<div class="col-sm-3">
+					<label>Data de Avaliação (Início)</label>
+					<app-datapicker-popup navegacao='select'
+						[mesesDisplay]='1' [desabilitar]='false' [formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTINICIO'" (dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data de Avaliação (Término)</label>
+					<app-datapicker-popup navegacao='select'
+						[mesesDisplay]='1' [desabilitar]='false' [formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTFIM'" (dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<label>Classificação da Nota</label>
+					<select class="form-control" formControlName="G061_CLASS">
+						<option value="" [selected]="true">Todos</option>
+						<option value="P">Promotores</option>
+						<option value="N">Neutros</option>
+						<option value="D">Detratores</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<label>Status Tratamento</label>
+					<select class="form-control" formControlName="G061_STAVALIA">
+						<option value="" [selected]="true">Todos</option>
+						<option value="B">Não Iniciado</option>
+						<option value="E">Em Tratativa</option>
+						<option value="T">Tratado</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<label>Status NPS</label>
+					<select class="form-control" formControlName="STNPS">
+						<option value="" [selected]="true">Todos</option>
+						<option value="R">Respondido</option>
+						<option value="NR">Não Respondido</option>
+						<option value="NE">Não Enviado</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<label>St. Email Satisfação</label>
+					<select class="form-control" formControlName="G022_SNSATISF">
+						<option value="" [selected]="true">Todos</option>
+						<option value="1">Cadastrado</option>
+						<option value="0">Descadastrado</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<label>Tipo Contato</label>
+					<select class="form-control" formControlName="G008_TPCONTAT">
+						<option value="" [selected]="true">Todos</option>
+						<option value="E">EMAIL</option>
+						<option value="T">TELEFONE</option>
+						<option value="C">CELULAR</option>
+						<option value="O">OUTROS</option>
+					</select>
+				</div>
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<label for="">Qtd Contato</label>
+					<app-input
+							valid="number"
+							[formInput] = "objFormFilter"
+							[formControlNameInput] = "'QTDCONTAT'"
+					></app-input>
+				</div>
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<label>Contato NPS</label>
+					<select class="form-control" formControlName="SNNPSCON">
+						<option value="" [selected]="true">Todos</option>
+						<option value="1">Sim</option>
+						<option value="2">Não</option>
+					</select>
+				</div>
+			</div>
+
+		</form>
+	</app-cards-filter>
+
+	<div class="row" style="padding-bottom: 15px; margin-left: 0px;">
+		<div class="col-sm-12" style="background: #ebebeb; height: 45px;">
+			<div class="row text-center" >
+				<div class="col-sm-4 optionsView" [ngClass]="{'optionsView-activate': controlExibirTela == 1}" (click)="changeOption(1)">
+					<h5 class="mt-0 mb-0 text-uppercase">
+						<small class="fw-300" st>Avaliação</small>
+					</h5>
+				</div>
+				<div class="col-sm-4 optionsView" [ngClass]="{'optionsView-activate': controlExibirTela == 2}" (click)="changeOption(2)">
+					<h5 class="mt-0 mb-0 text-uppercase">
+						<small class="fw-300" st>Dashboard</small>
+					</h5>
+				</div>
+				<div class="col-sm-4 optionsView" [ngClass]="{'optionsView-activate': controlExibirTela == 3}" (click)="changeOption(3)">
+					<h5 class="mt-0 mb-0 text-uppercase">
+						<small class="fw-300" st>Clientes</small>
+					</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<app-cards titleDrop="Registros" idGrid="gridHomeDados" [dropdown]="true">
+
+		<div [hidden]="controlExibirTela != 1">
+			<app-datagrid
+				[id]="'relatorioGrid'"
+				[url]="url+'mo/atendimentos/listarAvaliacoesPesquisa'"
+				[tela]="194"
+				[telaGlobal]="[{'id' : 'colvis'}]"
+				[telaAcoes]="[{'id' : 78,  'metodo' : 'alteraNota',   'icone': 'fa fa-pencil-alt'}]"
+				[nivel]="0"
+				[stateSave]="true"
+				[thisParent]="this"
+				[allList]="true"
+				[scroll]="500"
+				[notOnLoad]="true"
+				[excelServer]="true">
+
+				<th data-id="IDG061" data-object="true" data-type-column="actions">Ações</th>
+				<!-- <th data-id="IDG061" data-object="true" data-type-column="details" data-exec="detailNpsResult" data-function-full="true" >Comentário</th> -->
+				<th data-id="G051_CDCTRC"      data-align-right ="true" data-function-full="true" data-exec="visualizarCTeNps"  >Nº CTE                 </th>
+				<th data-id="G061_DTAVALIA"    data-align-center="true" data-function="validaNullMonitoria"                     >Data de Avaliação      </th>
+				<th data-id="G061_NRNOTA"      data-align-right ="true" data-function="validaNullMonitoria"                     >Nota                   </th>
+				<th data-id="G061_CLASS"       data-align-left  ="true" data-function="validaNullMonitoria"                     >Classificação          </th>
+				<th data-id="G061_DSCOMENT"    data-align-left  ="true" data-function="validaNullMonitoria"                     >Comentário             </th>
+				<th data-id="DSEMAIL"          data-align-left  ="true" data-function="validaNullMonitoria"                     >Email                  </th>
+				<th data-id="G061_DSAVALID"    data-align-left  ="true" data-function="validaNullMonitoria"                     >Tratamento Bravo       </th>
+				<th data-id="DTRESPOS"         data-align-center="true" data-function="validaNullMonitoria"                     >Data Tratamento Bravo  </th>
+				<th data-id="G061_STAVALIA"    data-align-left  ="true" data-function="validaNullMonitoria"                     >Status Tratamento Bravo</th>
+				<th data-id="G043_NRNOTA"      data-align-right ="true" data-function-full="true"                               >Nº NF                  </th>
+				<th data-id="DTEMICTR"         data-align-center="true" data-function="validaNullMonitoria"                     >Data Emissão CTe       </th>
+				<th data-id="G005_NMCLIENT"    data-align-left  ="true" data-function="validaNullMonitoria"                     >Cliente                </th>
+				<th data-id="G061_DTENVIO"     data-align-right ="true" data-function="validaNullMonitoria" data-visible="false">Data de Envio          </th>
+				<th data-id="G005CO_NMCLIENT"  data-align-left  ="true" data-function="validaNullMonitoria"                     >Tomador                </th>
+				<th data-id="G024CTE_NMTRANSP" data-align-left  ="true" data-function="validaNullMonitoria"                     >Transportadora - CTe   </th>
+				<th data-id="G024_NMTRANSP"    data-align-left  ="true" data-function="validaNullMonitoria"                     >Transportadora - Carga </th>
+			</app-datagrid>
+		</div>
+
+		<div class="row" *ngIf="controlExibirTela == 2">
+
+			<div class="col-sm-12 col-md-12 col-lg-12 text-center ">
+				<div class="card card-body text-center">
+					<h6>% de Promotores, Neutros e Detratores</h6>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 container-bord2">
+				<div class="card card-body card-widget bgT-antecip card-inverse container-chart">
+					<div class="donut-chart-block block">
+						<div class="donut-chart">
+							<ngx-charts-pie-chart class="chart-container" [scheme]="colorScheme1" [results]="arNpsAnalytics"
+								[legend]="false" [explodeSlices]="false" [labels]="false" [legendTitle]="'Legenda'" [tooltipDisabled]="false">
+							</ngx-charts-pie-chart>
+						</div>
+						<ul class="os-percentages3 horizontal-list">
+							<li style="width:33%; height:68px;">
+								<p class="android os scnd-font-color">Promotores</p>
+								<p class="os-percentage">{{arNpsAnalytics[0].value}}%</p>
+							</li>
+							<li style="width:33%; height:68px;">
+								<p class="linux os scnd-font-color">Neutros</p>
+								<p class="os-percentage">{{arNpsAnalytics[1].value}}%</p>
+							</li>
+							<li style="width:33%; height:68px;">
+								<p class="mac os scnd-font-color">Detratores</p>
+								<p class="os-percentage">{{arNpsAnalytics[2].value}}%</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="container-table-center col-sm-6 col-md-6 col-lg-6 container-bord2">
+				<table class="table table-sm mb-0 table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="text-align: center;">Total Entregas</th>
+							<th style="text-align: center;">% Participação</th>
+							<th style="text-align: center;">Nº de Promotores</th>
+							<th style="text-align: center;">Nº de Neutros</th>
+							<th style="text-align: center;">Nº de Detratores</th>
+							<th style="text-align: center;">Total de respostas</th>
+							<th style="text-align: center;">Média notas</th>
+							<th style="text-align: center;">Nº de Sugestões</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="text-align: center;">
+								{{dataNps.nps.totalEntregas}}
+							</td>
+							<td style="text-align: center;">
+								{{dataNps.nps.npsVsEntregue}}
+							</td>
+							<td style="text-align: center;">
+									{{dataNps.nps.promotores}}
+							</td>
+							<td style="text-align: center;">
+								{{dataNps.nps.neutros}}
+							</td>
+							<td style="text-align: center;">
+								{{dataNps.nps.detratores}}
+							</td>
+							<td style="text-align: center;">
+								{{dataNps.nps.total}}
+							</td>
+							<td style="text-align: center;">
+								{{dataNps.nps.mediaNotas}}
+							</td>
+							<td style="text-align: center;">
+								{{dataNps.nps.qtdComent}}
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align: center;" colspan="8">
+								Resultado<br />
+								{{dataNps.nps.valor}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="col-sm-12 col-md-12 col-lg-12 text-center ">
+				<div class="card card-body text-center">
+					<h6>RANKING - NPS(POR FILIAL)</h6>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+							<div class="card">
+								<ngx-charts-bar-horizontal class="chart-container-detail-transp2" [showDataLabel]="true"
+									[scheme]="colorSchemeEstado" [schemeType]="'ordinal'" [results]="npsPorFilial"
+									[legend]="false" [yAxis]="true" [showXAxisLabel]="false"
+									[showYAxisLabel]="false" [tooltipDisabled]="false" [xAxisLabel]="'Number'"
+									[yAxisLabel]="'Color Value'" [showGridLines]="true" [barPadding]="8"
+									[roundDomains]="false">
+								</ngx-charts-bar-horizontal>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			
+			<div class="container-table-center col-sm-6 col-md-6 col-lg-6" style="margin-top: 20px;" >
+				<table class="table table-sm mb-0 table-bordered table-striped"
+				style="width: 100%;">
+					<thead>
+						<tr>
+							<th style="text-align: center;">Filiais</th>
+							<th style="text-align: center;">Detrator</th>
+							<th style="text-align: center;">Neutro</th>
+							<th style="text-align: center;">Promotor</th>
+							<th style="text-align: center;">NPS</th>
+							<th style="text-align: center;">Respostas</th>
+							<th style="text-align: center;">Entregas</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let npsFilial of dataNpsFilial">
+							<td style="text-align: left;">
+								{{npsFilial.NMTRANSP}}
+							</td>
+							<td style="text-align: center;">
+								{{npsFilial.DETRATORES}}
+							</td>
+							<td style="text-align: center;">
+								{{npsFilial.NEUTROS}}
+							</td>
+							<td style="text-align: center;">
+								{{npsFilial.PROMOTORES}}
+							</td>
+							<td style="text-align: center;">
+								{{npsFilial.VALORNPS > 0 ? npsFilial.VALORNPS : 0}}
+							</td>
+							<td style="text-align: center;">
+								{{npsFilial.TOTAL}}
+							</td>
+							<td style="text-align: center;">
+								{{npsFilial.ENTREGAS}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+		<div [hidden]="controlExibirTela != 3">
+			<app-datagrid
+				[id]="'relatorioGridCliente'"
+				[url]="url+'mo/atendimentos/listNpsByClient'"
+				[tela]="194"
+				[telaGlobal]="[{'id' : 'colvis'}]"
+				[telaAcoes]="[{'id' : 97,  'metodo' : 'visualizarStEmailSatisf',   'icone': 'fas fa-eye'},
+											{'id' : 98,  'metodo' : 'visualizarContatos'     ,   'icone': 'fas fa-eye'}]"
+				[nivel]="0"
+				[stateSave]="true"
+				[thisParent]="this"
+				[allList]="true"
+				[scroll]="500"
+				[notOnLoad]="true"
+				[excelServer]="true">
+
+				<th data-id="IDG005"    data-object     ="true" data-type-column="actions"         >Ações          </th>
+				<th data-id="NMCLIENT"  data-align-left ="true" data-function="validaNullMonitoria">Nome Cliente   </th>
+				<th data-id="CJCLIENT"  data-align-right="true" data-function="validaNullMonitoria">CPF/CNPJ       </th>
+				<th data-id="IECLIENT"  data-align-right="true" data-function="validaNullMonitoria">IE             </th>
+				<th data-id="IMCLIENT"  data-align-right="true" data-function="validaNullMonitoria">IM             </th>
+				<th data-id="IDLOGOS"   data-align-right="true" data-function="validaNullMonitoria">Id Logos       </th>
+				<th data-id="NMCIDADE"  data-align-left ="true" data-function="validaNullMonitoria">Cidade - Estado</th>
+				<th data-id="ENTREGAS"  data-align-right="true" data-function="validaNullMonitoria">Entregas       </th>
+				<th data-id="ENVIOS"    data-align-right="true" data-function="validaNullMonitoria">Envios         </th>
+				<th data-id="RESPOSTAS" data-align-right="true" data-function="validaNullMonitoria">Respostas      </th>
+				<th data-id="SNNPSCON"  data-align-left  ="true"																	 >Contato NPS    </th>
+				<th data-id="EMAILS"    data-align-left ="true" data-function="validaNullMonitoria">Emails         </th>
+			</app-datagrid>
+		</div>
+
+	</app-cards>
+	<ngx-loading [show]="loading" ></ngx-loading>
+</div>
+
+<app-formulario-contato
+  *ngIf="controlExibir == 2"
+  [nrTela] = "'194'"
+  [idCliente] = "idCliente"
+  (goBack) = "voltarTela($event)"
+></app-formulario-contato>

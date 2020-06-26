@@ -1,0 +1,488 @@
+<ng-template #modalDelete>
+    <app-modal [thisParent]="this" title="{{ 'global.form.dialogExcluir.titulo' | translate }}" dsconteu="{{ 'global.form.dialogExcluir.pd' | translate }}">
+        <button type="button" class="btn btn-danger" (click)="close()">Exluir</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" (click)="confirmaDeleteEdi()">Confimar</button>
+    </app-modal>
+</ng-template>
+
+<ng-template #modalDisable>
+    <app-modal [thisParent]="this" title="Destabilitar Edi Rastreio" dsconteu="{{textomodal}} ">
+        <button type="button" class="btn btn-danger" (click)="close()">Não</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" (click)="confirmaDisableEdi()">Sim</button>
+    </app-modal>
+</ng-template>
+
+<ng-template #modalRemoveFieldEdi>
+    <app-modal [thisParent]="this" title="Remover campo para Edi" dsconteu="{{textomodal}} ">
+        <button type="button" class="btn btn-danger" (click)="close()">Não</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" (click)="confirmRemoveFieldEdi()">Sim</button>
+    </app-modal>
+</ng-template>
+
+<ng-template #modalUpdateOrderField>
+    <app-modal [thisParent]="this" title="Ordem de campo já utilizada" dsconteu="{{textModalOrder}} ">
+        <!-- CANCELAR -->
+        <app-botoes class="danger" text="Não" (click)="close();"></app-botoes>
+        <!-- SALVAR -->
+        <app-botoes class="success" text="Sim" (click)="confirmUpdateOrderFields();"></app-botoes>
+    </app-modal>
+</ng-template>
+
+
+<ng-template #modalViewDetalheArquivo>
+    <div class="modal-header">
+        <h4 class="modal-title">Visualizar Conteudo do Arquivo</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body" style="color: #464444">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 5px;">
+                        <div style="max-height: 500px;overflow-x: auto;overflow-y: auto;">
+                            <article *ngFor="let dado of detalheArquivo">
+                                {{dado}}
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="downloadArquivoEdi()">Baixar</button>
+        <button type="button" class="btn btn-info" (click)="close()">Fechar</button>
+    </div>
+</ng-template>
+
+
+
+
+<ngb-tabset [justify]="currentJustify" type="pills">
+    <ngb-tab title="Cadastros" [id]="1">
+        <ng-template ngbTabContent>
+            <!-- INICIO TELA DE CADASTOS -->
+            <div style="padding-top: 40px;">
+                <app-breadcrumbs #breadcrumbs home="Edi Cliente" [arBreadcrumbs]="arBreadcrumbsLocal" (goHome)="goHome()" (clearNext)="clearNext($event)" [context]="this">
+                </app-breadcrumbs>
+                <div *ngIf="(exibir == 1)">
+
+                    <app-cards-filter titleDrop="Filtros" nameSubmitFunction="filtrar" nameClearFunction="limparFiltro" [isCollapsed]="true" [dropdown]="true" [context]="this">
+
+                        <form class="form-horizontal" [formGroup]="objFormFilter">
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-6 col-lg-6">
+
+                                    <app-single-cliente-edi [objForm]="objFormFilter" [formName]="'IDG014'" placeholder="Digite para pesquisar">
+                                    </app-single-cliente-edi>
+
+                                </div>
+
+                                <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                    <label>Situação</label>
+                                    <ng-select [items]="snativo" bindLabel="name" bindValue="id" placeholder="Selecione" [(ngModel)]="selectedSnAtivo_fil" formControlName="SNATIVO">
+                                    </ng-select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8"></div>
+                                    <div class="col-sm-4 text-right"></div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </app-cards-filter>
+                    <app-cards titleDrop="{{ 'global.form.registros.pd' | translate }}" [isCollapsed]="false" [dropdown]="true">
+                        <app-datagrid [id]="'dataGridEdi'" [url]="urlConfigEdiGrid" [tela]="389" [telaGlobal]="[
+                    {'id' : 4, 'metodo' : 'addEdi', 'icone':'fa fa-plus'},
+                    {'id' : 'excel'},
+                    {'id' : 'colvis'} ]" [telaAcoes]="[
+                    {'id' : 1, 'metodo' : 'viewEdi', 'icone': 'fa fa-eye'},
+                    {'id' : 2, 'metodo' : 'updateEdi', 'icone': 'fas fa-pencil-alt'},
+                    {'id' : 88, 'metodo' : 'processarEdi', 'icone': 'fa fa-cog'},
+                    {'id' : 11, 'metodo' : 'disableEdi', 'icone': 'far fa-times-circle'}]" [nivel]="0" [thisParent]="this">
+
+                            <th data-id="IDG094" data-type-column="actions">Ações</th>
+                            <th data-id="IDG014" data-align-right="true">Operação (Evolog)</th>                                                      
+                            <th data-id="IDG094" data-align-right="true" >Cód. EDI Evolog</th>                                                                              
+                            <th data-id="DSCLIENT" data-align-left="true" data-function="numberNullDG">Descrição Cli/Edi</th>
+                            <th data-id="DSOPERAC" data-align-left="true" data-function="numberNullDG">Cliente</th>
+                            <th data-id="TPARQUIV" data-align-left="true" data-function="numberNullDG">Tipo de arquivo</th>
+                            <th data-id="TPENVIO" data-align-left="true" data-function="numberNullDG">Tipo de envio</th>
+                            <th data-id="SNATIVO" data-align-left="true" data-function="numberNullDG">Situação</th>
+                        </app-datagrid>
+                    </app-cards>
+                </div>
+
+
+
+                <!--  2 - ROTA NOVO/EDITAR -->
+                <div *ngIf="(exibir == 2)">
+                    <ngb-accordion #acc="ngbAccordion" activeIds="1">
+                        <ngb-panel id="1" title="Configuração de EDI Rastreio">
+                            <ng-template ngbPanelContent>
+
+                                <form class="form-horizontal" [formGroup]="objFormRegs" id="objFormRegs" name="objFormRegs">
+                                    <app-input id="IDG094" name="IDG094" model="{{objFormRegs.controls['IDG094'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'IDG094'" [hidden]="true">
+                                    </app-input>
+                                    <div class="row">
+
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4" *ngIf="(checkViewCampoEdi < 1)">
+                                            <app-single-cliente-edi [objForm]="objFormRegs" [formName]="'IDG014'" id='IDG014' name='IDG014' ng-reflect-name="IDG014" placeholder="Digite para pesquisar">
+                                            </app-single-cliente-edi>
+                                        </div>
+
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label for="DSCLIENT">Descrição</label>
+                                            <app-input id="DSCLIENT" name="DSCLIENT" [disabled]="false" model="{{objFormRegs.controls['DSCLIENT'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'DSCLIENT'" isRequired='true'>
+                                            </app-input>
+                                        </div>
+                                        
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                            <label for="NMCIDADE">CNPJ</label>
+                                            <i class="far fa-question-circle" ngbPopover="Relacionar os CNPJs da operação ou deixar em branco para todos." container="body" triggers="mouseenter:mouseleave"></i>
+                                            <app-combobox-multi
+                                                [url]="url+'tp/edi/buscaClienteOperacao'"
+                                                [formMultiSelect] = "objFormRegs"                                                
+                                                [formControlNameMultiSelect] = "'SNFILCLI'"
+                                                [showInfo] = "true"
+                                                [depName]="'IDG014'" 
+                                                >                                                
+                                            </app-combobox-multi>
+                                        </div>
+
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                                            <label>Situação</label>
+                                            <ng-select [items]="snativo" bindLabel="name" bindValue="id" placeholder="Selecione" [markFirst]="true" [(ngModel)]="selectedSnAtivo" formControlName="SNATIVO">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="NMARQUIV" title="Nome a ser enviado">Nome do arquivo a ser enviado</label>
+                                            <app-input id="NMARQUIV" name="NMARQUIV" [disabled]="false" model="{{objFormRegs.controls['NMARQUIV'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'NMARQUIV'">
+                                            </app-input>
+                                        </div>
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label for="NRDIAENT" title="Quantidade de dias anteriores a buscar">Dias da Entrega</label>
+                                            <app-input id="NRDIAENT" name="NRDIAENT" [disabled]="false" model="{{objFormRegs.controls['NRDIAENT'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'NRDIAENT'">
+                                            </app-input>
+                                        </div>
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label for="NRDIAEMI">Nr. máx de dias da emissão</label>
+                                            <app-input id="NRDIAEMI" name="NRDIAEMI" [disabled]="false" model="{{objFormRegs.controls['NRDIAEMI'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'NRDIAEMI'">
+                                            </app-input>
+                                        </div>
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label>Tipo de Arquivo</label>
+                                            <ng-select [items]="tpArquivo" bindLabel="text" bindValue="id" placeholder="Selecione" [(ngModel)]="selectedTpArquivo" formControlName="TPARQUIV">
+                                            </ng-select>
+                                        </div>
+                                        <div class="form-group col-sm-2">
+                                            <label>Considerar data</label>
+                                            <ng-select [items]="dataConsiderar" (add)="selected($event)" bindLabel="text" bindValue="id" placeholder="Selecione" [(ngModel)]="selectedDataConsiderar" formControlName="TPCONSDT">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label for="DSPADENT" title="Texto para mensagem de entregue">Texto para mensagem de
+                        entregue</label>
+                                            <app-input id="DSPADENT" name="DSPADENT" [disabled]="false" model="{{objFormRegs.controls['DSPADENT'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'DSPADENT'">
+                                            </app-input>
+                                        </div>
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label>Codificacão</label>
+                                            <ng-select [items]="charset" (add)="selected($event)" bindLabel="name" bindValue="id" placeholder="Selecione" [(ngModel)]="selectedCharset" formControlName="TPCODIFI">
+                                            </ng-select>
+                                        </div>
+
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label>Tipo de transporte</label>
+                                            <ng-select [multiple]='true' [items]="tipoTransp" bindLabel="text" bindValue="id" isRequired='true' [(ngModel)]="selectedTpTransp" formControlName="TPTRANSP">
+                                            </ng-select>
+                                        </div>
+
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label>Tipo de operação</label>
+                                            <ng-select [multiple]='true' [items]="tipoOper" bindLabel="text" bindValue="id" [(ngModel)]="selectedOperacao" formControlName="TRRECEDI">
+                                            </ng-select>
+                                        </div>
+
+                                        <div class="form-group col-sm-2">
+                                            <label>Considerar NF</label>
+                                            <ng-select [items]="considerarNF" (add)="selected($event)" bindLabel="text" bindValue="id" placeholder="Selecione" [(ngModel)]="selectedConsiderarNF" formControlName="TPCONSNF">
+                                            </ng-select>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                                            <label>Tipo de envio</label>
+                                            <ng-select [items]="tipoEnvio" (add)="selected($event)" bindLabel="text" bindValue="id" placeholder="Selecione" [(ngModel)]="selectedTpEnvio" formControlName="TPENVIO">
+                                            </ng-select>
+                                        </div>
+
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label for="DSENVIO" title="Texto para mensagem de entregue">Detalhamento do envio</label>
+                                            <i class="far fa-question-circle" ngbPopover="Informar os e-mails (separados por vírgula), caminho na rede (Ex.: \\servidor\pasta) ou url para envio via WebService." container="body" triggers="mouseenter:mouseleave"></i>
+                                            <app-input id="DSENVIO" name="DSENVIO" model="{{objFormRegs.controls['DSENVIO'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'DSENVIO'">
+                                            </app-input>
+                                        </div>
+                                        
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label for="DSTOKEN" title="Texto para mensagem de entregue">Token</label>
+                                            <i class="far fa-question-circle" ngbPopover="Token para autenticação para envio seja feito via WebService." container="body" triggers="mouseenter:mouseleave"></i>
+                                            <app-input id="DSTOKEN" name="DSTOKEN" model="{{objFormRegs.controls['DSTOKEN'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'DSTOKEN'">
+                                            </app-input>
+                                        </div>
+
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                                            <label for="HREXECUT" title="Texto para mensagem de entregue">Hora inicio</label>
+                                            <i class="far fa-question-circle" ngbPopover="Informar o horário que será feito primeiro envio." container="body" triggers="mouseenter:mouseleave"></i>
+                                            <app-input id="HREXECUT" name="HREXECUT" typeMask="hora" model="{{objFormRegs.controls['HREXECUT'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'HREXECUT'">
+                                            </app-input>
+                                        </div>
+
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                                            <label for="HRREPETE" title="Texto para mensagem de entregue">Repetição</label>
+                                            <app-input id="HRREPETE" name="HRREPETE" typeMask="hora" model="{{objFormRegs.controls['HRREPETE'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'HRREPETE'">
+                                            </app-input>
+                                        </div>
+
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label>Dias</label>
+                                            <ng-select [multiple]='true' [items]="diasEnvio" bindLabel="text" bindValue="id" [(ngModel)]="selectedDiasEnvio" formControlName="NMDIAEXE">
+                                            </ng-select>
+                                        </div>
+
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                                            <label for="HRLIMRPT" title="">Hora limite</label>
+                                            <i class="far fa-question-circle" ngbPopover="Informar o horário do útimo envio." container="body" triggers="mouseenter:mouseleave"></i>
+                                            <app-input id="HRLIMRPT" name="HRLIMRPT" typeMask="hora" model="{{objFormRegs.controls['HRLIMRPT'].value}}" [formInput]="objFormRegs" [formControlNameInput]="'HRLIMRPT'">
+                                            </app-input>
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                    <div *ngIf="(checkViewCampoEdi==1)">
+                                        <p>Campos de composição do arquivo</p>
+                                        <app-datagrid [notOnLoad]="true" [initComplete]="'getDataGridCamposEdi'" [id]="'dataGridCamposEdi'" [url]="urlCamposEdiGrid" [tela]="389" [telaGlobal]="[
+                        {'id' : 1, 'metodo' : 'addFieldEdi', 'icone':'fa fa-plus'},
+                        {'id' : 'excel'},
+                        {'id' : 'colvis'} ]" [telaAcoes]="[
+
+                        {'id' : 3, 'metodo' : 'removeFieldEdi', 'icone': 'far fa-times-circle'}]" [nivel]="0" [thisParent]="this">
+
+                                            <th data-id="IDG095" data-type-column="actions">Ações</th>
+                                            <th data-id="IDG095" data-align-right="true" data-function-full="true">Cód. Evolog</th>
+                                            <th data-id="NMTABELA" data-align-left="true" data-function="numberNullDG">Tabela</th>
+                                            <th data-id="NMATRIBU" data-align-left="true" data-function="numberNullDG">Campo</th>
+                                            <th data-id="DSATRIBU" data-align-left="true" data-function="numberNullDG">Descrição Campo</th>
+                                            <th data-id="NRORDEM" data-align-right="true" data-function-full="true" data-function="linhaCompletaOrdemCampoEdi">Ordem</th>
+                                            <th data-id="NMCOLUNA" data-align-left="true" data-function="numberNullDG">Nome no arquivo</th>
+
+
+                                        </app-datagrid>
+                                    </div>
+
+                                    <p>&nbsp;</p>
+                                    <p>&nbsp;</p>
+                                    <div class="row">
+                                        <div class="col-sm-5"></div>
+                                        <div class="col-sm-7 col-md-7 col-lg-7 text-right">
+                                            <!-- VOLTAR -->
+                                            <app-botoes *ngIf="(checkViewCampoEdi == 2)" class="default" icon="fa fa-reply" text="Voltar" (click)="goHome();">
+                                            </app-botoes>
+
+                                            <!-- CANCELAR -->
+                                            <app-botoes *ngIf="(checkViewCampoEdi < 2)" class="danger" icon="far fa-times-circle" text="{{ 'hc.form.botoes.ca' | translate }}" (click)="goHome();">
+                                            </app-botoes>
+
+                                            <!-- SALVAR -->
+                                            <app-botoes *ngIf="(checkViewCampoEdi < 2)" class="success" icon="far fa-save" text="{{ 'hc.form.botoes.sa' | translate }}" (click)="saveEdi();">
+                                            </app-botoes>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </ng-template>
+                        </ngb-panel>
+                    </ngb-accordion>
+                </div>
+
+
+                <div *ngIf="(exibir == 4)">
+                    <ngb-accordion #acc="ngbAccordion" activeIds="1">
+                        <ngb-panel id="1" title="Configuração de EDI Rastreio">
+                            <ng-template ngbPanelContent>
+
+                                <form class="form-horizontal" [formGroup]="objFormNewFieldEdi" #formCampos>
+                                    <div class="row">
+
+                                        <input type="text" id="IDG094" formControlName="IDG094" hidden>
+                                        <div class="form-group col-sm-1 col-md-1 col-lg-1">
+                                            <label for="NRORDEM">Ordem</label>
+                                            <i class="far fa-question-circle" ngbPopover="Informe a número da ordem para o campo a ser adicionado." container="body" triggers="mouseenter:mouseleave"></i>
+                                            <app-input id="NRORDEM" name="NRORDEM" typeMask='ordemCampoEdi' [disabled]="false" model="{{objFormNewFieldEdi.controls['NRORDEM'].value}}" [formInput]="objFormNewFieldEdi" [formControlNameInput]="'NRORDEM'">
+                                            </app-input>
+                                        </div>
+
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label for="DSALIATB">Alias tabela</label>
+                                            <i class="far fa-question-circle" ngbPopover="Informe o alias da tabela do campo." container="body" triggers="mouseenter:mouseleave"></i>                                            
+                                            <ng-select [multiple]='false' [items]="aliasTabela" bindLabel="text" bindValue="id" isRequired='true' [(ngModel)]="selectedAliasTabela" formControlName="DSALIATB">
+                                            </ng-select>
+                                        </div>
+
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                            <label for="IDG095RE">Referencia para concatencação</label>
+                                            <i class="far fa-question-circle" ngbPopover="Caso seja necessário, informar o campo a ser concatenado a este no arquivo." container="body" triggers="mouseenter:mouseleave"></i>
+                                            <app-input id="IDG095RE" name="IDG095RE" [isRequired]='false' [disabled]="false" model="{{objFormNewFieldEdi.controls['IDG095RE'].value}}" [formInput]="objFormNewFieldEdi" [formControlNameInput]="'IDG095RE'">
+                                            </app-input>
+                                        </div>
+
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                            <app-combobox [url]="urlFieldsEdiAll" [dataFix]="true" [formSelect]="objFormNewFieldEdi" [formControlNameSelect]="'IDS010'" [label]="'Campo'">
+                                            </app-combobox>
+                                        </div>
+
+                                        <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                            <label for="NMCOLUNA">Nome no arquivo</label>
+                                            <app-input id="NMCOLUNA" name="NMCOLUNA" [isRequired]='false' [disabled]="false" model="{{objFormNewFieldEdi.controls['NMCOLUNA'].value}}" [formInput]="objFormNewFieldEdi" [formControlNameInput]="'NMCOLUNA'">
+                                            </app-input>
+                                        </div>
+
+                                    </div>
+                                    <p></p>
+                                    <div class="row">
+                                        <div class="col-sm-5"></div>
+                                        <div class="col-sm-7 col-md-7 col-lg-7 text-right">
+
+                                            <!-- VOLTAR -->
+                                            <app-botoes *ngIf="(checkViewCampoEdi == 0)" class="default" icon="fa fa-reply" text="Voltar" (click)="goHome();">
+                                            </app-botoes>
+
+                                            <!-- CANCELAR -->
+                                            <app-botoes *ngIf="!(checkViewCampoEdi == 0)" class="danger" icon="far fa-times-circle" text="{{ 'hc.form.botoes.ca' | translate }}" (click)="backtoUpdateEdi();">
+                                            </app-botoes>
+
+                                            <!-- SALVAR -->
+                                            <app-botoes *ngIf="!(checkViewCampoEdi == 0)" class="success" icon="far fa-save" text="{{ 'hc.form.botoes.sa' | translate }}" (click)="saveFieldEdi();">
+                                            </app-botoes>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </ng-template>
+                        </ngb-panel>
+                    </ngb-accordion>
+                </div>
+            </div>
+            <!-- FIM TELA DE CADASTROS -->
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Logs" [id]="2">
+        <ng-template ngbTabContent>
+            <div style="padding-top: 25px;">
+                <app-cards-filter titleDrop="Filtros" nameSubmitFunction="filtrarLog" nameClearFunction="limparFiltroLog" [isCollapsed]="true" [dropdown]="true" [context]="this">
+
+                    <form class="form-horizontal" [formGroup]="log_objFormFilter">
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                <app-combobox [url]="urlListarConfigEdi" [dataFix]="true" [formSelect]="log_objFormFilter" [formControlNameSelect]="'NMCLIENT'" [label]="'Cliente'">
+                                </app-combobox>
+                            </div>
+
+                            <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                <label for="DT_PROCESS">Data de Processamento</label>
+                                <app-datapicker-popup navegacao="none" [mesesDisplay]='1' [desabilitar]='false' [formDatePop]="log_objFormFilter" [formControlNameDatePop]="'DT_PROCESS'">
+                                </app-datapicker-popup>
+                            </div>
+
+                            <div class="form-group col-sm-2 col-md-2 col-lg-2" [formGroup]="log_objFormFilter">
+                                <label for="NM_PASTA">Pasta</label>
+                                <ng-select [items]="itensPastaArq" bindLabel="text" bindValue="id" placeholder="Selecione" [(ngModel)]="selectedItemPastaArq" formControlName="NM_PASTA">
+                                </ng-select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8"></div>
+                                <div class="col-sm-4 text-right"></div>
+                            </div>
+
+                        </div>
+                    </form>
+                </app-cards-filter>
+                <div style="max-height: 600px;overflow-x: auto;overflow-y: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center">Data</th>
+                                <th style="text-align: center">Cliente</th>
+                                <th style="text-align: center">Pasta</th>
+                                <th style="text-align: center">Arquivo</th>
+                                <th style="text-align: center">Visualizar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="listArquivos.length == 0">
+                                <td colspan="5" style="text-align: center">Nenhum arquivo encontrado</td>
+                            </tr>
+                            <tr *ngFor="let arq of listArquivos">
+                                <td style="text-align: center"> {{arq.DATAPROCESS}} </td>
+                                <td style="text-align: center"> {{arq.TRANSPORTADORA}} </td>
+                                <td style="text-align: center"> {{arq.PASTA}} </td>
+                                <td style="text-align: center"> {{arq.ARQUIVO}} </td>
+
+                                <td style="text-align: center"> <i class="fa fa-file-alt btTableI cursorIcon" style="cursor: pointer;" (click)="visualizarArquivo(arq)"></i></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Verificar erro" [id]="3">
+        <ng-template ngbTabContent>
+            <div style="padding-top: 20px; margin-bottom: 20px;">
+                <app-cards-filter titleDrop="Verificar motivo de nota fiscal não relacionada em arquivo de EDI enviado" nameSubmitFunction="filtrarErro" nameClearFunction="limparFiltroErro" [isCollapsed]="true" [dropdown]="true" [context]="this">
+
+                    <form class="form-horizontal" [formGroup]="erros_objFormFilter">
+                        <div class="row">
+                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                <app-combobox [url]="urlListarConfigEdi" [dataFix]="true" [formSelect]="erros_objFormFilter" [formControlNameSelect]="'NMCLIENT'" [label]="'Cliente'">
+                                </app-combobox>
+                            </div>
+
+                            <div class="form-group col-sm-2 col-md-2 col-lg-2">
+                                <label for="NRNOTA">Nota Fiscal</label>
+                                <app-input id="NRNOTA" name="NRNOTA" model="{{erros_objFormFilter.controls['NRNOTA'].value}}" [formInput]="erros_objFormFilter" [formControlNameInput]="'NRNOTA'">
+                                </app-input>
+                            </div>
+                        </div>
+                        <p>{{textVTPTRANP}}</p>
+                        <p>{{textVTPINCLUIR}}</p>
+                        <p>{{textVTEMDTEMISSAO}}</p>
+                        <p>{{textVDTENTREGARANGE}}</p>
+                        <p>{{textVDTEMISSAOINRANGE}}</p>
+                        <p>{{textVSTIUACAO}}</p>
+                    </form>
+                </app-cards-filter>
+            </div>
+        </ng-template>
+    </ngb-tab>
+
+</ngb-tabset>

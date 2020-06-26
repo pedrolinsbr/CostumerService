@@ -1,0 +1,76 @@
+.dangerSpan {
+	font-size: 0.8rem;
+	color: rgb(244, 67, 54);
+	position: relative;
+}
+
+.auxRow {
+	margin-top: 15px;
+}
+
+.row-striped:nth-of-type(odd){
+  background-color: #EFF0F9;
+}
+
+.row-striped:nth-of-type(even){
+  background-color: #CFD0D6;
+}
+
+.text-xs-left { text-align: left; }
+.text-xs-right { text-align: right; }
+.text-xs-center { text-align: center; }
+.text-xs-justify { text-align: justify; }
+
+@media (min-width: @screen-sm-min) {
+	.text-sm-left { text-align: left; }
+	.text-sm-right { text-align: right; }
+	.text-sm-center { text-align: center; }
+	.text-sm-justify { text-align: justify; }
+}
+
+@media (min-width: @screen-md-min) {
+	.text-md-left { text-align: left; }
+	.text-md-right { text-align: right; }
+	.text-md-center { text-align: center; }
+	.text-md-justify { text-align: justify; }
+}
+
+@media (min-width: @screen-lg-min) {
+	.text-lg-left { text-align: left; }
+	.text-lg-right { text-align: right; }
+	.text-lg-center { text-align: center; }
+	.text-lg-justify { text-align: justify; }
+}
+
+@media screen {
+	.modal-adaptive .modal-xl {
+		width: 90% !important;
+		max-width: calc(90%);
+	}
+}
+
+.my-bg{
+	background-color: #eff0f9;
+}
+
+.marg{
+	padding-bottom: 17px !important;
+}
+
+.bg-g{
+	background-color: #ababab;
+}
+
+.ts > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: #98989842;
+}
+
+.text-color{
+	color: #464444 !important;
+}
+
+.rowAuxList{
+	padding-top: 7px; 
+	padding-bottom: 7px; 
+	font-size: 0.775rem;
+}

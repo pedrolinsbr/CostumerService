@@ -1,0 +1,401 @@
+<app-breadcrumbs
+  #breadcrumbs
+  home="Bloqueio"
+  [arBreadcrumbs]="arBreadcrumbsLocal"
+  (goHome)="goHome($event)"
+  (clearNext)="clearNext($event)"
+  [context]="this"
+  backgroundColor="#d5e0e4">
+</app-breadcrumbs>
+
+<div *ngIf="exibir == 1" style="padding-top: 20px;">
+
+	<app-cards-filter
+		titleDrop="Filtros"
+		nameSubmitFunction="filtrarHome"
+		nameClearFunction="limparHome"
+		idGrid="gridHomeNFe"
+		[dropdown]="true"
+		advancedOptions="advancedFilter"
+		[isCollapsed]="true"
+		[context]="this">
+
+
+		<form class="form-horizontal" [formGroup]="objFormFilterHome" >
+			<!-- Filtros Comuns -->
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Data Emissão NF (inicial)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='visible'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtInicioDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTINICIO'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="col-sm-3">
+					<label>Data Emissão NF (final)</label>
+					<app-datapicker-popup
+						navegacao='select'
+						[outsideDays]='visible'
+						[dataMinima]='dataMinima'
+						[dataMaxima]='dataMaxima'
+						[dataSelecionada]='dtTerminoDefault'
+						[mesesDisplay]='1'
+						[desabilitar]='false'
+						[formDatePop]="objFormFilterH"
+						[formControlNameDatePop]="'DTFIM'"
+						(dataClicada)="dataClick($event)">
+					</app-datapicker-popup>
+				</div>
+				<div class="form-group col-sm-3 col-md-3 col-lg-3">
+					<app-single-numeroViagem
+						[objForm] = "objFormFilterH"
+						[formName] = "'G051_IDG046'">
+					</app-single-numeroViagem>
+				</div>
+				<div class="form-group col-sm-3" [formGroup]="objFormFilterH">
+					<label for="">Situação Notas</label>
+					<select class="form-control"
+						id="G043_DTBLOQUE"
+						name="G043_DTBLOQUE" formControlName="G043_DTBLOQUE">
+						<option value="2" [selected]="selected1">Todos</option>
+						<option value="1">Bloqueadas</option>
+						<option value="0">Desbloqueadas</option>
+					</select>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<label >Número da NF-e:</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdNfe'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+				<div class="col-sm-6">
+					<label >Número do CT-e:</label>
+					<app-chips-input
+					[typeInput]="'numberText'"
+					[chips]='arIdCte'
+					[removable]='true'
+					[addOnBlur]='true'
+					[duplicate]='false'
+					[objStyle]="objStyle"
+					[inputSpace]='true'
+					>
+					</app-chips-input>
+				</div>
+			</div>
+			<div *ngIf="!advancedFilter">
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Remetente</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005RE'"
+							[auxGoBack] = "auxGoBloqueio"
+							[valSelected] = "objAux.G043_IDG005RE"
+							[showInfo] = "showCDUF">
+						</app-combobox-multi>
+					</div>
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label >Destinatário</label>
+						<app-combobox-multi
+							[url]="url+'filtro/clientes'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G043_IDG005DE'"
+							[auxGoBack] = "auxGoBloqueio"
+							[valSelected] = "objAux.G043_IDG005DE">
+						</app-combobox-multi>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Transportadora - Carga</label>
+						<app-combobox-multi
+							[url]="url+'filtro/transportadoras'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G046_IDG024'"
+							[auxGoBack] = "auxGoHome"
+							[valSelected] = "objAux.G046_IDG024">
+						</app-combobox-multi>
+					</div>
+					
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label for="NMCIDADE">Transportadora - CT-e</label>
+						<app-combobox-multi
+							[url]="url+'filtro/transportadoras'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G024_IDG024'"
+							[auxGoBack] = "auxGoBloqueio"
+							[valSelected] = "objAux.G024_IDG024">
+						</app-combobox-multi>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label >Carga Logos</label>
+						<app-chips-input
+						[typeInput]="'numberText'"
+						[chips]='arIdCargaLog'
+						[removable]='true'
+						[addOnBlur]='true'
+						[duplicate]='false'
+						[objStyle]="objStyle"
+						[inputSpace]='true'
+						>
+						</app-chips-input>
+					</div>
+
+					<div class="form-group col-sm-3" [formGroup]="objFormFilterHome">
+						<label>Número do Atendimento</label>
+						<input class="form-control" id="A005_IDA001" name="A005_IDA001" formControlName="A005_IDA001" placeholder="Digite para pesquisar">
+					</div>
+
+					<div class="form-group col-sm-3" [formGroup]="objFormFilterH">
+						<label for="">Ação</label>
+						<select class="form-control"
+								formControlName="A008_IDA008"
+								id="A008_IDA008"
+								name="A008_IDA008" >
+							<option value="0" [selected]="selected2">Todos</option>
+							<option value="1">Atendimento</option>
+							<option value="2">Ocorrência</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-6 col-md-6 col-lg-6">
+						<label>Tomador</label>
+						<app-combobox-multi
+							[url]="url+'filtro/tomadores'"
+							[formMultiSelect] = "objFormFilterH"
+							[disabledViewMultiSelect] = 'false'
+							[formControlNameMultiSelect] = "'G051_IDG005CO'"
+							[auxGoBack] = "auxGoBloqueio"
+							[valSelected] = "objAux.G051_IDG005CO">
+						</app-combobox-multi>
+					</div>
+					<div class="col-sm-6">
+						<label >Delivery:</label>
+
+
+						<!-- <app-chips-input [typeInput]="'text'"
+						 [chips]='arIdsCDDELIVE' 
+						 [removable]='true' 
+						 [addOnBlur]='true' [duplicate]='false' 
+						 [objStyle]="objStyle" 
+						 [inputSpace]='false'>
+						</app-chips-input> -->
+
+						<app-chips-input
+						[typeInput]="'text'"
+						[chips]='arIdDelivery'
+						[removable]='true'
+						[addOnBlur]='true'
+						[duplicate]='false'
+						[objStyle]="objStyle"
+						[inputSpace]='false'
+						>
+						</app-chips-input>
+					</div>
+				</div>
+			</div>
+		</form>
+	</app-cards-filter>
+
+	<app-cards
+		titleDrop="Registros"
+		idGrid="gridHomeDados"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		<app-datagrid
+			[id]="'listarNotasBloq'"
+			[url]="url+'mo/deliverynf/listarWithoutCte'"
+			[tela]="42"
+			[telaGlobal]="[ {'id' : 'excel'},
+				{'id' : 'colvis'} ]"
+			[telaAcoes]="[
+				{'id' : 22, 'metodo' : 'bloquearNfe',   'icone': 'fa fa-lock'},
+				{'id' : 23, 'metodo' : 'liberarNfe',   'icone': 'fa fa-unlock'}]"
+			[nivel]="0"
+			[thisParent]="this"
+			[allList]="true"
+			[notOnLoad]="true"
+			[stateSave]="true"
+			[scroll]="500"
+			[order]="[4, 'desc']" >
+			<th data-id="IDG043" 			data-object="true" data-type-column="actions">Ações</th>
+			<th data-id="NRNOTA" 			data-align-right="true">Nº NF</th>
+			<th data-id="G051_CDCTRC" 		data-align-right="true">Nº CTe</th>
+			<th data-id="CDDELIVE"			data-align-right="true" data-function="registroNullDG" >Delivery</th>
+			<th data-id="DTEMINOT" 			data-align-center="true">Data Emissão NF</th>
+			<th data-id="IDG043" 			data-function="homeMonitoria" data-function-full="true">Movimentações</th>
+			<th data-id="G024CTE_NMTRANSP" data-align-left="true">Transportadora - CTe</th>
+			<th data-id="G051_TPTRANSP" data-align-left="true">Tipo de Operação</th>
+			<th data-id="SNAG" data-align-left="true" data-function="validaAgMonitoria" data-function-full="true">Retorno AG</th>
+			<th data-id="G051_DTEMICTR" 	data-visible="false" data-align-left="true">Data Emissão CTe</th>
+			<th data-id="G051_DTPREENT" 	data-visible="false" data-align-left="true">Data Pre. Entrega</th>
+			<th data-id="DTENTCON" 			data-visible="false" data-align-left="true">Data Ent. Prometida</th>
+			<th data-id="DTENTREG" 			data-visible="false" data-align-left="true">Data Ent. Realizada</th>
+			<th data-id="G005RE_NMCLIENTRE" data-visible="false" data-align-left="true">Emissor</th>
+			<th data-id="G005DE_NMCLIENTDE" data-visible="false" data-align-left="true">Destino</th>
+			<th data-id="G003RE_NMCIDADERE" data-visible="false" data-align-left="true">Cidade do Emissor</th>
+			<th data-id="G002RE_NMESTADORE" data-visible="false" data-align-left="true">Estado do Emissor</th>
+			<th data-id="G003DE_NMCIDADEDE" data-visible="false" data-align-left="true">Cidade do Destino</th>
+			<th data-id="G002DE_NMESTADODE" data-visible="false" data-align-left="true">Estado do Destino</th>
+			<th data-id="G051_IDG046" data-visible="false" data-align-left="true">Carga</th>
+		</app-datagrid>
+	</app-cards>
+</div>
+
+<!--
+Exibir = 2
+Cadastro de Atendimento
+ -->
+<div *ngIf="exibir == 2">
+	<app-cards
+	titleDrop="Cadastro de Atendimento"
+	[isCollapsed]="collapsed"
+	[dropdown]="true">
+
+		<app-novo-atendimento
+			(callListAtendimentos)="backToHome()"
+			[bloqueio]="true"
+			[IDG043]="IDG043_selecionada"
+			(movAtendimentoEvent)="movAtendimento($event)"
+			[IDG083]="IDG083_selecionada"
+			[validaSyngenta]="validSyngenta"
+		>
+		</app-novo-atendimento>
+
+	</app-cards>
+
+	<app-cards
+		titleDrop="Informações"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+		<ngx-loading [show]="loading" ></ngx-loading>
+
+		<app-info-rastreio [objRastreio]="rastreioObj" resumido="true"></app-info-rastreio>
+
+		<app-info-nfe [objNotaFiscal]="nfeObj"></app-info-nfe>
+
+		<app-info-cte [objCTE]="cteObj"></app-info-cte>
+
+		<app-info-carga [objCarga]="cargaObj"></app-info-carga>
+
+		<app-info-rastreio-detalhado></app-info-rastreio-detalhado>
+	</app-cards>
+</div>
+
+<!--
+Exibir = 2
+Cadastro de Atendimento
+ -->
+<div *ngIf="exibir == 3">
+	<app-cards
+	titleDrop="Cadastro de Atendimento"
+	[isCollapsed]="collapsed"
+	[dropdown]="true">
+
+		<app-novo-atendimento
+			(callListAtendimentos)="backToHome()"
+			[desbloqueio]="true"
+			[IDG043]="IDG043_selecionada"
+			(movAtendimentoEvent)="movAtendimento($event)"
+			[IDG083]="IDG083_selecionada"
+		>
+		</app-novo-atendimento>
+
+	</app-cards>
+
+	<app-cards
+		titleDrop="Informações"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+		<ngx-loading [show]="loading" ></ngx-loading>
+
+		<app-info-rastreio [objRastreio]="rastreioObj" resumido="true"></app-info-rastreio>
+
+		<app-info-nfe [objNotaFiscal]="nfeObj"></app-info-nfe>
+
+		<app-info-cte [objCTE]="cteObj"></app-info-cte>
+
+		<app-info-carga [objCarga]="cargaObj"></app-info-carga>
+
+		<app-info-rastreio-detalhado></app-info-rastreio-detalhado>
+	</app-cards>
+</div>
+
+<!--
+Exibir = 2
+Cadastro de Atendimento
+ -->
+
+<div *ngIf="exibir == 4">
+	<app-cards
+	titleDrop="Detalhes do Atendimento"
+	[isCollapsed]="collapsed"
+	[dropdown]="true">
+		<app-novo-atendimento
+			[IDA001]="IDA001_selected"
+			[IDG043]="IDG043_selecionada"
+			(callListAtendimentos)="backToHome()"
+			[IDG083]="IDG083_selecionada">
+		</app-novo-atendimento>
+
+	</app-cards>
+
+	<br />
+
+	<app-cards
+	titleDrop="Movimentações do Atendimento"
+	[isCollapsed]="collapsed"
+	[dropdown]="true">
+		<app-atendimento-movs
+			[IDA001]="IDA001_selected"
+			(callListAtendimentos)="backToHome()"
+		>
+		</app-atendimento-movs>
+	</app-cards>
+
+	<app-cards
+		titleDrop="Informações"
+		[isCollapsed]="collapsed"
+		[dropdown]="true">
+
+		<ngx-loading [show]="loading" ></ngx-loading>
+
+		<app-info-rastreio [objRastreio]="rastreioObj" resumido="true"></app-info-rastreio>
+
+		<app-info-nfe [objNotaFiscal]="nfeObj"></app-info-nfe>
+
+		<app-info-cte [objCTE]="cteObj"></app-info-cte>
+
+		<app-info-carga [objCarga]="cargaObj"></app-info-carga>
+
+		<app-info-rastreio-detalhado [objTracking]="trackingObj"></app-info-rastreio-detalhado>
+
+	</app-cards>
+</div>

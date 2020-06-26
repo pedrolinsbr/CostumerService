@@ -1,0 +1,180 @@
+
+<div class="row" [hidden]="!resumido">
+	<!-- <ng-template #modalCanhoto>
+		<div class="modal-header">
+		    <h4 class="modal-title cor-1">Imagem do Canhoto</h4>
+		  </div>
+		  <div class="modal-body">
+		    <br>
+		    <div class="container-canhoto">
+		    	<div *ngIf="objRastreio.TXCANHOT != '' && objRastreio.TXCANHOT != null" 
+		    	style="width:80%; margin: 0 auto;" class="text-center">
+		    		<img style="max-width: 100%;" src="http://www.bravo2020.com.br/api/xml/canhoto/img/{{objRastreio.TXCANHOT}}"/>
+		    	</div>
+		      
+		     
+		    </div>
+		    <br>
+		  </div>
+		  <div class="modal-footer"> -->
+		  	<!-- <button type="button" class="btn btn-outline-dark" (click)="baixarCanhoto(179002)">Baixar Canhoto</button> -->
+		    <!-- <button type="button" class="btn btn-outline-dark" (click)="fecharCanhoto()">Fechar</button>
+		  </div>
+	</ng-template> -->
+	<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border">Rastreamento</legend>
+			<div class="row" *ngIf="objRastreio.DTBLOQUE || objRastreio.DTDESBLO">
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left font-weight-bold">
+					Data de Bloqueio:
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left">
+					{{ objRastreio.DTBLOQUE ? (objRastreio.DTBLOQUE) : ('n.i.') }}
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left font-weight-bold">
+					Data de Desbloqueio:
+				</div>
+				<div class="col-md-3 col-lg-3 col-xl-3 text-left">
+					{{ objRastreio.DTDESBLO ? (objRastreio.DTDESBLO ) : ('n.i.') }}
+				</div>
+			</div>
+			<br *ngIf="objRastreio.DTBLOQUE && !objRastreio.DTDESBLO" />
+			<div class="row" *ngIf="objRastreio.DTBLOQUE && !objRastreio.DTDESBLO">
+				<div class="col-md-12">
+					<div class="alert alert-danger" role="alert">
+						A nota fiscal está bloqueada.
+					</div>
+				</div>
+			</div>
+			<hr>
+			<br /><br />
+			<ul class="progress-indicator">
+				<li [ngClass]="
+					{
+						'completed': objRastreio.DTEMINOT != '' && objRastreio.DTEMINOT != null
+					}
+				">
+					<span class="bubble"></span> Nota Fiscal
+					<br />
+					<span *ngIf="objRastreio.DTEMINOT != ''">
+						Data: {{ objRastreio.DTEMINOT  }}<br>
+						{{ objRastreio.DTEMINOT != '' ? '(COMPLETO)' : '' }}
+					</span>
+				</li>
+				<!-- <li [ngClass]="
+					{
+						'completed': objRastreio.DTEMICTR != '' && objRastreio.DTEMICTR != null
+					}
+				">
+					<span class="bubble"></span> Emissão do Conhecimento
+					<br />
+					<span *ngIf="objRastreio.DTEMICTR != '' && objRastreio.DTEMICTR != null">
+						DATA: {{ objRastreio.DTEMICTR | date:'dd/MM/yyyy' :'+0000' }}<br />
+						{{ objRastreio.DTEMICTR != '' ? '(COMPLETO)' : '' }}
+					</span>
+				</li> -->
+				<li [ngClass]="
+					
+						[ ((objRastreio.DTCOLETA != '' &&
+							objRastreio.DTCOLETA != null) &&
+							(
+								objRastreio.DTBLOQUE == '' ||
+								objRastreio.DTBLOQUE == null ||
+								(
+									objRastreio.DTBLOQUE != '' &&
+									objRastreio.DTDESBLO != ''
+								)
+							) && validaMilestone.SNHABCOL == 1) ? 'info' : 'info' ]
+					
+				"  *ngIf="objRastreio.DTSAICAR == null">
+					<span class="bubble"></span> Previsão de Coleta 
+					<br />
+					<span *ngIf="(objRastreio.DTCOLETA && !objRastreio.DTBLOQUE) || (objRastreio.DTCOLETA && objRastreio.DTBLOQUE && objRastreio.DTDESBLO) ">
+						DATA: {{ objRastreio.DTCOLETA | date:'dd/MM/yyyy' }}<br />
+						{{ objRastreio.DTCOLETA != '' && validaMilestone.SNHABCOL == 1 ? '' : '' }}
+					</span>
+				</li>
+
+				<li class="completed" *ngIf="objRastreio.DTSAICAR != '' && objRastreio.DTSAICAR != null">
+					<span class="bubble"></span> Data de Coleta
+					<br />
+					<span>
+						DATA: {{ objRastreio.DTSAICAR }}<br />
+						(COMPLETO)
+					</span>
+				</li>
+
+				<!-- Se estiver bloqueado. -->
+				<ng-container *ngIf="objRastreio.DTBLOQUE != '' &&
+									 objRastreio.DTBLOQUE != null &&
+									(
+										objRastreio.DTDESBLO == '' || objRastreio.DTDESBLO == null
+									)">
+					<li class="">
+						<span class="bubble"></span> Previsão de Entrega
+						<br />
+					</li>
+				</ng-container>
+				<!-- Está desbloqueada. -->
+				<ng-container *ngIf="objRastreio.DTBLOQUE == '' ||
+							objRastreio.DTBLOQUE == null ||
+							(
+								objRastreio.DTBLOQUE != '' &&
+								objRastreio.DTBLOQUE != null &&
+								objRastreio.DTDESBLO != '' &&
+								objRastreio.DTDESBLO != null
+							)">
+					<li class="completed" *ngIf="objRastreio.DTENTREG != '' && objRastreio.DTENTREG != null">
+						<span class="bubble"></span> Previsão de Entrega
+						<br />
+						<span *ngIf="objRastreio.DTPREENT != '' && objRastreio.DTPREENT != null">
+							DATA: {{ objRastreio.DTPREENT }}<br />
+						</span>
+						<span *ngIf="objRastreio.DTPREENT == '' || objRastreio.DTPREENT == null">
+							n.i.
+						</span>
+					</li>
+					<li class="completed" *ngIf="objRastreio.DTENTREG != '' && objRastreio.DTENTREG != null">
+						<span class="bubble"></span> Data de Entrega
+						<br />
+						<span>
+							DATA: {{ objRastreio.DTENTREG }}<br />
+							(COMPLETO)
+						</span>
+					</li>
+					<li class="info" *ngIf="objRastreio.DTENTREG == '' ||
+											objRastreio.DTENTREG == null">
+						<span class="bubble"></span> Previsão de Entrega
+						<br />
+						<span *ngIf="objRastreio.DTPREENT != '' && objRastreio.DTPREENT != null">
+							DATA: {{ objRastreio.DTPREENT }}<br />
+						</span>
+						<span *ngIf="objRastreio.DTPREENT == '' || objRastreio.DTPREENT == null">
+							n.i.
+						</span>
+					</li>
+				</ng-container>
+				<!-- <ng-container >
+					<li class="info" *ngIf="objRastreio.TXCANHOT == '' || objRastreio.TXCANHOT == null">
+						<span class="bubble"></span>
+						<span>
+							<i class="fas fa-barcode" style="font-size: 37px;"></i>
+							<br />
+							<span> Canhoto</span>
+						</span>
+						<br />
+					</li>
+					<li class="completed" *ngIf="objRastreio.TXCANHOT != '' && objRastreio.TXCANHOT != null" style="cursor: pointer;">
+						<span class="bubble"></span>
+						<span (click)="visualizarCanhoto(objRastreio.TXCANHOT)">
+							<i class="fas fa-barcode" style="font-size: 37px;"></i>
+							<br />
+							<span> Canhoto</span>
+						</span>
+						<br />
+					</li>
+				</ng-container> -->
+			</ul>
+		</fieldset>
+	</div>
+</div>

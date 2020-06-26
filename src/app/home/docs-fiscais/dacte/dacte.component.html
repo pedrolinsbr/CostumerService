@@ -1,0 +1,770 @@
+<div *ngIf="!objDacte && carregando" class="alert" role="alert">
+		<div class="row vertical-align">
+			<div class="col-xs-10">
+				&nbsp;
+				<h6>Carregando...</h6>
+			</div>
+		</div>
+</div>
+<div *ngIf="!objDacte && !carregando" class="alert" role="alert">
+		<div class="row vertical-align">
+			<div class="col-xs-10">
+				&nbsp;
+				<h6>XML não encontrado</h6>
+			</div>
+		</div>
+</div>
+<div *ngIf="objDacte" class="modal-header" style="margin-bottom: -9px; justify-content: flex-end !important;
+margin-top: -23px;">
+    <button type="button" class="btn btn-link" (click)="download()" style="margin-right: 10px;">
+        <i class="fas fa-download"></i>
+        Baixar XML
+    </button>
+    <button type="button" class="btn btn-info" (click)="imprimir()">
+        Imprimir
+    </button>
+</div>
+<div *ngIf="arrayGeral.length > 0">
+    <div *ngFor="let pag of arrayGeral; let x = index" class="container-page" id="print-section">
+        <div class="container">
+            <div id="container-canhoto">
+                <div id="container-canhoto-1">
+                    <span style="font-size: 7px; text-align: center;">DECLARO TER RECEBIDO E CONFERIDO A(S) MERCADORIA(S)
+                        CONSTANTE(S) NA(S) NOTA(S) FISCAL(IS) DESTE CONHECIMENTO, NÃO HAVENDO DESACORDO</span>
+                </div>
+                <div id="container-1">
+                    <div id="container-1-1">
+                        <div id="container-1-2">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">NOME LEGÍVEL</span>
+                        </div>
+                        <div id="container-1-3">
+                            <div id="container-1-3-1">
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">CPF/RG:</span>
+                            </div>
+                            <div id="container-1-3-2">
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">DATA:</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="container-1-4">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">ASSINATURA:</span>
+                    </div>
+                    <div id="container-1-5">
+                        <div id="container-1-6">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">CHEGADA DATA E HORA</span>
+                        </div>
+                        <div id="container-1-7">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">SAIDA DATA E HORA</span>
+                        </div>
+                    </div>
+                    <div id="container-1-8">
+                        <span style="font-size: 7px; font-weight: bold; text-align: center;">DACTE</span>
+                        <div id="container-1-9">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">NÚMERO-E {{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.nCT',objDacte)}}</span>
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">SÉRIE: {{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.serie',objDacte)}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="container-2">
+                <div id="container-2-1">
+                    <div id="container-2-2">
+                        <div id="container-2-3">
+                            <div id="container-2-4">
+                                <!-- <H5>imagem</H5> -->
+                            </div>
+                            <div id="container-2-5">
+                                <span style="margin-bottom: 3px; font-size: 13px; font-weight: bold; text-align: center;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.xNome',objDacte)}}</span>
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.enderEmit.xLgr',objDacte)}} {{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.enderEmit.nro',objDacte)}}</span>
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.enderEmit.xMun',objDacte)}} - {{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.enderEmit.UF',objDacte)}}</span>
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold;">CNPJ: {{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.CNPJ',objDacte)}}</span>
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold;">INSC ESTADUAL: {{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.IE',objDacte)}}</span>
+                                <div id="container-2-6">
+                                    <span style="font-size: 7px; font-weight: bold;">FONE: {{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.enderEmit.fone',objDacte)}}</span>
+                                    <span style="font-size: 7px; font-weight: bold;">CEP: {{utilServices.validaCamposDocs('objDacte.CTe.infCte.emit.enderEmit.CEP',objDacte)}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="container-2-7">
+                            <div id="container-2-8">
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">TIPO DO CT-E</span>
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">{{utilServices.validaTpCteDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.tpCTe',objDacte))}}</span>
+                            </div>
+                            <div id="container-2-9">
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">TIPO DO SERVIÇO</span>
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">{{utilServices.validaTpServDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.tpServ',objDacte))}}</span>
+                            </div>
+                            <div id="container-2-10">
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">TOMADOR DO SERVIÇO</span>
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">{{utilServices.validaTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.ide',objDacte))}}</span>
+                            </div>
+                            <div id="container-2-11">
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;">FORMA DE PAGAMENTO</span>
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px;"></span>
+                            </div>
+                        </div>
+                        <div id="container-2-12">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">CFOP - NATUREZA DA
+                                PRESTAÇÃO</span>
+                            <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.CFOP',objDacte)}} - {{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.natOp',objDacte)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-2-13">
+                    <div id="container-2-13-1">
+                        <div id="container-2-14">
+                            <div id="container-2-15">
+                                <span style="font-size: 22px; font-weight: bold; text-align: center; margin-top: -2px;">DACTE</span>
+                                <span style="font-size: 8px; text-align: center; margin-top: -4px;">Documento Auxiliar do conhecimento</span>
+                                <span style="font-size: 8px; text-align: center; margin-top: -3px;">de Transporte Eletrônico</span>
+                            </div>
+                            <div id="container-2-16">
+                                <span style="font-size: 10px; text-align: center;">MODAL</span>
+                                <span style="font-size: 10px; font-weight: bold; text-align: center;">RODOVIÁRIO</span>
+                            </div>
+                        </div>
+                        <div id="container-2-17">
+                            <div id="container-2-18">
+                                <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">MODELO</span>
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.mod',objDacte)}}</span>
+                            </div>
+                            <div id="container-2-19">
+                                <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">SÉRIE</span>
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.serie',objDacte)}}</span>
+                            </div>
+                            <div id="container-2-20">
+                                <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">NÚMERO</span>
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.nCT',objDacte)}}</span>
+                            </div>
+                            <div id="container-2-21">
+                                <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">FL</span>
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{x+1}} / {{arrayGeral.length}}</span>
+                            </div>
+                            <div id="container-2-22">
+                                <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">DATA E HORA DE EMISSÃO</span>
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{utilServices.dataDG(utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.dhEmi',objDacte))}} - {{utilServices.timeDG(utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.dhEmi',objDacte))}}</span>
+                            </div>
+                        </div>
+                        <div id="container-2-23">
+                            <div id="container-2-24">
+                                <!-- <h5>CODIGO BARR</h5> -->
+                                <span style="font-size: 9px; text-align: center;">CONTROLE DO FISCO</span>
+                                <svg style="height: 47px !important; width: 300px !important;" id="barcode"></svg>
+                            </div>
+                            <div id="container-2-25">
+                                <!-- <h5>QRCODE</h5> -->
+                                <qrcode [qrdata]="qrcodeUrl" [size]="60" [level]="'M'"></qrcode>
+                            </div>
+                        </div>
+                        <div id="container-2-26">
+                            <div id="container-2-27">
+                                <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">N. PROTOCOLO</span>
+                            </div>
+                            <div id="container-2-28">
+                                <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">INSC. SUFRAMA DO DESTINATÁRIO</span>
+                            </div>
+                        </div>
+                        <div id="container-2-29">
+                            <div id="container-2-30">
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.protCTe.infProt.nProt',objDacte)}}</span>
+                            </div>
+                            <div id="container-2-31">
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.ISUF',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="container-3">
+                <div id="container-3-1">
+                    <div id="container-3-2">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">ORIGEM DA PRESTAÇÃO</span>
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.xMunIni',objDacte)}} - {{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.UFIni',objDacte)}}</span>
+                    </div>
+                    <div id="container-3-3">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">DESTINO DA PRESTAÇÃO</span>
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.xMunFim',objDacte)}} - {{utilServices.validaCamposDocs('objDacte.CTe.infCte.ide.UFFim',objDacte)}}</span>
+                    </div>
+                </div>
+                <div id="container-3-4">
+                    <div id="container-3-5">
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">REMETENTE:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 6px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.xNome',objDacte)}}</span>
+                        </div>
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">ENDERECO:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 8px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.enderReme.xLgr',objDacte)}} {{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.enderReme.nro',objDacte)}}</span>
+                        </div>
+                        <div id="container-3-6">
+                            <div id="container-3-7">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">MUNICÍPIO:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 11px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.enderReme.xMun',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-8">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CEP:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.enderReme.CEP',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-9">
+                            <div id="container-3-10">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CNPJ/CPF:</span>
+                                <span
+                                    style="font-size: 8px; font-weight: bold; padding-left: 13px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.CNPJ',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-11">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">
+                                    INSC
+                                    ESTADUAL:
+                                </span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 12px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.IE',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-12">
+                            <div id="container-3-13">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">UF:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.enderReme.UF',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-14">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">PAIS:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.enderReme.xPais',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-15">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">FONE:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.rem.fone',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="container-3-5">
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">DESTINATÁRIO:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 6px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.xNome',objDacte)}}</span>
+                        </div>
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">ENDERECO:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 8px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.enderDest.xLgr',objDacte)}} {{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.enderDest.nro',objDacte)}}</span>
+                        </div>
+                        <div id="container-3-6">
+                            <div id="container-3-7">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">MUNICÍPIO:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 11px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.enderDest.xMun',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-8">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CEP:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.enderDest.CEP',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-9">
+                            <div id="container-3-10">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CNPJ/CPF:</span>
+                                <span
+                                    style="font-size: 8px; font-weight: bold; padding-left: 13px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.CNPJ',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-11">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">
+                                    INSC
+                                    ESTADUAL:
+                                </span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 12px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.IE',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-12">
+                            <div id="container-3-13">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">UF:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.enderDest.UF',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-14">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">PAIS:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.enderDest.xPais',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-15">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">FONE:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.dest.fone',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-3-16">
+                    <div id="container-3-5">
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">EXPEDIDOR:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 6px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.xNome',objDacte)}}</span>
+                        </div>
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">ENDERECO:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 8px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.enderExped.xLgr',objDacte)}} {{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.enderExped.nro',objDacte)}}</span>
+                        </div>
+                        <div id="container-3-6">
+                            <div id="container-3-7">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">MUNICÍPIO:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 11px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.enderExped.xMun',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-8">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CEP:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.enderExped.CEP',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-9">
+                            <div id="container-3-10">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CNPJ/CPF:</span>
+                                <span
+                                    style="font-size: 8px; font-weight: bold; padding-left: 13px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.CNPJ',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-11">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">
+                                    INSC
+                                    ESTADUAL:
+                                </span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 12px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.IE',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-12">
+                            <div id="container-3-13">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">UF:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.enderExped.UF',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-14">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">PAIS:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.enderExped.xPais',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-15">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">FONE:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.exped.fone',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="container-3-5">
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">RECEBEDOR:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 6px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.xNome',objDacte)}}</span>
+                        </div>
+                        <div style="margin-top: -7px;">
+                            <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">ENDERECO:</span>
+                            <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 8px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.enderReceb.xLgr',objDacte)}} {{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.enderReceb.nro',objDacte)}}</span>
+                        </div>
+                        <div id="container-3-6">
+                            <div id="container-3-7">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">MUNICÍPIO:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 11px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.enderReceb.xMun',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-8">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CEP:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.enderReceb.CEP',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-9">
+                            <div id="container-3-10">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CNPJ/CPF:</span>
+                                <span
+                                    style="font-size: 8px; font-weight: bold; padding-left: 13px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.CNPJ',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-11">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">
+                                    INSC
+                                    ESTADUAL:
+                                </span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 12px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.IE',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-3-12">
+                            <div id="container-3-13">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">UF:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.enderReceb.UF',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-14">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">PAIS:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.enderReceb.xPais',objDacte)}}</span>
+                            </div>
+                            <div id="container-3-15">
+                                <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">FONE:</span>
+                                <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.receb.fone',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="container-4">
+                <div id="container-4-1">
+                    <div id="container-4-2">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">TOMADOR DO SERVIÇO:</span>
+                        <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 33px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'xNome')}}</span>
+                    </div>
+                    <div id="container-4-3">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">MUNICÍPIO:</span>
+                        <span
+                            style="font-size: 8px; font-weight: bold; padding-left: 16px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'xMun')}}</span>
+                    </div>
+                    <div id="container-4-4">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CEP:</span>
+                        <span
+                            style="font-size: 8px; font-weight: bold; padding-left: 11px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'CEP')}}</span>
+                    </div>
+                </div>
+                <div id="container-4-5">
+                    <div id="container-4-6">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">ENDEREÇO:</span>
+                        <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 18px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'xLgr')}} {{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'nro')}}</span> 
+                    </div>
+                    <div id="container-4-7">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">UF:</span>
+                        <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 8px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'UF')}}</span>
+                    </div>
+                    <div id="container-4-8">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">PAIS:</span>
+                        <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 6px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'xPais')}}</span>
+                    </div>
+                </div>
+                <div id="container-4-9">
+                    <div id="container-4-10">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">CNPJ/CPF:</span>
+                        <span
+                            style="font-size: 8px; font-weight: bold; padding-left: 22px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'CNPJ')}}</span>
+                    </div>
+                    <div id="container-4-11">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">INS ESTADUAL:</span>
+                        <span
+                            style="font-size: 8px; font-weight: bold; padding-left: 16px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'IE')}}</span>
+                    </div>
+                    <div id="container-4-12">
+                        <span style="margin-bottom: 2px; font-size: 7px; font-weight: bold; padding: 2px;">FONE:</span>
+                        <span style="margin-bottom: 2px; font-size: 8px; font-weight: bold; padding-left: 16px; padding-top: 2px;">{{utilServices.validaInfoTomaDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte',objDacte),'fone')}}</span>
+                    </div>
+                </div>
+            </div>
+            <div id="container-5">
+                <div id="container-5-1">
+                    <span style="font-size: 7px; font-weight: bold; padding: 2px;">PRODUTO PREDOMINANTE</span>
+                    <span style="font-size: 8px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.proPred',objDacte)}}</span>
+                </div>
+                <div id="container-5-2">
+                    <span style="font-size: 7px; font-weight: bold; padding: 2px;">OUTRAS CARACTERÍSTICAS DA CARGA</span>
+                    <span style="font-size: 8px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.xOutCat',objDacte)}}</span>
+                </div>
+                <div id="container-5-3">
+                    <span style="font-size: 7px; font-weight: bold; padding: 2px;">VALOR TOTAL DA MERCADORIA</span>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <span style="font-size: 8px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.vCarga',objDacte)}}</span>
+                    </div>
+                </div>
+            </div>
+            <div id="container-6">
+                <div id="container-6-1">
+                    <div id="container-6-2">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">QNT / UN. MEDIDA:</span>
+                    </div>
+                    <div id="container-6-3">
+                        <div id="container-6-3-1">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.0.qCarga',objDacte) != '' ? utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.0.qCarga',objDacte) : utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.qCarga',objDacte) }}</span>
+                            <span style="font-size: 8px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.0.tpMed',objDacte) != '' ? utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.0.tpMed',objDacte) : utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.tpMed',objDacte) }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-6-4">
+                    <div id="container-6-5">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">QNT / UN. MEDIDA:</span>
+                    </div>
+                    <div id="container-6-6">
+                        <div id="container-6-7">
+                            <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.1.qCarga',objDacte)}}</span>
+                            <span style="font-size: 8px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.1.tpMed',objDacte)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-6-8">
+                    <div id="container-6-9">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">QNT / UN. MEDIDA:</span>
+                    </div>
+                    <div id="container-6-10">
+                        <div id="container-6-11">
+                            <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.2.qCarga',objDacte)}}</span>
+                            <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.2.tpMed',objDacte)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-6-12">
+                    <div id="container-6-13">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">QNT / UN. MEDIDA:</span>
+                    </div>
+                    <div id="container-6-14">
+                        <div id="container-6-15">
+                            <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.3.qCarga',objDacte)}}</span>
+                            <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.infQ.3.tpMed',objDacte)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-6-16">
+                    <div id="container-6-17">
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">NOME DA SEGURADORA:</span>
+                        <span style="font-size: 7px; font-weight: bold; padding: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.seg.xSeg',objDacte)}}</span>
+                    </div>
+                    <div id="container-6-18">
+                        <div id="container-6-19">
+                            <div id="container-6-20">
+                                <span style="font-size: 6px; font-weight: bold; padding: 2px;">RESPONSÁVEL</span>
+                                <span style="font-size: 9px; font-weight: bold; padding: 2px; margin-top: -3px;">{{utilServices.validaRespSegDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.seg.respSeg',objDacte))}}</span>
+                            </div>
+                        </div>
+                        <div id="container-6-21">
+                            <div id="container-6-22">
+                                <span style="font-size: 6px; font-weight: bold; padding: 2px;">NÚMERO DA APÓLICE</span>
+                                <span
+                                    style="font-size: 7px; font-weight: bold; padding: 2px; margin-top: -3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.seg.nApol',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-6-23">
+                            <div id="container-6-24">
+                                <span style="font-size: 6px; font-weight: bold; padding: 2px;">NÚMERO AVERBAÇÃO</span>
+                                <span style="font-size: 7px; font-weight: bold; padding: 2px; margin-top: -3px;">{{utilServices.validaCamposDocs('objDacte.CTe.multimodal.seg.nAver',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-6-25">
+                            <div id="container-6-26">
+                                <span style="font-size: 6px; font-weight: bold; padding: 2px;">VALOR AVERBAÇÃO</span>
+                                <span
+                                    style="font-size: 8px; font-weight: bold; text-align: center; margin-top: -3px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infCarga.vCargaAverb',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="container-7">
+                <span style="font-size: 7px; font-weight: bold; text-align: center;">COMPONENTES DO VALOR DA PRESTAÇÃO DO
+                    SERVIÇO</span>
+            </div>
+            <div id="container-8">
+                <div id="container-8-1">
+                    <div id="container-8-1-2">
+                        <div id="container-8-2">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">NOME:</span>
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">VALOR:</span>
+                        </div>
+                        <div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.0.xNome',objDacte) != '' ? utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.0.xNome',objDacte) : utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.xNome',objDacte) }}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.0.vComp',objDacte) != '' ? utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.0.vComp',objDacte) : utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.vComp',objDacte) }}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.1.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.1.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.2.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.2.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.3.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.3.vComp',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-8-1">
+                    <div id="container-8-1-2">
+                        <div id="container-8-2">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">NOME:</span>
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">VALOR:</span>
+                        </div>
+                        <div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.4.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.4.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.5.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.5.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.6.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.6.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.7.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.7.vComp',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-8-1">
+                    <div id="container-8-1-2">
+                        <div id="container-8-2">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">NOME:</span>
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">VALOR:</span>
+                        </div>
+                        <div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.8.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.8.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.9.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.9.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.10.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.10.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.11.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.11.vComp',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-8-1">
+                    <div id="container-8-1-2">
+                        <div id="container-8-2">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">NOME:</span>
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">VALOR:</span>
+                        </div>
+                        <div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.12.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.12.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.13.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.13.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.14.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.14.vComp',objDacte)}}</span>
+                            </div>
+                            <div id="container-8-3">
+                                <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.15.xNome',objDacte)}}</span>
+                                <span style="font-size: 8px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.Comp.15.vComp',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-8-13">
+                    <div>
+                        <div id="container-8-14">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">VALOR TOTAL DO SERVIÇO</span>
+                            <div id="container-8-15">
+                                <span style="font-size: 9px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.vTPrest',objDacte)}}</span>
+                            </div>
+                        </div>
+                        <div id="container-8-16">
+                            <span style="font-size: 7px; font-weight: bold; padding: 2px;">VALOR A RECEBER</span>
+                            <div id="container-8-15">
+                                <span style="font-size: 9px; font-weight: bold;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.vPrest.vRec',objDacte)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="container-7">
+                <span style="font-size: 7px; font-weight: bold; text-align: center;">INFORMAÇÕES RELATIVAS AO
+                    IMPOSTO:</span>
+            </div>
+            <div id="container-9">
+                <div id="container-8-9-1">
+                    <span style="font-size: 7px; font-weight: bold; padding: 1px;">SITUAÇÃO TRIBUTÁRIA</span>
+                    <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaIcmsDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.imp.ICMS',objDacte),'CST')}}</span>
+                </div>
+                <div id="container-8-9-2">
+                    <span style="font-size: 7px; font-weight: bold; padding: 1px;">BASE DE CÁLCULO</span>
+                    <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaIcmsDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.imp.ICMS',objDacte),'vBC')}}</span>
+                </div>
+                <div id="container-8-9-3">
+                    <span style="font-size: 7px; font-weight: bold; padding: 1px;">ALÍQ</span>
+                    <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaIcmsDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.imp.ICMS',objDacte),'pICMS')}}</span>
+                </div>
+                <div id="container-8-9-4">
+                    <span style="font-size: 7px; font-weight: bold; padding: 1px;">VALOR ICMS</span>
+                    <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaIcmsDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.imp.ICMS',objDacte),'vICMS')}}</span>
+                </div>
+                <div id="container-8-9-5">
+                    <span style="font-size: 7px; font-weight: bold; padding: 1px;">%RED.BC.CALC</span>
+                    <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaIcmsDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.imp.ICMS',objDacte),'pRedBC')}}</span>
+                </div>
+                <div id="container-8-9-6">
+                    <span style="font-size: 7px; font-weight: bold; padding: 1px;">ICMS ST:</span>
+                    <span style="font-size: 7px; font-weight: bold; text-align: center;">{{utilServices.validaIcmsDacte(utilServices.validaCamposDocs('objDacte.CTe.infCte.imp.ICMS',objDacte),'vICMSSTRet')}}</span>
+                </div>
+            </div>
+            <div id="container-7">
+                <span style="font-size: 7px; font-weight: bold; text-align: center;">DOCUMENTOS ORIGINÁRIOS:</span>
+            </div>
+            <div id="container-10">
+                <div id="container-10-1" style="border-right: 1px solid black;">
+                    <div id="container-10-2">
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 5px;">TP DOC:</span>
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 34px;">CNPJ/CPF EMITENTE:</span>
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 72px;">SÉRIE/NRO. DOCUMENTO:</span>
+                    </div>
+                    <div *ngFor="let pagAux1 of pag[0]" id="container-10-3">
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 4px; width: 19%;">NF-E</span>
+                        <div id="container-10-4">
+                            <span style="font-size: 8px; font-weight: bold;">CHAVE:
+                                {{pagAux1.chave}}</span>
+                            <span style="font-size: 8px; font-weight: bold;">DANFE: {{pagAux1.chave.substring(25,34)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="container-10-1">
+                    <div id="container-10-2">
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 5px;">TP DOC:</span>
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 34px;">CNPJ/CPF EMITENTE:</span>
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 72px;">SÉRIE/NRO. DOCUMENTO:</span>
+                    </div>
+                    <div *ngFor="let pagAux2 of pag[1]" id="container-10-3">
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 4px; width: 19%;">NF-E</span>
+                        <div id="container-10-4">
+                            <span style="font-size: 8px; font-weight: bold;">CHAVE:
+                                {{pagAux2.chave}}</span>
+                            <span style="font-size: 8px; font-weight: bold;">DANFE: {{pagAux2.chave.substring(25,34)}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="container-7">
+                <span style="font-size: 7px; font-weight: bold; text-align: center;">OBSERVAÇÕES:</span>
+            </div>
+            <div id="container-11">
+                <span style="font-size: 6px; font-weight: bold; padding-left: 2px;">
+                    {{utilServices.validaCamposDocs('objDacte.CTe.infCte.compl.xObs',objDacte)}}
+                </span>
+            </div>
+            <div id="container-7">
+                <span style="font-size: 7px; font-weight: bold; text-align: center;">INFORMAÇÕES ESPECÍFICAS DO MODAL: RODOVIÁRIRO - CARGA FRACIONADA</span>
+            </div>
+            <div id="container-12">
+                <div id="container-12-1">
+                    <div id="container-12-2">
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">CÓDIGO RNTRC</span>
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">{{utilServices.validaCamposDocs('objDacte.CTe.infCte.infCTeNorm.infModal.rodo.RNTRC',objDacte)}}</span>
+                    </div>
+                    <div id="container-12-3">
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">DATA PREVISTA DA ENTREGA</span>
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 2px;"></span>
+                    </div>
+                    <div id="container-12-4">
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">TARIFA</span>
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 2px;"></span>
+                    </div>
+                    <div id="container-12-5">
+                        <span style="font-size: 7px; font-weight: bold; padding-left: 2px;">LOTAÇÃO</span>
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 2px;"></span>
+                    </div>
+                </div>
+                <div id="container-12-6">
+                    <div id="container-12-7" style="border-bottom: 1px solid black;">
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">Esse conhecimento de transporte atende a legislação de transporte rodoviário em vigor</span>
+                    </div>
+                    <div id="container-12-7">
+                        <span style="font-size: 8px; font-weight: bold; padding-left: 2px;">Usuário:</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
